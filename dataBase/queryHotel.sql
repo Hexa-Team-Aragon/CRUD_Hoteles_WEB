@@ -6,8 +6,8 @@ USE informacionHoteles;
 CREATE TABLE gerentes(
 id_grt						INTEGER NOT NULL AUTO_INCREMENT,
 nombre						VARCHAR(40) NOT NULL,
-apellido_paterno			VARCHAR(20) NOT NULL,
-apellido_materno			VARCHAR(20) NOT NULL,
+ap_paterno			VARCHAR(20) NOT NULL,
+ap_materno			VARCHAR(20) NOT NULL,
 telefono                    VARCHAR(10) NOT NULL,
 CONSTRAINT pk_gerentes PRIMARY KEY(id_grt)
 )DEFAULT CHARACTER SET UTF8MB4;
