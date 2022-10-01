@@ -1,25 +1,54 @@
 import express from 'express'
-import { paginaComentarios, paginaCreadores, paginaInicio, paginaMaterias, paginaLista } from '../controller/paginasContralor.js'
-import {guardarComentarios, cambiarComentarios, enviarCambios, eliminarComentario} from '../controller/comentariosController.js'
+import { paginaInicio } from '../controllers/indexControllers.js'
+import { paginaCreateGerentes, createGerente, paginaReadGerentes,paginaUpdateGerentes, updateGerente, paginaDeleteGerentes } from '../controllers/gerentesControllers.js'
+import { paginaCreateHoteles, createHotel, paginaReadHoteles,paginaUpdateHoteles, updateHotel, paginaDeleteHoteles } from '../controllers/hotelesControllers.js'
+import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones } from '../controllers/habitacionesControllers.js'
+
 
 const rutas = express.Router()
 
+// Gerentes
+
 rutas.get('/', paginaInicio)
 
-rutas.get('/creadores', paginaCreadores)
+rutas.get('/gerentes', paginaReadGerentes)
 
-rutas.get('/materias', paginaMaterias)
+rutas.get('/gerentes/create', paginaCreateGerentes)
 
-rutas.get('/comentarios', paginaComentarios)
+rutas.get('/gerentes/update', paginaUpdateGerentes)
 
-rutas.post('/comentarios', guardarComentarios)
+rutas.get('/gerentes/delete', paginaDeleteGerentes)
 
-rutas.get('/comentariosMod', cambiarComentarios)
+rutas.post('/gerentes/create', createGerente)
 
-rutas.post('/comentariosMod', enviarCambios)
+rutas.post('/gerentes/update', updateGerente)
 
-rutas.get('/lista', paginaLista)
+// Hoteles 
 
-rutas.get('/hola', eliminarComentario)
+rutas.get('/hoteles', paginaReadHoteles)
+
+rutas.get('/hoteles/create', paginaCreateHoteles)
+
+rutas.get('/hoteles/update', paginaUpdateHoteles)
+
+rutas.get('/hoteles/delete', paginaDeleteHoteles)
+
+rutas.post('/hoteles/create', createHotel)
+
+rutas.post('/hoteles/update', updateHotel)
+
+// Habitaciones
+
+rutas.get('/habitaciones', paginaReadHabitaciones)
+
+rutas.get('/habitaciones/create', paginaCreateHabitacion)
+
+rutas.get('/habitaciones/update', paginaUpdateHabitacion)
+
+rutas.get('/habitaciones/delete', paginaDeleteHabitaciones)
+
+rutas.post('/habitaciones/create', createHabitacion)
+
+rutas.post('/habitaciones/update', updateHabitacion)
 
 export default rutas

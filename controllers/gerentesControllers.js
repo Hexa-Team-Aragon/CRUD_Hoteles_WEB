@@ -1,4 +1,4 @@
-import { Gerentes } from "../models/Gerentes"
+import { Gerentes } from "../models/Gerentes.js"
 
 let gerenteUpdateId = ''
 

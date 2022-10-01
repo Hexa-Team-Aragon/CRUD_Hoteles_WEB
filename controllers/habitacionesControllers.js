@@ -1,5 +1,5 @@
-import { Habitaciones } from '../models/Habitaciones'
-import { Hoteles } from '../models/Hoteles'
+import { Habitaciones } from '../models/Habitaciones.js'
+import { Hoteles } from '../models/Hoteles.js'
 
 let habitacionUpdateId = ''
 

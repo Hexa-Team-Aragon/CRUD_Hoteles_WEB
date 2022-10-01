@@ -1,12 +1,12 @@
 import express from 'express'
-import rutas from './rutas/index.js'
+import rutas from './routes/index.js'
 import db from './config/db.js'
 
 const app = express()
 
 // Conexion de la base de datos
 db.authenticate()
-    .then(() => console.log('Conexion Exitosa'))
+    .then(() => console.log('Conexion Exitosa a la Base de Datos'))
     .catch(error => console.log(error))
 
 // Definiendo el puerto

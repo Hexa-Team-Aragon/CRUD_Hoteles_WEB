@@ -1,5 +1,5 @@
-import { Hoteles } from '../models/Hoteles'
-import { Gerentes } from '../models/Gerentes'
+import { Hoteles } from '../models/Hoteles.js'
+import { Gerentes } from '../models/Gerentes.js'
 
 let hotelUpdateId = ''
 
