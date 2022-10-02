@@ -14,4 +14,4 @@ export const Gerentes = db.define('gerentes', {
   telefono: {
     type: Sequelize.STRING
   }
-})
+},{ timestamps: false })

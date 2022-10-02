@@ -17,4 +17,4 @@ export const Hoteles = db.define('hoteles', {
   correo: {
     type: Sequelize.STRING
   }
-})
+},{ timestamps: false })

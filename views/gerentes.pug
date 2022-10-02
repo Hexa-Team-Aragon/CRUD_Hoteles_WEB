@@ -1,2 +1,32 @@
 extends ./layout/index.pug
 block compartircontenido 
+  .container-fluid.p-4
+    .container-fluid
+      h2.fs-4.p-0.text-center Lista de Gerentes 
+      a.btn.btn-info.d-flex.quitarwidth.align-items-center.mb-3(href='/gerentes/create')
+        img(src='/img/agregar-usuario.png', alt="") 
+        p.m-0.ps-2 Añadir Gerente
+    table.table.table-hover
+      thead.border
+        tr
+          th(scope='col') Nombre
+          th(scope='col') Apellido Paterno
+          th(scope='col') Apellido Materno
+          th(scope='col') Teléfono
+          th(scope='col') 
+      tbody
+        each gerente in gerentes
+          tr.table-primary
+            th(scope='row')
+              p.m-0=gerente.name
+            td
+              p.m-0=gerente.aPaterno
+            td
+              p.m-0=gerente.aMaterno
+            td
+              p.m-0=gerente.tel
+            td.d-flex.justify-content-end
+              a.btn.btn-secondary.mx-2.p-1(href=`/gerentes/update?id=${gerente.id}`) Editar
+              a.btn.btn-primary.mx-2.p-1(href=`/gerentes/delete?id=${gerente.id}`) Eliminar
+        
+        

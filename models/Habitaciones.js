@@ -14,4 +14,4 @@ export const Habitaciones = db.define('habitaciones', {
   refrigerador: {
     type: Sequelize.BOOLEAN
   }
-})
+},{ timestamps: false })

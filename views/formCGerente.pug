@@ -1,2 +1,20 @@
 extends ./layout/index.pug
 block compartircontenido 
+  .container-fluid.p-4
+    .container-fluid
+      h2.fs-4.p-0.text-center.mb-3 Añadir Nuevo Gerente 
+      .container-fluid.d-flex.justify-content-center
+        form.col-5.bg-secondary.p-3.rounded(action="/gerentes/create" method="POST")
+          .form-group.mb-3
+              label(for="nombre") Nombre 
+              input#nombre(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control")
+          .form-group.mb-3
+              label(for="ap_materno") Apellido Materno 
+              input#ap_materno(type="text",placeholder="Ingresa el Apellido Materno", name="ap_materno",class="form-control")
+          .form-group.mb-3
+              label(for="ap_paterno") Apellido Paterno 
+              input#ap_paterno(type="text",placeholder="Ingresa el Apellido Paterno", name="ap_paterno",class="form-control")
+          .form-group.mb-3
+              label(for="telefono") Telefono 
+              input#telefono(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control")   
+          input.btn.btn-success.btn-block(type="submit", value='Aplicar Cambios')

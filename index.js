@@ -10,7 +10,7 @@ db.authenticate()
     .catch(error => console.log(error))
 
 // Definiendo el puerto
-const port = process.env.PORT || 1800
+const port = process.env.PORT || 1801
 
 // Defininedo pug para plantillas
 app.set('view engine', 'pug')
