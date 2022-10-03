@@ -1,2 +1,28 @@
 extends ./layout/index.pug
 block compartircontenido 
+  .container-fluid.p-4
+    .container-fluid
+      h2.fs-4.p-0.text-center.mb-3 Añadir Nuevo Hotel
+      .container-fluid.d-flex.justify-content-center
+        form.col-5.bg-secondary.p-3.rounded(action="/hoteles/create" method="POST")
+          .form-group.mb-3
+              label(for="nombre") Nombre del Hotel
+              input(type="text",placeholder="Ingresa Nombre del Hotel", name="nombre",class="form-control")
+          .form-group.mb-3
+              label(for="id_gerente") Nombre del Gerente
+              select(placeholder="Ingresa el nombre del gerente", name="id_gerente",class="form-control")
+                option(value=0 selected) Selecciona un gerente
+                each gerente in gerentes
+                  option(value=gerente.id disabled=gerente.asignado)=`${gerente.name} ${gerente.aPaterno} ${gerente.aMaterno}`
+              p **No parece el gerente que buscas?
+                a.ms-2(href="/gerentes/create")='Registra uno' 
+          .form-group.mb-3
+              label(for="direccion") Direccion
+              input(type="text",placeholder="Ingresa la direccion", name="direccion",class="form-control")
+          .form-group.mb-3
+              label(for="telefono") Telefono 
+              input(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control")
+          .form-group.mb-3
+              label(for="correo") E-Mail 
+              input(type="text",placeholder="Ingrese el correo electronico", name="correo",class="form-control")   
+          input.btn.btn-success.btn-block(type="submit", value='Guardar')

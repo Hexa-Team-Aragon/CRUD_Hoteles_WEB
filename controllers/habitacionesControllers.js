@@ -4,6 +4,7 @@ import { Hoteles } from '../models/Hoteles.js'
 let habitacionUpdateId = ''
 
 // Renderizar Formulario para crear una Habitacion
+/*
 const paginaCreateHabitacion = async (req, res) => {
   const hoteles = await Hoteles.findAll({
     attributes: ['id_htl', 'nombre']
@@ -17,8 +18,16 @@ const paginaCreateHabitacion = async (req, res) => {
     habitaciones: habitaciones
   })
 }
+*/
+const paginaCreateHabitacion = (req, res) => {
+  res.render('formCHabitacion', {
+    pagina: 'Añadir Habitacion',
+    
+  })
+}
 
 // Enviar la nueva habitacion a la Base de Datos
+/*
 const createHabitacion = async (req, res) => {
   const { id_hotel, piso, nombre, refrigerador } = req.body
   const errores = []
@@ -60,6 +69,10 @@ const createHabitacion = async (req, res) => {
     }
   }
 }
+*/
+const createHabitacion = (req, res) => {
+  res.redirect('/habitaciones')
+}
 
 // Renderizar pagina de los Habitaciones
 const paginaReadHabitaciones = async (req, res) => {
@@ -77,6 +90,7 @@ const paginaReadHabitaciones = async (req, res) => {
 }
 
 // Renderizar formulario para modificar habitacion
+/*
 const paginaUpdateHabitacion = async (req, res) => {
   try {
     const habitaciones = await Habitaciones.findByPk(req.query.id)
@@ -93,8 +107,15 @@ const paginaUpdateHabitacion = async (req, res) => {
     console.log(error);
   }
 }
-
+*/
+const paginaUpdateHabitacion = (req, res) => {
+  res.render('formUHabitaciones', {
+    pagina: 'Editar Habitacion',
+   
+  })
+}
 // Enviar el habitacion actualizado a la base de datos
+/*
 const updateHabitacion = async (req, res) => {
   const { id_hotel, piso, nombre, refrigerador } = req.body
   const errores = []
@@ -139,6 +160,10 @@ const updateHabitacion = async (req, res) => {
       console.log(error)
     }
   }
+}
+*/
+const updateHabitacion = (req, res) => {
+  res.redirect('/habitaciones')
 }
 
 // Eliminar gerente

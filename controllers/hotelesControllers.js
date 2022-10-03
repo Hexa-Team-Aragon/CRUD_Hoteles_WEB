@@ -3,30 +3,49 @@ import { Gerentes } from '../models/Gerentes.js'
 
 let hotelUpdateId = ''
 
-// Renderizar Formulario para crear un Hotel
 const paginaCreateHoteles = async (req, res) => {
-  const gerentes = await Gerentes.findAll({
-    attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno', 'telefono']
-  })
+  let gerentesModificados = []
+  let gerentesConHotel = []
   const hoteles = await Hoteles.findAll({
-    attributes: ['id_grt']
+    attributes: ['id_gerente']
+  })
+  const gerentesConHotel1 = JSON.parse(JSON.stringify(hoteles))
+  gerentesConHotel1.map(gch => {
+    gerentesConHotel.push(gch.id_gerente)
+  })
+  const gerentes = await Gerentes.findAll({
+    attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno']
+  })
+  const gerentes1 = JSON.parse(JSON.stringify(gerentes))
+  gerentes1.map(g => {
+    let enabledGRT = false
+    if (gerentesConHotel.includes(g.id_grt)) {
+      enabledGRT = true
+    }
+    let obj = {
+      id: g.id_grt,
+      name: g.nombre,
+      aPaterno: g.ap_paterno,
+      aMaterno: g.ap_materno,
+      asignado: enabledGRT
+    }
+    gerentesModificados.push(obj)
   })
   res.render('formCHotel', {
     pagina: 'Añadir Hotel',
-    gerentes: gerentes
+    gerentes: gerentesModificados
   })
 }
 
 // Enviar el nuevo hotel a la Base de Datos
 const createHotel = async (req, res) => {
-  const { id_gerente, nombre, direccion, telefono, correo } = req.body
+  const { nombre, id_gerente, direccion, telefono, correo } = req.body
   const errores = []
-
-  if (id_gerente.trim() === '') {
-    errores.push({ mensaje: 'Selecciona un gerente' })
-  }
   if (nombre.trim() === '') {
-    errores.push({ mensaje: 'El nombre no debe estar vacio' })
+    errores.push({ mensaje: 'El nombre no puede estar vacio' })
+  }
+  if (id_gerente === '0') {
+    errores.push({ mensaje: 'Selecciona un gerente' })
   }
   if (direccion.trim() === '') {
     errores.push({ mensaje: 'La direccion no puede estar vacia' })
@@ -40,13 +59,12 @@ const createHotel = async (req, res) => {
   if (correo.trim() === '') {
     errores.push({ mensaje: 'El correo no puede estar vacio' })
   }
-
   if (errores.length > 0) {
     res.render('formCHotel', {
       pagina: 'Añadir Hotel',
       errores,
-      id_gerente,
       nombre,
+      id_gerente,
       direccion,
       telefono,
       correo
@@ -60,7 +78,7 @@ const createHotel = async (req, res) => {
         direccion,
         telefono,
         correo
-      })
+      }, { fields: ['id_gerente', 'nombre', 'direccion', 'telefono', 'correo'] })
       res.redirect('/hoteles')
     } catch (error) {
       console.log(error)
@@ -70,50 +88,118 @@ const createHotel = async (req, res) => {
 
 // Renderizar pagina de los Hoteles
 const paginaReadHoteles = async (req, res) => {
-  const hoteles = await Hoteles.findAll({
-    attributes: ['id_gerente', 'nombre', 'direccion', 'telefono', 'correo']
-  })
+  let gerentesTotales = []
   const gerentes = await Gerentes.findAll({
     attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno', 'telefono']
   })
+  const gerentesTotales1 = JSON.parse(JSON.stringify(gerentes))
+  gerentesTotales1.map(grtt => {
+    let obj = {
+      id: grtt.id_grt,
+      name: grtt.nombre,
+      aPaterno: grtt.ap_paterno,
+      aMaterno: grtt.ap_materno,
+    }
+    gerentesTotales.push(obj)
+  })
+  let hotelesTotales = []
+  const hoteles = await Hoteles.findAll({
+    attributes: ['id_htl', 'id_gerente', 'nombre', 'direccion', 'telefono', 'correo']
+  })
+  const hotelesTotales1 = await JSON.parse(JSON.stringify(hoteles))
+  hotelesTotales1.map(htls => {
+    let gerenteObj = {}
+    gerentesTotales.map(grt => {
+      if (grt.id === htls.id_gerente) {
+        gerenteObj = grt
+      }
+    })
+    const nombreGerente = gerenteObj.name + ' ' + gerenteObj.aPaterno + ' ' + gerenteObj.aMaterno
+    let obj = {
+      id: htls.id_htl,
+      gerente: nombreGerente,
+      nombre: htls.nombre,
+      direccion: htls.direccion,
+      telefono: htls.telefono,
+      correo: htls.correo
+    }
+    hotelesTotales.push(obj)
+  })
   res.render('hoteles', {
     pagina: 'Hoteles',
-    gerentes: gerentes,
-    hoteles: hoteles
+    hoteles: hotelesTotales
   })
 }
 
 // Renderizar formulario para modificar hotel
 const paginaUpdateHoteles = async (req, res) => {
-  try {
-    const hotel = await Hoteles.findByPk(req.query.id)
-    const gerentes = await Gerentes.findAll({
-      attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno', 'telefono']
-    })
-    const hoteles = await Hoteles.findAll({
-      attributes: ['id_grt']
-    })
-    hotelUpdateId = req.query.id
-    res.render('formUHoteles', {
-      pagina: 'Editar Hoteles',
-      hotel: hotel,
-      gerentes: gerentes
-    })
-  } catch (error) {
-    console.log(error);
+  const hotel = await Hoteles.findAll({
+    attributes: ['id_htl', 'id_gerente', 'nombre', 'direccion', 'telefono', 'correo'],
+    where: {
+      id_htl: req.query.id
+    }
+  })
+  hotelUpdateId = req.query.id
+  const hotel1 = JSON.parse(JSON.stringify(hotel))
+  let hotelMOD = {
+    id: hotel1[0].id_htl,
+    gerenteId: hotel1[0].id_gerente,
+    nombre: hotel1[0].nombre,
+    direccion: hotel1[0].direccion,
+    telefono: hotel1[0].telefono,
+    correo: hotel1[0].correo
   }
+
+  var idPrueba = hotelMOD.gerenteId
+
+  let gerentesModificados = []
+  let gerentesConHotel = []
+  const hoteles = await Hoteles.findAll({
+    attributes: ['id_gerente']
+  })
+  const gerentesConHotel1 = JSON.parse(JSON.stringify(hoteles))
+  gerentesConHotel1.map(gch => {
+    gerentesConHotel.push(gch.id_gerente)
+  })
+  const gerentes = await Gerentes.findAll({
+    attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno']
+  })
+  const gerentes1 = JSON.parse(JSON.stringify(gerentes))
+  gerentes1.map(g => {
+    let enabledGRT = false
+    let selectedGRT = false
+    if (gerentesConHotel.includes(g.id_grt)) {
+      enabledGRT = true
+    }
+    if (g.id_grt === idPrueba) {
+      selectedGRT = 'selected'
+    }
+    let obj = {
+      id: g.id_grt,
+      name: g.nombre,
+      aPaterno: g.ap_paterno,
+      aMaterno: g.ap_materno,
+      asignado: enabledGRT,
+      opcion: selectedGRT
+    }
+    gerentesModificados.push(obj)
+  })
+  res.render('formUHoteles', {
+    pagina: 'Añadir Hotel',
+    gerentes: gerentesModificados,
+    hotel: hotelMOD
+  })
 }
 
 // Enviar el hotel actualizado a la base de datos
 const updateHotel = async (req, res) => {
-  const { id_gerente, nombre, direccion, telefono, correo } = req.body
+  const { nombre, id_gerente, direccion, telefono, correo } = req.body
   const errores = []
-
-  if (id_gerente.trim() === '') {
-    errores.push({ mensaje: 'Selecciona un gerente' })
-  }
   if (nombre.trim() === '') {
-    errores.push({ mensaje: 'El nombre no debe estar vacio' })
+    errores.push({ mensaje: 'El nombre no puede estar vacio' })
+  }
+  if (id_gerente === '0') {
+    errores.push({ mensaje: 'Selecciona un gerente' })
   }
   if (direccion.trim() === '') {
     errores.push({ mensaje: 'La direccion no puede estar vacia' })
@@ -127,13 +213,12 @@ const updateHotel = async (req, res) => {
   if (correo.trim() === '') {
     errores.push({ mensaje: 'El correo no puede estar vacio' })
   }
-
   if (errores.length > 0) {
-    res.render('formUHotel', {
+    res.render('formCHotel', {
       pagina: 'Añadir Hotel',
       errores,
-      id_gerente,
       nombre,
+      id_gerente,
       direccion,
       telefono,
       correo
@@ -149,7 +234,7 @@ const updateHotel = async (req, res) => {
         correo
       }, {
         where: {
-          id: hotelUpdateId
+          id_htl: hotelUpdateId
         }
       })
       res.redirect('/hoteles')
@@ -164,7 +249,7 @@ const paginaDeleteHoteles = async (req, res) => {
   try {
     await Hoteles.destroy({
       where: {
-        id: req.query.id
+        id_htl: req.query.id
       }
     })
     res.redirect('/hoteles')
