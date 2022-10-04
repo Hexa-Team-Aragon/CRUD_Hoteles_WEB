@@ -4,24 +4,22 @@ block compartircontenido
     .container-fluid
       h2.fs-4.p-0.text-center.mb-3 Añadir Nueva Habitacion
       .container-fluid.d-flex.justify-content-center
-        form.col-5.bg-secondary.p-3.rounded(action="/" method="POST")
+        form.col-5.bg-secondary.p-3.rounded(action="/habitaciones/create" method="POST")
           .form-group.mb-3
               label(for="nombre") Nombre 
               input(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control")
           .form-group.mb-3
-              label(for="nombre_hotel") Nombre del Hotel
-              select(placeholder="Ingresa el nombre del hotel", name="nombre_hotel",class="form-control")
-                option(value='value1' select='') Hotel 1
-                option(value='value2' ) Hotel 2
-                option(value='value3') Hotel 3
-          input.btn.btn-info.btn-block(type="submit", value='Añadir nuevo hotel')
+              label(for="id_hotel") Nombre del Hotel
+              select(placeholder="Ingresa el nombre del hotel", name="id_hotel",class="form-control")
+                option(value=0 selected) Selecciona un Hotel 
+                each hotel in hoteles
+                  option(value=hotel.id)=hotel.nombre 
+              p **No aparece el hotel que buscas?
+                a.ms-2(href="/hoteles/create")='Registra uno'
           .form-group.mb-3
               label(for="piso") Ingrese el piso 
               input(type="text",placeholder="Piso", name="piso",class="form-control")
-          .form-group.mb-3
-              p Ingrese si hay refrigerador
-              label(for='mat') Si
-              input.m-3#mat(type='radio')
-              label(for='mat') No
-              input.m-3#mat(type='radio')  
+          .form-check.mb-3 
+            input#flexCheckChecked.form-check-input(type='checkbox', name='refrigerador')
+            label.form-check-label(for='flexCheckChecked') Refrigerador 
           input.btn.btn-success.btn-block(type="submit", value='Guardar')
