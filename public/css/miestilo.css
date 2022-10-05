@@ -6,3 +6,17 @@
 .quitarwidth{
   width: 15%;
 }
+
+.quitar-decoration{
+  text-decoration: none;
+  color: black;
+}
+
+.quitar-decoration:hover{
+  text-decoration: none;
+  color: black;
+}
+
+.colorBlanco{
+  color: white;
+}

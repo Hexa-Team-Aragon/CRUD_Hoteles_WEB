@@ -1,11 +1,15 @@
 import express from 'express'
-import { paginaInicio } from '../controllers/indexControllers.js'
+import { paginaInicio, paginaListaHoteles, paginaVistaHotel } from '../controllers/indexControllers.js'
 import { paginaCreateGerentes, createGerente, paginaReadGerentes,paginaUpdateGerentes, updateGerente, paginaDeleteGerentes } from '../controllers/gerentesControllers.js'
 import { paginaCreateHoteles, createHotel, paginaReadHoteles,paginaUpdateHoteles, updateHotel, paginaDeleteHoteles } from '../controllers/hotelesControllers.js'
 import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones } from '../controllers/habitacionesControllers.js'
 
 
 const rutas = express.Router()
+
+rutas.get('/lista/hoteles/hotel', paginaVistaHotel)
+
+rutas.get('/lista/hoteles', paginaListaHoteles)
 
 // Gerentes
 

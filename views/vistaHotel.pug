@@ -1,0 +1,28 @@
+extends ./layout/index.pug
+block compartircontenido 
+    .container-fluid.d-flex.row.justify-content-center.p-5.m-0
+        h2.fs-2.p-0.text-center Hotel (nombre)
+        .container-fluid.d-flex.justify-content-start.bg-secondary.rounded.col-7.flex-wrap.p-2
+            p.col-6.fs-5 Direccion:
+            p.col-6.fs-5 Telefono: 
+            p.col-12.fs-5 Correo:   
+            hr.col-12
+            p.col-6.fs-5 Gerente:
+            p.col-6.fs-5 Tel-gerente:
+        h2.fs-2.p-0.text-center.mt-3 Habitaciones
+        .container-fluid.d-flex.justify-content-center.bg-secondary.rounded.col-7.p-2                    
+            table.table.table-hover.m-0
+                thead.border
+                    tr.text-center.bg-white
+                        th(scope='col') Nombre 
+                        th(scope='col') Hotel 
+                        th(scope='col') Piso 
+                        th(scope='col') Refrigerador 
+                tbody                
+                    tr.table-danger.text-center
+                        td(scope='row') axel     
+                        td(scope='row') axel
+                        td(scope='row') axel
+                        td(scope='row') axel
+                            
+                            

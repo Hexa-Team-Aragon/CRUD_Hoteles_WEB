@@ -1,6 +1,66 @@
 extends ./layout/index.pug
 block compartircontenido 
-  .container-fluid.d-flex.row.justify-content-center.pt-5 
+  .container-fluid.d-flex.row.justify-content-center.pt-5.px-0.m-0
     img.imagenInicio(src='/img/que_hacer_semana_santa_zacatlan_puebla.jpg')
     .container-fluid.px-5.pt-5.fs-4 
       p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt id autem consequuntur suscipit aperiam, quam debitis. Assumenda modi aspernatur accusantium delectus aliquam sit placeat amet! Nostrum, eum! At, vitae itaque!
+  .container-fluid.d-flex.row.justify-content-center.pt-5 
+    h2.fs-2.p-2.text-center Hoteles
+    .container-fluid.m-0.px-5
+      #carouselExampleFade.carousel.slide.carousel-fade(data-bs-ride='carousel')
+        .carousel-inner
+          .carousel-item.active
+            .container-fluid.bg-info.rounded.pb-3
+              p.text-center.fs-3.colorBlanco Hotel 1
+              a(href="/lista/hoteles/hotel") 
+                #item-carrousel1  
+          .carousel-item
+            .container-fluid.bg-info.rounded.pb-3
+              p.text-center.fs-3.colorBlanco  Hotel 2
+              a(href="/lista/hoteles/hotel")
+                #item-carrousel2
+          .carousel-item
+            .container-fluid.bg-info.rounded.pb-3
+              p.text-center.fs-3.colorBlanco Hotel 3
+              a(href="/lista/hoteles/hotel") 
+                #item-carrousel3
+          .carousel-item
+            .container-fluid.bg-info.rounded.pb-3
+              p.text-center.fs-3.colorBlanco Ver Todos los Hoteles 
+              a(href="/lista/hoteles") 
+                #item-carrousel4
+        button.carousel-control-prev(type='button' data-bs-target='#carouselExampleFade' data-bs-slide='prev')
+          span.carousel-control-prev-icon(aria-hidden='true')
+          span.visually-hidden Previous
+        button.carousel-control-next(type='button' data-bs-target='#carouselExampleFade' data-bs-slide='next')
+          span.carousel-control-next-icon(aria-hidden='true')
+          span.visually-hidden Next
+
+  .container-fluid.d-flex.row.justify-content-center.pt-5.px-5
+    h2.fs-2.p-2.text-center Registros
+    .container-fluid.p-6
+      table.table.text-center
+        thead.border
+          tr
+            th(scope='col') Gerentes
+            th(scope='col') Hoteles
+            th(scope='col') Habitaciones
+        tbody
+          tr.table-info
+            td
+              .container-fluid.row.px-5
+                a.my-2(href='/gerentes')
+                  img.imagen(src='/img/gerente.png' alt='')
+                a.btn.btn-success(href='/gerentes/create') Añadir
+            td
+              .container-fluid.row.px-5
+                a.my-2(href='/hoteles')
+                  img.imagen(src='/img/hotel3.png' alt='')
+                a.btn.btn-success(href='/hoteles/create') Añadir
+            td
+              .container-fluid.row.px-5
+                a.my-2(href='/habitaciones')
+                  img.imagen(src='/img/cuarto.png' alt='')
+                a.btn.btn-success(href='/habitaciones/create') Añadir
+
+
