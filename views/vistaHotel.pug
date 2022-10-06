@@ -1,28 +1,37 @@
 extends ./layout/index.pug
 block compartircontenido 
     .container-fluid.d-flex.row.justify-content-center.p-5.m-0
-        h2.fs-2.p-0.text-center Hotel (nombre)
+        h2.fs-2.p-0.text-center='Hotel '+hotel.nombre 
         .container-fluid.d-flex.justify-content-start.bg-secondary.rounded.col-7.flex-wrap.p-2
-            p.col-6.fs-5 Direccion:
-            p.col-6.fs-5 Telefono: 
-            p.col-12.fs-5 Correo:   
+            p.col-6.fs-5='Direccion: '+hotel.direccion
+            p.col-6.fs-5='Telefono: '+hotel.telefono
+            p.col-12.fs-5='Correo: '+hotel.correo   
             hr.col-12
-            p.col-6.fs-5 Gerente:
-            p.col-6.fs-5 Tel-gerente:
+            p.col-6.fs-5='Gerente: '+hotel.gerente
+            p.col-6.fs-5='Tel-gerente: '+hotel.telefonoGerente
         h2.fs-2.p-0.text-center.mt-3 Habitaciones
-        .container-fluid.d-flex.justify-content-center.bg-secondary.rounded.col-7.p-2                    
-            table.table.table-hover.m-0
+        .container-fluid.d-flex.justify-content-center.bg-secondary.rounded.col-7.p-2.row 
+            a.btn.btn-info.d-flex.align-items-center.mb-3.col-4(href='/habitaciones/create')
+                img(src='/img/habitacion.png', alt="") 
+                p.m-0.ps-2 Añadir Habitacion                   
+            table.table.table-hover.m-0.col-12
                 thead.border
                     tr.text-center.bg-white
-                        th(scope='col') Nombre 
-                        th(scope='col') Hotel 
+                        th(scope='col') Nombre  
                         th(scope='col') Piso 
-                        th(scope='col') Refrigerador 
+                        th(scope='col') Refrigerador
+                        th(scope='col') 
                 tbody                
-                    tr.table-danger.text-center
-                        td(scope='row') axel     
-                        td(scope='row') axel
-                        td(scope='row') axel
-                        td(scope='row') axel
+                    each habitacion in habitaciones
+                        tr.table-primary.text-center
+                            th(scope='row')
+                                p.m-0=habitacion.nombre
+                            td
+                                p.m-0=habitacion.piso
+                            td
+                                p.m-0=habitacion.refri
+                            td.d-flex.justify-content-end
+                                a.btn.btn-secondary.mx-2.p-1(href=`/habitaciones/update?id=${habitacion.id}`) Editar
+                                a.btn.btn-primary.mx-2.p-1(href=`/habitaciones/delete?id=${habitacion.id}`) Eliminar
                             
                             

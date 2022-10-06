@@ -108,7 +108,6 @@ const paginaUpdateGerentes = async (req, res) => {
 const updateGerente = async (req, res) => {
   const { nombre, ap_paterno, ap_materno, telefono } = req.body
   const errores = []
-  console.log(gerenteUpdateId, 'nnnnn')
 
   if (nombre.trim() === '') {
     errores.push({ mensaje: 'El nombre no debe estar vacio' })

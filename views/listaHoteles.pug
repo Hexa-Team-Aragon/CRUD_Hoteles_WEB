@@ -3,35 +3,12 @@ block compartircontenido
     .container-fluid.m-0.p-5.d-flex.row.justify-content-center 
         h1.fs-2.text-center Lista de todos los Hoteles
         .container-fluid.m-0.p-0.d-flex.flex-wrap.align-items-evenly 
+            each hotel in hoteles
+                .container-fluid.m-0.p-2.col-3.d-flex
+                    a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel?id='+hotel.id )
+                        p.m-0.col-8.colorBlanco=hotel.nombre 
+                        img(src='/img/hotel-icon.png', alt="")
 
-            .container-fluid.m-0.p-2.col-3.d-flex
-                a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel')
-                    p.m-0.col-8.colorBlanco Nombre del Hotel 
-                    img(src='/img/hotel-icon.png', alt="")
-            .container-fluid.m-0.p-2.col-3.d-flex
-                a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel')
-                    p.m-0.col-8.colorBlanco Nombre del Hotel 
-                    img(src='/img/hotel-icon.png', alt="")
-            .container-fluid.m-0.p-2.col-3.d-flex
-                a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel')
-                    p.m-0.col-8.colorBlanco Nombre del Hotel 
-                    img(src='/img/hotel-icon.png', alt="")
-            .container-fluid.m-0.p-2.col-3.d-flex
-                a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel')
-                    p.m-0.col-8.colorBlanco Nombre del Hotel 
-                    img(src='/img/hotel-icon.png', alt="")
-            .container-fluid.m-0.p-2.col-3.d-flex
-                a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel')
-                    p.m-0.col-8.colorBlanco Nombre del Hotel 
-                    img(src='/img/hotel-icon.png', alt="")
-            .container-fluid.m-0.p-2.col-3.d-flex
-                a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel')
-                    p.m-0.col-8.colorBlanco Nombre del Hotel 
-                    img(src='/img/hotel-icon.png', alt="")
-            .container-fluid.m-0.p-2.col-3.d-flex
-                a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel')
-                    p.m-0.col-8.colorBlanco Nombre del Hotel 
-                    img(src='/img/hotel-icon.png', alt="")
             
             
                 
