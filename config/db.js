@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize'
 
-const db =  new Sequelize('informacionHoteles', 'root', '123456', {
-    dialect: 'mysql',
+const db =  new Sequelize('informacionHoteles', 'root', '1234', {
+    dialect: 'mariadb',
     dialectOPtions: {
         host: '127.0.0.1',
         port: '3306',
