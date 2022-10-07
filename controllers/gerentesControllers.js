@@ -1,6 +1,6 @@
 import { Gerentes } from "../models/Gerentes.js"
+import { Hoteles } from '../models/Hoteles.js'
 
-let gerenteUpdateId = ''
 
 // Renderizar Formulario para crear un Gerente
 const paginaCreateGerentes = (req, res) => {
@@ -57,22 +57,50 @@ const createGerente = async (req, res) => {
 
 // Renderizar pagina de los Gerentes
 const paginaReadGerentes = async (req, res) => {
+  let gerentesConHotel = []
+  let gerentesConHotel2 = []
+  const hoteles = await Hoteles.findAll({
+    attributes: ['id_gerente', 'nombre']
+  })
+  const gerentesConHotel1 = JSON.parse(JSON.stringify(hoteles))
+  gerentesConHotel1.map(gch => {
+    let obj = {
+      id: gch.id_gerente,
+      nombreHotel: gch.nombre
+    }
+    gerentesConHotel2.push(obj)
+    gerentesConHotel.push(gch.id_gerente)
+  })
+
   let gerentesModificados = []
   const gerentes = await Gerentes.findAll({
     attributes: ['id_grt' ,'nombre', 'ap_paterno', 'ap_materno', 'telefono']
   })
   const gerentes1 = JSON.parse(JSON.stringify(gerentes))
   gerentes1.map(g => {
+    let gerenteOcupado = ''
+    let nombre_Hotel = ''
+    gerentesConHotel2.map(geren => {
+      if (g.id_grt === geren.id) {
+        nombre_Hotel = '*Hotel '+geren.nombreHotel
+      }
+    })
+    if (gerentesConHotel.includes(g.id_grt)) {
+      gerenteOcupado = 'disabled'
+    }
     let obj = {
       id: g.id_grt,
       name: g.nombre,
       aPaterno: g.ap_paterno,
       aMaterno: g.ap_materno,
-      tel: g.telefono
+      tel: g.telefono,
+      hotel: nombre_Hotel,
+      ocupado: gerenteOcupado
     }
     gerentesModificados.push(obj)
   })
   res.render('gerentes', {
+    pagina: 'Gerentes',
     gerentes: gerentesModificados
   })
 }
@@ -86,8 +114,6 @@ const paginaUpdateGerentes = async (req, res) => {
         id_grt: req.query.id
       }
     })
-    gerenteUpdateId = req.query.id
-    console.log(gerenteUpdateId, 'Aqui guardo el valor')
     const gerente1 = JSON.parse(JSON.stringify(gerente))
     let gerenteMOd = {
       id: gerente1[0].id_grt,
@@ -97,6 +123,7 @@ const paginaUpdateGerentes = async (req, res) => {
       tel: gerente1[0].telefono
     }
     res.render('formUGerente', {
+      pagina: 'Editar Gerente',
       gerente: gerenteMOd
     })
   } catch (error) {
@@ -129,10 +156,13 @@ const updateGerente = async (req, res) => {
     res.render('formUGerente', {
       pagina: 'Editar Gerente',
       errores,
-      nombre,
-      ap_paterno,
-      ap_materno,
-      telefono
+      gerente: {
+        id: req.query.id,
+        name: nombre,
+        aPaterno: ap_paterno,
+        aMaterno: ap_materno,
+        tel: telefono
+      },
     })
   } else {
     // Almacenar en la base de datos
@@ -144,7 +174,7 @@ const updateGerente = async (req, res) => {
         telefono
       }, {
         where: {
-          id_grt: gerenteUpdateId
+          id_grt: req.query.id
         }
       })
       res.redirect('/gerentes')

@@ -2,16 +2,19 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
   .container-fluid
     .navbar-brand(href='/').d-flex.column.align-items-center
       img(src='/img/hotel.png', alt="").mx-2
-      h1.fs-2 Sistema de Registro de Hoteles
+      h1.fs-2 Hoteles Zacatlán de las manzanas 🍎
     button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarColor01' aria-controls='navbarColor01' aria-expanded='false' aria-label='Toggle navigation')
       span.navbar-toggler-icon
-    #navbarColor01.collapse.navbar-collapse.d-flex.justify-content-end
+    #navbarColor01.collapse.navbar-collapse.d-flex.justify-content-end.pe-2
       ul.navbar-nav
         li.nav-item
           a.nav-link.fs-3(href='/') Inicio
         li.nav-item
-          a.nav-link.fs-3(href='/gerentes') Gerentes
-        li.nav-item
-          a.nav-link.fs-3(href='/hoteles') Hoteles
-        li.nav-item
-          a.nav-link.fs-3(href='/habitaciones') Habitaciones
+          a.nav-link.fs-3(href='/lista/hoteles') Hoteles
+        li.nav-item.dropdown
+          a.nav-link.dropdown-toggle.fs-3(data-bs-toggle='dropdown' href='#' role='button' aria-haspopup='true' aria-expanded='false') Registros 
+          .dropdown-menu
+            a.dropdown-item.fs-4(href='/gerentes') Gerentes
+            a.dropdown-item.fs-4(href='/hoteles') Hoteles 
+            a.dropdown-item.fs-4(href='/habitaciones') Habitaciones 
+

@@ -2,9 +2,35 @@ import { Hoteles } from '../models/Hoteles.js'
 import { Gerentes } from '../models/Gerentes.js'
 import { Habitaciones } from '../models/Habitaciones.js'
 
-const paginaInicio = (req, res) => {
+const paginaInicio = async (req, res) => {
+  let hotelesTotales = []
+  const hoteles = await Hoteles.findAll({
+    attributes: ['id_htl', 'nombre']
+  })
+  const hotelesTotales1 = await JSON.parse(JSON.stringify(hoteles))
+  let aumento = 0
+  hotelesTotales1.map(htls => {
+    if (aumento < 3) {
+      let imaagen = ''
+      if (aumento === 0) {
+        imaagen = '/img/hotel1.jpg'
+      } else if (aumento === 1) {
+        imaagen = '/img/hotel-2.jpg'
+      } else {
+        imaagen = '/img/hotel-3.jpg'
+      }
+      let obj = {
+        id: htls.id_htl,
+        nombre: 'Hotel ' + htls.nombre,
+        img: imaagen
+      }
+      hotelesTotales.push(obj)
+      aumento += 1
+    }
+  })
   res.render('inicio', {
-    pagina: 'Inicio'
+    pagina: 'Inicio',
+    carro: hotelesTotales
   })
 }
 
@@ -65,7 +91,7 @@ const paginaVistaHotel = async (req, res) => {
   const habitaciones = await Habitaciones.findAll({
     attributes: ['id_hbt', 'piso', 'nombre', 'refrigerador'],
     where: {
-      id_hbt: hotelMODN.id
+      id_hotel: hotelMODN.id
     }
   })
   const habitacionesTotales1 = JSON.parse(JSON.stringify(habitaciones))

@@ -1,10 +1,16 @@
 extends ./layout/index.pug
 block compartircontenido 
-  .container-fluid.p-4
+  .container-fluid.p-4.superposicion
     .container-fluid
       h2.fs-4.p-0.text-center.mb-3 Añadir Nuevo Gerente 
-      .container-fluid.d-flex.justify-content-center
-        form.col-5.bg-secondary.p-3.rounded(action="/gerentes/create" method="POST")
+      .container-fluid.d-flex.justify-content-center.row
+        if(errores)
+          each error in errores 
+            .row.justify-content-center
+              .alert.alert-dismissible.alert-primary.col-5
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong=error.mensaje
+        form.col-5.fondoAzulPastel.p-3.rounded(action="/gerentes/create" method="POST")
           .form-group.mb-3
               label(for="nombre") Nombre 
               input#nombre(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control")

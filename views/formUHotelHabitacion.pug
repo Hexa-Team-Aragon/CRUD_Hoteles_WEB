@@ -10,17 +10,10 @@ block compartircontenido
               .alert.alert-dismissible.alert-primary.col-5
                 button.btn-close(type='button' data-bs-dismiss='alert')
                 strong=error.mensaje
-        form.col-5.fondoNaranjaPastel.p-3.rounded(action="/habitaciones/update?id="+habitacion.id method="POST")
+        form.col-5.fondoNaranjaPastel.p-3.rounded(action="/lista/hoteles/hotel/habitacion/update?id="+habitacion.hotelId +'&idH='+habitacion.id method="POST")
           .form-group.mb-3
               label(for="nombre") Nombre 
               input(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control", value=habitacion.nombre)
-          .form-group.mb-3
-              label(for="id_hotel") Nombre del Hotel
-              select(placeholder="Ingresa el nombre del hotel", name="id_hotel",class="form-control")
-                each hotel in hoteles
-                  option(value=hotel.id selected=hotel.opcion)=hotel.nombre 
-              p **No aparece el hotel que buscas?
-                a.ms-2(href="/hoteles/create")='Registra uno'
           .form-group.mb-3
               label(for="piso") Ingrese el piso 
               input(type="text",placeholder="Piso", name="piso",class="form-control", value=habitacion.piso)

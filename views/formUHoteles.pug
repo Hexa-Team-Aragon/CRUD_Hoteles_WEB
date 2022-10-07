@@ -1,10 +1,16 @@
 extends ./layout/index.pug
 block compartircontenido 
-  .container-fluid.p-4
+  .container-fluid.p-4.superposicion
     .container-fluid
       h2.fs-4.p-0.text-center.mb-3 Editar Nuevo Hotel
-      .container-fluid.d-flex.justify-content-center
-        form.col-5.bg-secondary.p-3.rounded(action="/hoteles/update" method="POST")
+      .container-fluid.d-flex.justify-content-center.row
+        if(errores)
+          each error in errores 
+            .row.justify-content-center
+              .alert.alert-dismissible.alert-primary.col-5
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong=error.mensaje
+        form.col-5.fondoAmarilloPastel.p-3.rounded(action="/hoteles/update?id="+hotel.id method="POST")
           .form-group.mb-3
               label(for="nombre") Nombre del Hotel
               input(type="text",placeholder="Ingresa Nombre del Hotel", name="nombre",class="form-control", value=hotel.nombre)

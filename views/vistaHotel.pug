@@ -1,29 +1,39 @@
 extends ./layout/index.pug
 block compartircontenido 
-    .container-fluid.d-flex.row.justify-content-center.p-5.m-0
+    .container-fluid.d-flex.row.justify-content-center.p-5.m-0.superposicion
         h2.fs-2.p-0.text-center='Hotel '+hotel.nombre 
-        .container-fluid.d-flex.justify-content-start.bg-secondary.rounded.col-7.flex-wrap.p-2
-            p.col-6.fs-5='Direccion: '+hotel.direccion
-            p.col-6.fs-5='Telefono: '+hotel.telefono
-            p.col-12.fs-5='Correo: '+hotel.correo   
+        .container-fluid.d-flex.justify-content-start.fondoAzulPastel.rounded.col-7.flex-wrap.p-2
+            .col-6.fs-5.d-flex
+                strong='Direccion: '
+                p.ps-2=hotel.direccion
+            .col-6.fs-5.d-flex
+                strong='Telefono: '
+                p.ps-2=hotel.telefono
+            .col-12.fs-5.d-flex     
+                strong='Correo: '
+                p.ps-2=hotel.correo   
             hr.col-12
-            p.col-6.fs-5='Gerente: '+hotel.gerente
-            p.col-6.fs-5='Tel-gerente: '+hotel.telefonoGerente
+            .col-6.fs-5.d-flex 
+                strong='Gerente: '
+                p.ps-2=hotel.gerente
+            .col-6.fs-5.d-flex 
+                strong='Tel-gerente: '
+                p.ps-2=hotel.telefonoGerente
         h2.fs-2.p-0.text-center.mt-3 Habitaciones
-        .container-fluid.d-flex.justify-content-center.bg-secondary.rounded.col-7.p-2.row 
-            a.btn.btn-info.d-flex.align-items-center.mb-3.col-4(href='/habitaciones/create')
+        .container-fluid.d-flex.justify-content-start.fondoAzulPastel.rounded.col-7.p-2.row
+            a.btn.btn-info.d-flex.align-items-center.mb-3.col-4(href='/hoteles/habitaciones/create?id='+hotel.id)
                 img(src='/img/habitacion.png', alt="") 
                 p.m-0.ps-2 Añadir Habitacion                   
-            table.table.table-hover.m-0.col-12
+            table.table.table-hover.m-0.col-12.fondoBlanco
                 thead.border
-                    tr.text-center.bg-white
+                    tr.text-center.bg-info
                         th(scope='col') Nombre  
                         th(scope='col') Piso 
                         th(scope='col') Refrigerador
                         th(scope='col') 
                 tbody                
                     each habitacion in habitaciones
-                        tr.table-primary.text-center
+                        tr.table-default.text-center
                             th(scope='row')
                                 p.m-0=habitacion.nombre
                             td
@@ -31,7 +41,7 @@ block compartircontenido
                             td
                                 p.m-0=habitacion.refri
                             td.d-flex.justify-content-end
-                                a.btn.btn-secondary.mx-2.p-1(href=`/habitaciones/update?id=${habitacion.id}`) Editar
-                                a.btn.btn-primary.mx-2.p-1(href=`/habitaciones/delete?id=${habitacion.id}`) Eliminar
+                                a.btn.btn-secondary.mx-2.p-1(href=`/lista/hoteles/hotel/habitacion/update?id=${habitacion.id}`) Editar
+                                a.btn.btn-primary.mx-2.p-1(href=`/lista/hoteles/hotel/habitacion/delete?id=${habitacion.id}&idHotel=${hotel.id}`) Eliminar
                             
                             

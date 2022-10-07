@@ -1,13 +1,16 @@
 extends ./layout/index.pug
 block compartircontenido 
-  .container-fluid.p-4
+  .container-fluid.p-5.superposicion
     .container-fluid
       h2.fs-4.p-0.text-center Lista de Hoteles 
-      a.btn.btn-info.d-flex.quitarwidth.align-items-center.mb-3(href='/hoteles/create')
+      a.btn.btn-warning.fondoAmarilloPastel.d-flex.quitarwidth.align-items-center.mb-3(href='/hoteles/create')
         img(src='/img/hotel2.png', alt="") 
-        p.m-0.ps-2 Añadir Hotel
-    table.table.table-hover
-      thead.border
+        p.m-0.ps-2.textoNegro Añadir Hotel
+      .alert.alert-dismissible.alert-primary
+        button.btn-close(type='button' data-bs-dismiss='alert')
+        strong CONSIDERA: Al eliminar un hotel tambien estaras eliminando sus habitaciones correspondientes.
+    table.table.table-hover.fondoBlanco
+      thead.border.fondoAmarilloPastel
         tr
           th(scope='col') Nombre Hotel
           th(scope='col') Gerente
@@ -17,7 +20,7 @@ block compartircontenido
           th(scope='col') 
       tbody
         each hotel in hoteles
-          tr.table-active
+          tr.table-default
             th(scope='row')
               p.m-0=hotel.nombre
             td

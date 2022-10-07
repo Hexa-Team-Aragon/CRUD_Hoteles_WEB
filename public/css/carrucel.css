@@ -1,125 +1,26 @@
-.imagen{
-    max-width: 100%;
-}
-.contenedor{
-    
-    padding: 30px;
-    width: 80%;
-    margin: auto;
-}
-.container-all{
-    position: relative;
-    max-width: 1000px;
-    width: 100%;
-    border-radius: 30px 30px 30px 30px;
-    overflow: hidden;
-    
-}
-
-.slider{
-    display: flex;
-    transform: translate3d(0,0,0);
-    transition: all 600ms;
-    animation-name: autoplay;
-    animation-duration: 6.5s;
-    animation-direction: alternate;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-}
-
-.item-slider{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    flex-grow: 0;
-    max-width: 100%;
-}
-
-.pagination{
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.pagination-item{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 2px solid white;
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-    overflow: hidden;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.5);
-    margin: 0 10px;
-    text-align: center;
-    transition: all 300ms;
-}
-
-.pagination-item:hover{
-    transform: scale(2);
-}
-
-.pagination-item img{
-    display: inline-block;
-    max-width: none;
-    height: none;
-    transform: scale(1);
-    opacity: 0;
-    transition: all 300ms;
-}
-
-.pagination-item:hover img{
-    opacity: 1;
-    transform: scale(1);
-}
-
-
-@keyframes autoplay{
-    33%{
-        transform: translate3d(calc(-100%*0),0,0);
-    }
-    66%{
-        transform: translate3d(calc(-100%*1),0,0);
-    }
-
-    100%{
-        transform: translate3d(calc(-100%*2),0,0);
-    }
-}
-
-
 #item-carrousel1{
-    min-height: 400px;
-    background-image: url('/img/hotel1.jpg');
+    min-height: 300px;
     background-size: cover;
     background-position: center;
 }
 
 #item-carrousel2{
-    min-height: 400px;
-    background-image: url('/img/hotel-2.jpg');
+    min-height: 300px;
     background-size: cover;
     background-position: center;
 }
 
 #item-carrousel3{
-    min-height: 400px;
+    min-height: 300px;
     background-image: url('/img/hotel-3.jpg');
     background-size: cover;
     background-position: center;
 }
 
 #item-carrousel4{
-    min-height: 400px;
+    min-height: 300px;
     background-image: url('/img/ver-mas.png');
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
 }
