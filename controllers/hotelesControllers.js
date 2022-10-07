@@ -245,12 +245,13 @@ const updateHotel = async (req, res) => {
     const hotel1 = JSON.parse(JSON.stringify(hotel))
     let hotelMOD = {
       id: hotel1[0].id_htl,
-      gerenteId: id_gerente,
+      gerenteId: hotel1[0].id_gerente,
       nombre: nombre,
       direccion: direccion,
       telefono: telefono,
       correo: correo
     }
+    console.log(hotelMOD.gerenteId)
     var idPrueba = hotelMOD.gerenteId
     let gerentesModificados = []
     let gerentesConHotel = []
@@ -271,6 +272,7 @@ const updateHotel = async (req, res) => {
       if (gerentesConHotel.includes(g.id_grt)) {
         enabledGRT = true
       }
+      console.log(g.id_grt, idPrueba)
       if (g.id_grt === idPrueba) {
         selectedGRT = 'selected'
       }
@@ -284,7 +286,7 @@ const updateHotel = async (req, res) => {
       }
       gerentesModificados.push(obj)
     })
-    console.log(hotelMOD)
+    console.log(gerentesModificados)
     res.render('formUHoteles', {
       pagina: 'Editar Hotel',
       errores,
