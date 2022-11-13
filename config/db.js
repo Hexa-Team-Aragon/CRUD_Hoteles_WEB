@@ -1,10 +1,13 @@
 import { Sequelize } from 'sequelize'
+import dotenv from 'dotenv';
 
-const db =  new Sequelize('informacionHoteles', 'root', '1234', {
-    dialect: 'mariadb',
+dotenv.config();
+
+const db =  new Sequelize(process.env.SCHEMA_DB, process.env.USER_DB, process.env.PASSWORD_DB, {
+    dialect: process.env.DIALECT_DB,
     dialectOPtions: {
-        host: '127.0.0.1',
-        port: '3306',
+        host: process.env.HOST_DB,
+        port: process.env.PORT_DB,
         timestamps: false,
         underscore: false,
         pool: {
