@@ -75,22 +75,32 @@ const createHotel = async (req, res) => {
     const gerentes1 = JSON.parse(JSON.stringify(gerentes))
     gerentes1.map(g => {
       let enabledGRT = false
+      let enableSElected = false
       if (gerentesConHotel.includes(g.id_grt)) {
         enabledGRT = true
+      }
+      if (g.id_grt == id_gerente) {
+        enableSElected = true
       }
       let obj = {
         id: g.id_grt,
         name: g.nombre,
         aPaterno: g.ap_paterno,
         aMaterno: g.ap_materno,
-        asignado: enabledGRT
+        asignado: enabledGRT,
+        seleccionado: enableSElected
       }
       gerentesModificados.push(obj)
     })
     res.render('formCHotel', {
       pagina: 'Añadir Hotel',
       errores,
-      gerentes: gerentesModificados
+      gerentes: gerentesModificados,
+      nombre, 
+      id_gerente, 
+      direccion, 
+      telefono, 
+      correo
     })
   } else {
     // Almacenar en la base de datos
@@ -273,7 +283,7 @@ const updateHotel = async (req, res) => {
         enabledGRT = true
       }
       console.log(g.id_grt, idPrueba)
-      if (g.id_grt === idPrueba) {
+      if (g.id_grt == id_gerente) {
         selectedGRT = 'selected'
       }
       let obj = {
