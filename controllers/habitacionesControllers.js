@@ -46,16 +46,25 @@ const createHabitacion = async (req, res) => {
     })
     const hotelesModificados1 = JSON.parse(JSON.stringify(hoteles))
     hotelesModificados1.map(hm1 => {
+      let selec = false
+      if (hm1.id_htl == id_hotel) {
+        selec = true
+      }
       let obj = {
         id: hm1.id_htl,
-        nombre: hm1.nombre
+        nombre: hm1.nombre,
+        selected: selec
       }
       hotelesModificados.push(obj)
     })
     res.render('formCHabitacion', {
       pagina: 'Añadir Habitacion',
       errores,
-      hoteles: hotelesModificados
+      hoteles: hotelesModificados,
+      id_hotel, 
+      piso, 
+      nombre,
+      refrigerador
     })
   } else {
     // Almacenar en la base de datos
@@ -201,7 +210,7 @@ const updateHabitacion = async (req, res) => {
     const hoteles1 = JSON.parse(JSON.stringify(hoteles))
     hoteles1.map(ht1 => {
       let selectedHTL = false
-      if (ht1.id_htl === idPrueba) {
+      if (ht1.id_htl == id_hotel) {
         selectedHTL = true
       }
       let obj = {
