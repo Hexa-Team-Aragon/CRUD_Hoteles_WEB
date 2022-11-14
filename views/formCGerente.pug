@@ -13,14 +13,14 @@ block compartircontenido
         form.col-5.fondoAzulPastel.p-3.rounded(action="/gerentes/create" method="POST")
           .form-group.mb-3
               label(for="nombre") Nombre 
-              input#nombre(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control")
+              input#nombre(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control", value=nombre)
           .form-group.mb-3
               label(for="ap_materno") Apellido Materno 
-              input#ap_materno(type="text",placeholder="Ingresa el Apellido Materno", name="ap_materno",class="form-control")
+              input#ap_materno(type="text",placeholder="Ingresa el Apellido Materno", name="ap_materno",class="form-control", value=ap_materno)
           .form-group.mb-3
               label(for="ap_paterno") Apellido Paterno 
-              input#ap_paterno(type="text",placeholder="Ingresa el Apellido Paterno", name="ap_paterno",class="form-control")
+              input#ap_paterno(type="text",placeholder="Ingresa el Apellido Paterno", name="ap_paterno",class="form-control", value=ap_paterno)
           .form-group.mb-3
               label(for="telefono") Telefono 
-              input#telefono(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control")   
+              input#telefono(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control", value=telefono)   
           input.btn.btn-success.btn-block(type="submit", value='Aplicar Cambios')
