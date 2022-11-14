@@ -154,7 +154,8 @@ const paginaReadHoteles = async (req, res) => {
       nombre: htls.nombre,
       direccion: htls.direccion,
       telefono: htls.telefono,
-      correo: htls.correo
+      correo: htls.correo,
+      idGrt: gerenteObj.id
     }
     hotelesTotales.push(obj)
   })
@@ -337,6 +338,12 @@ const paginaDeleteHoteles = async (req, res) => {
         id_htl: req.query.id
       }
     })
+    await Gerentes.destroy({
+      where: {
+        id_grt: req.query.idGrt
+      }
+    })
+    console.log(req.query);
     res.redirect('/hoteles')
   } catch (error) {
     console.log(error)
