@@ -1,57 +1,10 @@
 extends ./layout/index.pug
 block compartircontenido 
   .container-fluid.d-flex.row.justify-content-center.pt-5.px-0.m-0.superposicion
-    img.imagenInicio(src='/img/zacatlan_letras.jpg')
+    
     .container-fluid.px-5.pt-5.fs-4 
       p.text-center.textoNegro Siempre acompañado de neblina, Zacatlán vive al borde de la hermosa Barranca de Los Jilgueros. Aquí se tiene la costumbre de hornear pan todos los días, de fabricar monumentales relojes y cultivar las frutas que la tierra regala. Son las manzanas las que más abundan, así que se deshidratan o se convierten en licores y  mermeladas. Su existencia se agradece cada año durante la Feria de la Manzana con bailes y desfiles de carros alegóricos.
-  .container-fluid.d-flex.row.justify-content-center.pt-4.superposicion
-    h2.fs-2.p-2.text-center Hoteles
-    .container-fluid.m-0.px-5
-      #carouselExampleFade.carousel.slide.carousel-fade(data-bs-ride='carousel')
-        .carousel-inner
-          each car in carro
-            .carousel-item
-              .container-fluid.fondoVerdePastel.rounded.pb-3
-                p.text-center.fs-3.colorBlanco=car.nombre
-                a(href="/lista/hoteles/hotel?id="+car.id) 
-                  #item-carrousel1(style="background-image: url('"+car.img+"')")  
-          .carousel-item.active
-            .container-fluid.fondoVerdePastel.rounded.pb-3
-              p.text-center.fs-3.colorBlanco Ver Todos los Hoteles 
-              a(href="/lista/hoteles") 
-                #item-carrousel4
-        button.carousel-control-prev(type='button' data-bs-target='#carouselExampleFade' data-bs-slide='prev')
-          span.carousel-control-prev-icon(aria-hidden='true')
-          span.visually-hidden Previous
-        button.carousel-control-next(type='button' data-bs-target='#carouselExampleFade' data-bs-slide='next')
-          span.carousel-control-next-icon(aria-hidden='true')
-          span.visually-hidden Next
-
-  .container-fluid.d-flex.row.justify-content-center.pt-5.px-5.superposicion
-    h2.fs-2.p-2.text-center Registros
-    .container-fluid.p-6
-      table.table.text-center
-        thead.border.fondoVerdePastel
-          tr
-            th(scope='col') Gerentes
-            th(scope='col') Hoteles
-            th(scope='col') Habitaciones
-        tbody
-          tr.fondoBlanco
-            td
-              .container-fluid.row.px-5.justify-content-center
-                img.imagen(src='/img/gerente.png' alt='')
-                a.btn.btn-info.mt-3(href='/gerentes') Consultar
-                a.btn.btn-success.mt-3(href='/gerentes/create') Añadir
-            td
-              .container-fluid.row.px-5.justify-content-center
-                img.imagen(src='/img/hotel3.png' alt='')
-                a.btn.btn-info.mt-3(href='/hoteles') Consultar
-                a.btn.btn-success.mt-3(href='/hoteles/create') Añadir
-            td
-              .container-fluid.row.px-5.justify-content-center
-                img.imagen(src='/img/cuarto.png' alt='')
-                a.btn.btn-info.mt-3(href='/habitaciones') Consultar
-                a.btn.btn-success.mt-3(href='/habitaciones/create') Añadir
+  
+  
 
 
