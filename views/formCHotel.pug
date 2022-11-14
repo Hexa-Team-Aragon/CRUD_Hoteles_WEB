@@ -13,22 +13,22 @@ block compartircontenido
         form.col-5.fondoAmarilloPastel.p-3.rounded(action="/hoteles/create" method="POST")
           .form-group.mb-3
               label(for="nombre") Nombre del Hotel
-              input(type="text",placeholder="Ingresa Nombre del Hotel", name="nombre",class="form-control")
+              input(type="text",placeholder="Ingresa Nombre del Hotel", name="nombre",class="form-control", value=nombre)
           .form-group.mb-3
               label(for="id_gerente") Nombre del Gerente
               select(placeholder="Ingresa el nombre del gerente", name="id_gerente",class="form-control")
-                option(value=0 selected) Selecciona un gerente
+                option(value=0) Selecciona un gerente
                 each gerente in gerentes
-                  option(value=gerente.id disabled=gerente.asignado)=`${gerente.name} ${gerente.aPaterno} ${gerente.aMaterno}`
+                  option(value=gerente.id disabled=gerente.asignado selected=gerente.seleccionado)=`${gerente.name} ${gerente.aPaterno} ${gerente.aMaterno}`
               p **No parece el gerente que buscas?
                 a.ms-2(href="/gerentes/create")='Registra uno' 
           .form-group.mb-3
               label(for="direccion") Direccion
-              input(type="text",placeholder="Ingresa la direccion", name="direccion",class="form-control")
+              input(type="text",placeholder="Ingresa la direccion", name="direccion",class="form-control", value=direccion)
           .form-group.mb-3
               label(for="telefono") Telefono 
-              input(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control")
+              input(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control", value=telefono)
           .form-group.mb-3
               label(for="correo") E-Mail 
-              input(type="text",placeholder="Ingrese el correo electronico", name="correo",class="form-control")   
+              input(type="text",placeholder="Ingrese el correo electronico", name="correo",class="form-control", value=correo)   
           input.btn.btn-success.btn-block(type="submit", value='Guardar')
