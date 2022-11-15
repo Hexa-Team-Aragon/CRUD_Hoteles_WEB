@@ -12,46 +12,16 @@ const paginaCreateGerentes = (req, res) => {
 // Enviar el nuevo gerente a la Base de Datos
 const createGerente = async (req, res) => {
   const { nombre, ap_paterno, ap_materno, telefono } = req.body
-  const errores = []
-
-  if (nombre.trim() === '') {
-    errores.push({ mensaje: 'El nombre no debe estar vacio' })
-  }
-  if (ap_paterno.trim() === '') {
-    errores.push({ mensaje: 'El apellido paterno no puede estar vacio' })
-  }
-  if (ap_materno.trim() === '') {
-    errores.push({ mensaje: 'El apellido meterno no puede estar vacio' })
-  }
-  if (telefono.trim() === '') {
-    errores.push({ mensaje: 'El telefono no puede estar vacio' })
-  }
-  if (isNaN(telefono) || telefono.length !== 10) {
-    errores.push({ mensaje: 'Numero telefonico invalido' })
-  }
-
-  if (errores.length > 0) {
-    res.render('formCGerente', {
-      pagina: 'Añadir Gerente',
-      errores,
+  try {
+    await Gerentes.create({
       nombre,
       ap_paterno,
       ap_materno,
       telefono
-    })
-  } else {
-    // Almacenar en la base de datos
-    try {
-      await Gerentes.create({
-        nombre,
-        ap_paterno,
-        ap_materno,
-        telefono
-      }, { fields: ['nombre', 'ap_paterno', 'ap_materno', 'telefono'] })
-      res.redirect('/gerentes')
-    } catch (error) {
-      console.log(error)
-    }
+    }, { fields: ['nombre', 'ap_paterno', 'ap_materno', 'telefono'] })
+    res.redirect('/gerentes')
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -74,7 +44,7 @@ const paginaReadGerentes = async (req, res) => {
 
   let gerentesModificados = []
   const gerentes = await Gerentes.findAll({
-    attributes: ['id_grt' ,'nombre', 'ap_paterno', 'ap_materno', 'telefono']
+    attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno', 'telefono']
   })
   const gerentes1 = JSON.parse(JSON.stringify(gerentes))
   gerentes1.map(g => {
@@ -82,7 +52,7 @@ const paginaReadGerentes = async (req, res) => {
     let nombre_Hotel = ''
     gerentesConHotel2.map(geren => {
       if (g.id_grt === geren.id) {
-        nombre_Hotel = '*Hotel '+geren.nombreHotel
+        nombre_Hotel = '*Hotel ' + geren.nombreHotel
       }
     })
     if (gerentesConHotel.includes(g.id_grt)) {
@@ -109,7 +79,7 @@ const paginaReadGerentes = async (req, res) => {
 const paginaUpdateGerentes = async (req, res) => {
   try {
     const gerente = await Gerentes.findAll({
-      attributes: ['id_grt' ,'nombre', 'ap_paterno', 'ap_materno', 'telefono'],
+      attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno', 'telefono'],
       where: {
         id_grt: req.query.id
       }
