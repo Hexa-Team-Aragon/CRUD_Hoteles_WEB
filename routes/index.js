@@ -3,6 +3,7 @@ import { paginaInicio, paginaListaHoteles, paginaVistaHotel } from '../controlle
 import { paginaCreateGerentes, createGerente, paginaReadGerentes,paginaUpdateGerentes, updateGerente, paginaDeleteGerentes } from '../controllers/gerentesControllers.js'
 import { paginaCreateHoteles, createHotel, paginaReadHoteles,paginaUpdateHoteles, updateHotel, paginaDeleteHoteles, paginaCreateHabitacionHotel, createHabitacionHotel } from '../controllers/hotelesControllers.js'
 import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones, paginaUpdateHotelHabitacion, updateHotelHabitacion, paginaDeleteHotelHabitacion } from '../controllers/habitacionesControllers.js'
+import { createGerenteValidator } from '../middlewares/gerentesValidator.js'
 
 
 const rutas = express.Router()
@@ -29,7 +30,7 @@ rutas.get('/gerentes/update', paginaUpdateGerentes)
 
 rutas.get('/gerentes/delete', paginaDeleteGerentes)
 
-rutas.post('/gerentes/create', createGerente)
+rutas.post('/gerentes/create', createGerenteValidator, createGerente)
 
 rutas.post('/gerentes/update', updateGerente)
 
