@@ -28,6 +28,21 @@ const createHabitacion = async (req, res) => {
   if (req.body?.refrigerador) {
     refrigerador = true
   }
+  try {
+    await Habitaciones.create({
+      id_hotel,
+      piso,
+      nombre,
+      refrigerador
+    }, { fields: ['id_hotel', 'piso', 'nombre', 'refrigerador'] })
+    res.redirect('/habitaciones')
+  } catch (error) {
+    console.log(error)
+  }
+}/*let refrigerador = false
+  if (req.body?.refrigerador) {
+    refrigerador = true
+  }
   const errores = []
 
   if (id_hotel === '0') {
@@ -67,20 +82,8 @@ const createHabitacion = async (req, res) => {
       refrigerador
     })
   } else {
-    // Almacenar en la base de datos
-    try {
-      await Habitaciones.create({
-        id_hotel,
-        piso,
-        nombre,
-        refrigerador
-      }, { fields: ['id_hotel', 'piso', 'nombre', 'refrigerador'] })
-      res.redirect('/habitaciones')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
+    */ // Almacenar en la base de datos
+
 
 // Renderizar pagina de los Habitaciones
 const paginaReadHabitaciones = async (req, res) => {
