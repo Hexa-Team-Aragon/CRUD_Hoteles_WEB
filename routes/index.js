@@ -6,6 +6,7 @@ import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,pagina
 import { createGerenteValidator } from '../middlewares/gerentesValidator.js'
 import { createHotelValidator } from '../middlewares/hotelValidator.js'
 import { createHabitacionValidator } from '../middlewares/habitacionesValidator.js'
+import {updateHotelValidator } from '../middlewares/hotelUpdateValidator.js'
 
 const rutas = express.Router()
 
@@ -15,7 +16,7 @@ rutas.get('/lista/hoteles', paginaListaHoteles)
 
 rutas.get('/lista/hoteles/hotel/habitacion/update', paginaUpdateHotelHabitacion)
 
-rutas.post('/lista/hoteles/hotel/habitacion/update', updateHotelHabitacion)
+rutas.post('/lista/hoteles/hotel/habitacion/update' ,updateHotelHabitacion)
 
 rutas.get('/lista/hoteles/hotel/habitacion/delete', paginaDeleteHotelHabitacion)
 
@@ -47,7 +48,7 @@ rutas.get('/hoteles/delete', paginaDeleteHoteles)
 
 rutas.post('/hoteles/create', createHotelValidator,createHotel)
 
-rutas.post('/hoteles/update', updateHotel)
+rutas.post('/hoteles/update', updateHotelValidator,updateHotel)
 
 rutas.get('/hoteles/habitaciones/create', paginaCreateHabitacionHotel)
 
