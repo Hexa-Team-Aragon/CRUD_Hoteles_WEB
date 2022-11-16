@@ -1,4 +1,4 @@
-import Joi from 'Joi';
+import Joi from 'joi';
 import { Hoteles } from '../models/Hoteles.js'
 
 

@@ -26,4 +26,7 @@ dist-ssr
 # Extra
 
 package-lock.json
+
+# dotenv
+
 .env
