@@ -133,78 +133,23 @@ const updateHabitacion = async (req, res) => {
   if (req.body?.refrigerador) {
     refrigerador = true
   }
-  const errores = []
-
-  if (id_hotel === '0') {
-    errores.push({ mensaje: 'Selecciona un hotel' })
-  }
-  if (piso.trim() === '') {
-    errores.push({ mensaje: 'El piso no puede quedar vacio' })
-  }
-  if (nombre.trim() === '') {
-    errores.push({ mensaje: 'El nombre no puede quedar vacio' })
-  }
-  if (errores.length > 0) {
-    const habitaciones = await Habitaciones.findAll({
-      attributes: ['id_hbt', 'id_hotel', 'nombre', 'piso', 'refrigerador'],
+  try {
+    await Habitaciones.update({
+      id_hotel,
+      piso,
+      nombre,
+      refrigerador
+    }, {
       where: {
         id_hbt: req.query.id
       }
     })
-    const habitacion1 = JSON.parse(JSON.stringify(habitaciones))
-    let habitacionMOD = {
-      id: habitacion1[0].id_hbt,
-      hotelId: id_hotel,
-      nombre: nombre,
-      piso: piso,
-      refri: refrigerador
-    }
-
-    var idPrueba = habitacionMOD.hotelId
-
-    let hotelesMOd = []
-    const hoteles = await Hoteles.findAll({
-      attributes: ['id_htl', 'nombre']
-    })
-    const hoteles1 = JSON.parse(JSON.stringify(hoteles))
-    hoteles1.map(ht1 => {
-      let selectedHTL = false
-      if (ht1.id_htl == id_hotel) {
-        selectedHTL = true
-      }
-      let obj = {
-        id: ht1.id_htl,
-        nombre: ht1.nombre,
-        opcion: selectedHTL
-      }
-      hotelesMOd.push(obj)
-    })
-    console.log(habitacionMOD);
-    res.render('formUHabitaciones', {
-      pagina: 'Editar Habitacion',
-      errores,
-      hoteles: hotelesMOd,
-      habitacion: habitacionMOD
-    })
-  } else {
-    // Almacenar en la base de datos
-    try {
-      await Habitaciones.update({
-        id_hotel,
-        piso,
-        nombre,
-        refrigerador
-      }, {
-        where: {
-          id_hbt: req.query.id
-        }
-      })
-      res.redirect('/habitaciones')
-    } catch (error) {
-      console.log(error)
-    }
+    res.redirect('/habitaciones')
+  } catch (error) {
+    console.log(error)
   }
 }
+
 
 // Eliminar Habitaciones
 const paginaDeleteHabitaciones = async (req, res) => {

@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { Hoteles } from '../models/Hoteles.js'
+import { Habitaciones } from '../models/Habitaciones.js';
 
 
 const createHabitacionValidator = async (req, res, next) => {
@@ -16,15 +17,9 @@ const createHabitacionValidator = async (req, res, next) => {
         let errores = []
         const { id_hotel, piso, nombre } = req.body
         let refrigerador = false
-        console.log('arriba')
-        console.log(req.body.refrigerador)
         if (req.body?.refrigerador) {
             refrigerador = true
-            console.log(req.body.refrigerador)
-            console.log('dentro if')
         }
-        console.log('fuera if')
-        console.log(req.body.refrigerador)
         let hotelesModificados = []
         const hoteles = await Hoteles.findAll({
             attributes: ['id_htl', 'nombre']
@@ -42,6 +37,7 @@ const createHabitacionValidator = async (req, res, next) => {
             }
             hotelesModificados.push(obj)
         })
+        //
         console.log(error.details[0].message)
         errores.push({ mensaje: error.details[0].message })
         res.render('formCHabitacion', {
@@ -56,4 +52,78 @@ const createHabitacionValidator = async (req, res, next) => {
     }
 }
 
-export { createHabitacionValidator };
+const updateHabitacionValidator = async (req, res, next) => {
+    if(!req.body.id_hotel){
+        const habitaciones = await Habitaciones.findAll({
+            attributes: ['id_hotel'],
+            where: {
+              id_hbt: req.query.id
+            }
+          })
+          const habitacion1 = JSON.parse(JSON.stringify(habitaciones))
+          let habitacionMOD = {
+            id: habitacion1[0].id_hbt
+          }
+    }
+    const updateHabitacionV = Joi.object({
+        id_hotel: Joi.number().greater(0).required(),
+        piso: Joi.number().greater(0).required(),
+        nombre: Joi.string().required(),
+        refrigerador: Joi.string().valid('true').valid('on').insensitive()
+    });
+    try {
+        await updateHabitacionV.validateAsync(req.body);
+        next();
+    } catch (error) {
+        let errores = []
+        const { id_hotel, piso, nombre } = req.body
+        let refrigerador = false
+        if (req.body?.refrigerador) {
+            refrigerador = true
+        }
+        const habitaciones = await Habitaciones.findAll({
+            attributes: ['id_hbt', 'id_hotel', 'nombre', 'piso', 'refrigerador'],
+            where: {
+              id_hbt: req.query.id
+            }
+          })
+          const habitacion1 = JSON.parse(JSON.stringify(habitaciones))
+          let habitacionMOD = {
+            id: habitacion1[0].id_hbt,
+            hotelId: id_hotel,
+            nombre: nombre,
+            piso: piso,
+            refri: refrigerador
+          }
+      
+          var idPrueba = habitacionMOD.hotelId
+      
+          let hotelesMOd = []
+          const hoteles = await Hoteles.findAll({
+            attributes: ['id_htl', 'nombre']
+          })
+          const hoteles1 = JSON.parse(JSON.stringify(hoteles))
+          hoteles1.map(ht1 => {
+            let selectedHTL = false
+            if (ht1.id_htl == id_hotel) {
+              selectedHTL = true
+            }
+            let obj = {
+              id: ht1.id_htl,
+              nombre: ht1.nombre,
+              opcion: selectedHTL
+            }
+            hotelesMOd.push(obj)
+          })
+          console.log(habitacionMOD);
+          console.log(error.details[0].message)
+          errores.push({ mensaje: error.details[0].message })
+          res.render('formUHabitaciones', {
+            pagina: 'Editar Habitacion',
+            errores,
+            hoteles: hotelesMOd,
+            habitacion: habitacionMOD
+          })
+    }
+}
+export { createHabitacionValidator, updateHabitacionValidator };
