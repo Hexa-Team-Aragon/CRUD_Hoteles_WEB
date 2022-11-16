@@ -163,101 +163,21 @@ const paginaUpdateHoteles = async (req, res) => {
 // Enviar el hotel actualizado a la base de datos
 const updateHotel = async (req, res) => {
   const { nombre, id_gerente, direccion, telefono, correo } = req.body
-  const errores = []
-  if (nombre.trim() === '') {
-    errores.push({ mensaje: 'El nombre no puede estar vacio' })
-  }
-  if (id_gerente === '0') {
-    errores.push({ mensaje: 'Selecciona un gerente' })
-  }
-  if (direccion.trim() === '') {
-    errores.push({ mensaje: 'La direccion no puede estar vacia' })
-  }
-  if (telefono.trim() === '') {
-    errores.push({ mensaje: 'El telefono no puede estar vacio' })
-  }
-  if (isNaN(telefono) || telefono.length !== 10) {
-    errores.push({ mensaje: 'Numero telefonico invalido' })
-  }
-  if (correo.trim() === '') {
-    errores.push({ mensaje: 'El correo no puede estar vacio' })
-  }
-  if (errores.length > 0) {
-    const hotel = await Hoteles.findAll({
-      attributes: ['id_htl', 'id_gerente', 'nombre', 'direccion', 'telefono', 'correo'],
+  try {
+    await Hoteles.update({
+      id_gerente,
+      nombre,
+      direccion,
+      telefono,
+      correo
+    }, {
       where: {
         id_htl: req.query.id
       }
     })
-    const hotel1 = JSON.parse(JSON.stringify(hotel))
-    let hotelMOD = {
-      id: hotel1[0].id_htl,
-      gerenteId: hotel1[0].id_gerente,
-      nombre: nombre,
-      direccion: direccion,
-      telefono: telefono,
-      correo: correo
-    }
-    console.log(hotelMOD.gerenteId)
-    var idPrueba = hotelMOD.gerenteId
-    let gerentesModificados = []
-    let gerentesConHotel = []
-    const hoteles = await Hoteles.findAll({
-      attributes: ['id_gerente']
-    })
-    const gerentesConHotel1 = JSON.parse(JSON.stringify(hoteles))
-    gerentesConHotel1.map(gch => {
-      gerentesConHotel.push(gch.id_gerente)
-    })
-    const gerentes = await Gerentes.findAll({
-      attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno']
-    })
-    const gerentes1 = JSON.parse(JSON.stringify(gerentes))
-    gerentes1.map(g => {
-      let enabledGRT = false
-      let selectedGRT = false
-      if (gerentesConHotel.includes(g.id_grt)) {
-        enabledGRT = true
-      }
-      console.log(g.id_grt, idPrueba)
-      if (g.id_grt == id_gerente) {
-        selectedGRT = 'selected'
-      }
-      let obj = {
-        id: g.id_grt,
-        name: g.nombre,
-        aPaterno: g.ap_paterno,
-        aMaterno: g.ap_materno,
-        asignado: enabledGRT,
-        opcion: selectedGRT
-      }
-      gerentesModificados.push(obj)
-    })
-    console.log(gerentesModificados)
-    res.render('formUHoteles', {
-      pagina: 'Editar Hotel',
-      errores,
-      gerentes: gerentesModificados,
-      hotel: hotelMOD
-    })
-  } else {
-    // Almacenar en la base de datos
-    try {
-      await Hoteles.update({
-        id_gerente,
-        nombre,
-        direccion,
-        telefono,
-        correo
-      }, {
-        where: {
-          id_htl: req.query.id
-        }
-      })
-      res.redirect('/hoteles')
-    } catch (error) {
-      console.log(error)
-    }
+    res.redirect('/hoteles')
+  } catch (error) {
+    console.log(error)
   }
 }
 
