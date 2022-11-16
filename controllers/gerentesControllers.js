@@ -104,53 +104,20 @@ const paginaUpdateGerentes = async (req, res) => {
 // Enviar el gerente actualizado a la base de datos
 const updateGerente = async (req, res) => {
   const { nombre, ap_paterno, ap_materno, telefono } = req.body
-  const errores = []
-
-  if (nombre.trim() === '') {
-    errores.push({ mensaje: 'El nombre no debe estar vacio' })
-  }
-  if (ap_paterno.trim() === '') {
-    errores.push({ mensaje: 'El apellido paterno no puede estar vacio' })
-  }
-  if (ap_materno.trim() === '') {
-    errores.push({ mensaje: 'El apellido meterno no puede estar vacio' })
-  }
-  if (telefono.trim() === '') {
-    errores.push({ mensaje: 'El telefono no puede estar vacio' })
-  }
-  if (isNaN(telefono) || telefono.length !== 10) {
-    errores.push({ mensaje: 'Numero telefonico invalido' })
-  }
-
-  if (errores.length > 0) {
-    res.render('formUGerente', {
-      pagina: 'Editar Gerente',
-      errores,
-      gerente: {
-        id: req.query.id,
-        name: nombre,
-        aPaterno: ap_paterno,
-        aMaterno: ap_materno,
-        tel: telefono
-      },
+  try {
+    await Gerentes.update({
+      nombre,
+      ap_paterno,
+      ap_materno,
+      telefono
+    }, {
+      where: {
+        id_grt: req.query.id
+      }
     })
-  } else {
-    // Almacenar en la base de datos
-    try {
-      await Gerentes.update({
-        nombre,
-        ap_paterno,
-        ap_materno,
-        telefono
-      }, {
-        where: {
-          id_grt: req.query.id
-        }
-      })
-      res.redirect('/gerentes')
-    } catch (error) {
-      console.log(error)
-    }
+    res.redirect('/gerentes')
+  } catch (error) {
+    console.log(error)
   }
 }
 
