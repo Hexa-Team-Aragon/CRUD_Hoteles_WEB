@@ -23,4 +23,6 @@ block compartircontenido
           .form-group.mb-3
               label(for="telefono") Telefono 
               input#telefono(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control", value=telefono)   
-          input.btn.btn-success.btn-block(type="submit", value='Aplicar Cambios')
+          .d-flex.justify-content-center
+            input.btn.btn-success.btn-block(type="submit", value='Aplicar Cambios')
+            a.btn.btn-success.btn-block.ms-5(href='/gerentes/create/upload') Añadir imagen
