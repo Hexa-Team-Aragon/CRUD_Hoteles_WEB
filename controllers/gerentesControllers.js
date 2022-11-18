@@ -135,11 +135,18 @@ const paginaDeleteGerentes = async (req, res) => {
   }
 }
 
+const paginaUploadImagenGerente = async (req, res) => {
+  res.render('formUIGerente', {
+    pagina: 'Adjuntar Imagen',
+  })
+}
+
 export {
   paginaCreateGerentes,
   createGerente,
   paginaReadGerentes,
   paginaUpdateGerentes,
   updateGerente,
-  paginaDeleteGerentes
+  paginaDeleteGerentes,
+  paginaUploadImagenGerente
 }
