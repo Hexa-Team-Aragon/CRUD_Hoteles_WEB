@@ -6,7 +6,6 @@ import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,pagina
 import { createGerenteValidator, updateGerenteValidator } from '../middlewares/gerentesValidator.js'
 import { createHotelValidator } from '../middlewares/hotelValidator.js'
 import { createHabitacionValidator, updateHabitacionValidator } from '../middlewares/habitacionesValidator.js'
-import { createHabitacionValidator } from '../middlewares/habitacionesValidator.js'
 import {updateHotelValidator } from '../middlewares/hotelUpdateValidator.js'
 
 
