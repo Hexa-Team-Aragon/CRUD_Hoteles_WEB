@@ -1,7 +1,7 @@
 import express from 'express'
 import { paginaInicio, paginaListaHoteles, paginaVistaHotel } from '../controllers/indexControllers.js'
 import { paginaCreateGerentes, createGerente, paginaUploadImagenGerente, paginaReadGerentes,paginaUpdateGerentes, updateGerente, paginaDeleteGerentes } from '../controllers/gerentesControllers.js'
-import { paginaCreateHoteles, createHotel, paginaReadHoteles, paginaUpdateHoteles, updateHotel, paginaDeleteHoteles, paginaCreateHabitacionHotel, createHabitacionHotel } from '../controllers/hotelesControllers.js'
+import { paginaCreateHoteles, createHotel, paginaReadHoteles,paginaUpdateHoteles, updateHotel, paginaDeleteHoteles, paginaCreateHabitacionHotel, createHabitacionHotel, createUploadHotel } from '../controllers/hotelesControllers.js'
 import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones, paginaUpdateHotelHabitacion, updateHotelHabitacion, paginaDeleteHotelHabitacion } from '../controllers/habitacionesControllers.js'
 import { createGerenteValidator, updateGerenteValidator } from '../middlewares/gerentesValidator.js'
 import { createHotelValidator } from '../middlewares/hotelValidator.js'
@@ -56,6 +56,8 @@ rutas.post('/hoteles/update', updateHotelValidator,updateHotel)
 rutas.get('/hoteles/habitaciones/create', paginaCreateHabitacionHotel)
 
 rutas.post('/hoteles/habitaciones/create', createHabitacionHotel)
+
+rutas.get('/hoteles/create/upload', createUploadHotel)
 
 // Habitaciones
 
