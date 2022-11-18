@@ -2,7 +2,7 @@ import express from 'express'
 import { paginaInicio, paginaListaHoteles, paginaVistaHotel } from '../controllers/indexControllers.js'
 import { paginaCreateGerentes, createGerente, paginaUploadImagenGerente, paginaReadGerentes,paginaUpdateGerentes, updateGerente, paginaDeleteGerentes } from '../controllers/gerentesControllers.js'
 import { paginaCreateHoteles, createHotel, paginaReadHoteles,paginaUpdateHoteles, updateHotel, paginaDeleteHoteles, paginaCreateHabitacionHotel, createHabitacionHotel, createUploadHotel } from '../controllers/hotelesControllers.js'
-import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones, paginaUpdateHotelHabitacion, updateHotelHabitacion, paginaDeleteHotelHabitacion } from '../controllers/habitacionesControllers.js'
+import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones, paginaUpdateHotelHabitacion, updateHotelHabitacion, paginaDeleteHotelHabitacion, paginaCreateHabitacionImagen } from '../controllers/habitacionesControllers.js'
 import { createGerenteValidator, updateGerenteValidator } from '../middlewares/gerentesValidator.js'
 import { createHotelValidator } from '../middlewares/hotelValidator.js'
 import { createHabitacionValidator, updateHabitacionValidator } from '../middlewares/habitacionesValidator.js'
@@ -73,5 +73,6 @@ rutas.post('/habitaciones/create', createHabitacionValidator, createHabitacion)
 
 rutas.post('/habitaciones/update', updateHabitacionValidator, updateHabitacion)
 
+rutas.get('/hoteles/habitaciones/create/imagen', paginaCreateHabitacionImagen)
 
 export default rutas
