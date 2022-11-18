@@ -12,20 +12,28 @@ block compartircontenido
                 strong=error.mensaje
         form.col-5.fondoNaranjaPastel.p-3.rounded(action="/habitaciones/create" method="POST")
           .form-group.mb-3
-              label(for="nombre") Nombre 
-              input(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control", value=nombre)
+            label(for="nombre") Nombre 
+            input(type="text" placeholder="Ingresa Nombre" name="nombre" class="form-control", value=nombre)
           .form-group.mb-3
-              label(for="id_hotel") Nombre del Hotel
-              select(placeholder="Ingresa el nombre del hotel", name="id_hotel",class="form-control")
-                option(value=0 selected) Selecciona un Hotel 
-                each hotel in hoteles
-                  option(value=hotel.id selected=hotel.selected)=hotel.nombre 
-              p **No aparece el hotel que buscas?
-                a.ms-2(href="/hoteles/create")='Registra uno'
+            label(for="id_hotel") Nombre del Hotel
+            select(placeholder="Ingresa el nombre del hotel" name="id_hotel" class="form-control")
+              option(value=0 selected) Selecciona un Hotel 
+              each hotel in hoteles
+                option(value=hotel.id selected=hotel.selected)=hotel.nombre 
+            p **No aparece el hotel que buscas?
+              a.ms-2(href="/hoteles/create")='Registra uno'
           .form-group.mb-3
-              label(for="piso") Ingrese el piso 
-              input(type="text",placeholder="Piso", name="piso",class="form-control", value=piso)
+            label(for="piso") Ingrese el piso 
+            input(type="text" placeholder="Piso" name="piso" class="form-control", value=piso)
           .form-check.mb-3 
-            input#flexCheckChecked.form-check-input(type='checkbox', name='refrigerador', checked=refrigerador)
+            input#flexCheckChecked.form-check-input(type='checkbox' name='refrigerador', checked=refrigerador)
             label.form-check-label(for='flexCheckChecked') Refrigerador 
-          input.btn.btn-success.btn-block(type="submit", value='Guardar')
+          .d-flex.justify-content-center
+            input.btn.btn-success.btn-block(type="submit" value='Guardar')
+            img#imagenPrevisualizacion
+            a.btn.btn-success.btn-block.ms-5#imagenPrevisualizacion(href='/hoteles/habitaciones/create/imagen') Añadir imagen
+            img#imagenPrevisualizacion
+
+            script(src='script.js')
+
+    

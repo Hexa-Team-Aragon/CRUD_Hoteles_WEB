@@ -21,6 +21,14 @@ const paginaCreateHabitacion = async (req, res) => {
   })
 }
 
+
+const paginaCreateHabitacionImagen = async (req, res) => {
+  
+  res.render('formCHabitacionImagen', {
+    pagina: 'Añadir Imagen',
+    
+  })
+}
 // Enviar la nueva habitacion a la Base de Datos
 const createHabitacion = async (req, res) => {
   const { id_hotel, piso, nombre } = req.body
@@ -258,5 +266,6 @@ export {
   paginaDeleteHabitaciones,
   paginaUpdateHotelHabitacion,
   updateHotelHabitacion,
-  paginaDeleteHotelHabitacion
+  paginaDeleteHotelHabitacion,
+  paginaCreateHabitacionImagen
 }
