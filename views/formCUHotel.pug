@@ -1,0 +1,48 @@
+extends ./layout/index.pug
+block compartircontenido 
+  .container-fluid.p-4.superposicion
+    .container-fluid
+      h2.fs-4.p-0.text-center.mb-3 Añadir Nuevo Hotel
+      .container-fluid.d-flex.justify-content-center.row
+        if(errores)
+          each error in errores 
+            .row.justify-content-center
+              .alert.alert-dismissible.alert-primary.col-5
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong=error.mensaje
+        form.col-5.fondoAmarilloPastel.p-3.rounded.d-flex.flex-column.align-items-center(action="/hoteles/create" method="POST" enctype="multipart/form-data")
+          .form-group.mb-3
+              #src-file1.file-select
+                input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
+          #archivos.p-2.mb-2
+          .d-flex.justify-content-center
+            input.btn.btn-success.btn-block(type="submit", value='Subir Imagenes')
+  script.
+    const contenedor = document.querySelector('#archivos')
+    const seleccionArchivos = document.querySelector("#seleccionArchivos")
+    let imagenes = []
+    const renderImg = (imagen) => {
+      const newImg = document.createElement('img')
+      newImg.setAttribute('src', URL.createObjectURL(imagen))
+      newImg.setAttribute('width', '200')
+      newImg.setAttribute('height', '200')
+      newImg.setAttribute('style', "margin-left: 15px; margin-bottom: 15px;")
+      contenedor.appendChild(newImg)
+    }
+    seleccionArchivos.addEventListener("change", () => {
+      contenedor.innerHTML = ''
+      imagenes = []
+      const archivos = seleccionArchivos.files;
+      if (!archivos || !archivos.length) {
+        return;
+      }
+      for (let i = 0; i < archivos.length; i++) {
+        imagenes.push(archivos[i])
+      }
+      for (let i = 0; i < imagenes.length; i++) {
+        renderImg(imagenes[i])
+      }
+      console.log(archivos)
+    })
+
+

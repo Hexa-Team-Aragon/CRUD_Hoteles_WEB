@@ -31,4 +31,6 @@ block compartircontenido
           .form-group.mb-3
               label(for="correo") E-Mail 
               input(type="text",placeholder="Ingrese el correo electronico", name="correo",class="form-control", value=correo)   
-          input.btn.btn-success.btn-block(type="submit", value='Guardar')
+          .d-flex.justify-content-center
+            input.btn.btn-success.btn-block(type="submit", value='Guardar')
+            a.btn.btn-success.btn-block.ms-5(href='/hoteles/create/upload') Añadir imagen
