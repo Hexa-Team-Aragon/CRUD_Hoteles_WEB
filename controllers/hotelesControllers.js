@@ -256,6 +256,13 @@ const createHabitacionHotel = async (req, res) => {
   }
 }
 
+//REnderisar pagina para añadir imagenes al crear un hotel
+const createUploadHotel = (req, res) => {
+  res.render('formCUHotel', {
+    pagina: 'Añadir Imagenes',
+  })
+}
+
 
 export {
   paginaCreateHoteles,
@@ -265,5 +272,6 @@ export {
   updateHotel,
   paginaDeleteHoteles,
   paginaCreateHabitacionHotel,
-  createHabitacionHotel
+  createHabitacionHotel,
+  createUploadHotel
 }

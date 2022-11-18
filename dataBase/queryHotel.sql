@@ -1,7 +1,7 @@
 SET NAMES 'UTF8MB4';
 DROP DATABASE IF EXISTS informacionHoteles;
 CREATE DATABASE IF NOT EXISTS informacionHoteles DEFAULT CHARACTER SET UTF8MB4;
-USE informacionHoteles;informacionhoteles
+USE informacionHoteles;
 
 CREATE TABLE gerentes(
 id_grt						INTEGER NOT NULL AUTO_INCREMENT,
