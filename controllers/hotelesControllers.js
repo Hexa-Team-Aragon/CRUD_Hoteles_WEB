@@ -42,14 +42,17 @@ const createHotel = async (req, res) => {
   const { nombre, id_gerente, direccion, telefono, correo } = req.body
   // Almacenar en la base de datos
   try {
-    await Hoteles.create({
+    const hotelCreado = await Hoteles.create({
       id_gerente,
       nombre,
       direccion,
       telefono,
       correo
     }, { fields: ['id_gerente', 'nombre', 'direccion', 'telefono', 'correo'] })
-    res.redirect('/hoteles')
+    res.render('formCUHotel', {
+      pagina: 'Añadir Imagenes',
+      hotel: hotelCreado.dataValues.id
+    })
   } catch (error) {
     console.log(error)
   }
@@ -258,9 +261,10 @@ const createHabitacionHotel = async (req, res) => {
 
 //REnderisar pagina para añadir imagenes al crear un hotel
 const createUploadHotel = (req, res) => {
-  res.render('formCUHotel', {
-    pagina: 'Añadir Imagenes',
-  })
+  console.log(req.files)
+  console.log(req.body)
+  console.log(req.query)
+  res.redirect('/hoteles')
 }
 
 
