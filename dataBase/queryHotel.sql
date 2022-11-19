@@ -46,7 +46,6 @@ CONSTRAINT fk_tipohabitacion FOREIGN KEY(tipo) REFERENCES categorias(tipo)
 
 CREATE TABLE imgGerentes(
 nombre                      VARCHAR(150) NOT NULL,
-imagen                      MEDIUMBLOB NOT NULL,
 id_gerente1                 INTEGER NOT NULL,
 img_tipo                    VARCHAR(20) NOT NULL,
 CONSTRAINT pk_imagenesGerente  PRIMARY KEY(id_gerente1),
@@ -57,7 +56,6 @@ CREATE TABLE imgHoteles(
 id_hotel1                   INTEGER NOT NULL,
 nombre                      VARCHAR(150) NOT NULL,
 img_tipo                    VARCHAR(20) NOT NULL,
-imagen                      MEDIUMBLOB NOT NULL,
 CONSTRAINT pk_imagenesHotel PRIMARY KEY(id_hotel1, nombre),
 CONSTRAINT fk_imagenesHotel FOREIGN KEY(id_hotel1) REFERENCES hoteles(id_htl)
 )DEFAULT CHARACTER SET UTF8MB4;
@@ -65,7 +63,6 @@ CONSTRAINT fk_imagenesHotel FOREIGN KEY(id_hotel1) REFERENCES hoteles(id_htl)
 CREATE TABLE imgHabitaciones(
 id_habitacion1              INTEGER NOT NULL,
 nombre                      VARCHAR(150) NOT NULL,
-imagen                      MEDIUMBLOB NOT NULL,
 img_tipo                    VARCHAR(20) NOT NULL,
 CONSTRAINT pk_imagenesHabitacion PRIMARY KEY(nombre, id_habitacion1),
 CONSTRAINT fk_imagenesHabitacion FOREIGN KEY(id_habitacion1) REFERENCES habitaciones(id_hbt) 
