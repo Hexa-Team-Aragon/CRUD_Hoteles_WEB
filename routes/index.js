@@ -7,6 +7,8 @@ import { createGerenteValidator, updateGerenteValidator } from '../middlewares/g
 import { createHotelValidator } from '../middlewares/hotelValidator.js'
 import { createHabitacionValidator, updateHabitacionValidator } from '../middlewares/habitacionesValidator.js'
 import {updateHotelValidator } from '../middlewares/hotelUpdateValidator.js'
+import { uploadHotelImage } from '../middlewares/hotelImageConfig.js'
+import { hotelIMageValidator } from '../controllers/hotelesImageValidator.js'
 
 
 const rutas = express.Router()
@@ -57,7 +59,7 @@ rutas.get('/hoteles/habitaciones/create', paginaCreateHabitacionHotel)
 
 rutas.post('/hoteles/habitaciones/create', createHabitacionHotel)
 
-rutas.get('/hoteles/create/upload', createUploadHotel)
+rutas.post('/hoteles/create/upload', uploadHotelImage, hotelIMageValidator, createUploadHotel)
 
 // Habitaciones
 
