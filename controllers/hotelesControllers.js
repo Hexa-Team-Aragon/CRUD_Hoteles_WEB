@@ -1,6 +1,7 @@
 import { Hoteles } from '../models/Hoteles.js'
 import { Gerentes } from '../models/Gerentes.js'
 import { Habitaciones } from '../models/Habitaciones.js'
+import { ImgHoteles } from '../models/ImgHoteles.js'
 
 // REnderizar formulario para crear hoteles
 const paginaCreateHoteles = async (req, res) => {
@@ -260,10 +261,23 @@ const createHabitacionHotel = async (req, res) => {
 }
 
 //REnderisar pagina para añadir imagenes al crear un hotel
-const createUploadHotel = (req, res) => {
-  console.log(req.files)
-  console.log(req.body)
-  console.log(req.query)
+const createUploadHotel = async (req, res) => {
+  const imagenes = req.files
+  const id_hotel1 = req.query.htl
+  try {
+    let images = []
+    imagenes.forEach(img => {
+      let obj = {
+        id_hotel1,
+        nombre: img.filename,
+        img_tipo: img.mimetype,
+      }
+      images.push(obj)
+    })
+    await ImgHoteles.bulkCreate(images, { fields: ['id_hotel1', 'nombre', 'img_tipo'] })
+  } catch (error) {
+    console.log(error)
+  }
   res.redirect('/hoteles')
 }
 

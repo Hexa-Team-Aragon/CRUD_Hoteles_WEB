@@ -5,7 +5,7 @@ const hotelIMageValidator = (req, res, next) => {
       hotel: req.query.htl
     })
   } else {
-    //Validar tamaño
+    next()
   }
 }
 
