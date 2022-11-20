@@ -10,7 +10,7 @@ block compartircontenido
               .alert.alert-dismissible.alert-primary.col-5
                 button.btn-close(type='button' data-bs-dismiss='alert')
                 strong=error.mensaje
-        form.col-5.fondoAmarilloPastel.p-3.rounded(action="/hoteles/update?id="+hotel.id method="POST")
+        form.col-5.fondoAmarilloPastel.p-3.rounded.d-flex.flex-column(action="/hoteles/update?id="+hotel.id method="POST")
           .form-group.mb-3
               label(for="nombre") Nombre del Hotel
               input(type="text",placeholder="Ingresa Nombre del Hotel", name="nombre",class="form-control", value=hotel.nombre)
@@ -30,7 +30,7 @@ block compartircontenido
           .form-group.mb-3
               label(for="correo") E-Mail 
               input(type="text",placeholder="Ingrese el correo electronico", name="correo",class="form-control", value=hotel.correo)   
-          input.btn.btn-success.btn-block(type="submit", value='Guardar Cambios')
+          input.btn.btn-success.btn-block(type="submit", value='Guardar Datos')
       .container-fluid.d-flex.justify-content-center.row
         .d-flex.fondoAmarilloPastel.col-8.p-3.rounded.mt-3.flex-column
           .fondoAzulPastel.p-2.rounded.col-12
@@ -40,13 +40,13 @@ block compartircontenido
                 .d-flex.p-2.col-6
                   .d-flex.imagenHotel.col-12.align-items-end.rounded(style="background-image: url('/uploads/hotels/"+img.nombre+"');")
                     .container.d-flex.justify-content-end.pb-2
-                      input.btn.btn-danger.btn-block(type="submit", value='Eliminar')
+                      a.btn.btn-primary.mx-2.p-1(href=`/hoteles/delete/img?id=${hotel1}&nombre=${img.nombre}`) Eliminar
           .col-12.d-flex.justify-content-center
-            form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/hoteles/create/upload?htl="+hotel method="POST" enctype="multipart/form-data")
+            form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/hoteles/create/upload?htl="+hotel1+"&edit=true" method="POST" enctype="multipart/form-data")
               .form-group.mb-3
                 #src-file1.file-select
                   input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
-              #archivos.p-2.mb-2
+              #archivos.p-2.mb-2.d-flex
               .d-flex.justify-content-center
                 input.btn.btn-success.btn-block(type="submit", value='Subir Imagenes', id='boton')
   script.
