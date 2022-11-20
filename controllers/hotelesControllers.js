@@ -157,10 +157,18 @@ const paginaUpdateHoteles = async (req, res) => {
     }
     gerentesModificados.push(obj)
   })
+  const imagenes = await ImgHoteles.findAll({
+    attributes: ['nombre'],
+    where: {
+      id_hotel1: req.query.id
+    }
+  })
+
   res.render('formUHoteles', {
     pagina: 'Editar Hotel',
     gerentes: gerentesModificados,
-    hotel: hotelMOD
+    hotel: hotelMOD,
+    imagenes
   })
 }
 

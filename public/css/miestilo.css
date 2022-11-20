@@ -118,3 +118,11 @@ body{
 .centrar{
   text-align: center;
 }
+
+.imagenHotel{
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: #6FCD8A;
+  background-position: center;
+  height: 250px;
+}
