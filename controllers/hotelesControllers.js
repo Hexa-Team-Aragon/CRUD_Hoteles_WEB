@@ -2,6 +2,7 @@ import { Hoteles } from '../models/Hoteles.js'
 import { Gerentes } from '../models/Gerentes.js'
 import { Habitaciones } from '../models/Habitaciones.js'
 import { ImgHoteles } from '../models/ImgHoteles.js'
+import fs from 'fs'
 
 // REnderizar formulario para crear hoteles
 const paginaCreateHoteles = async (req, res) => {
@@ -168,7 +169,8 @@ const paginaUpdateHoteles = async (req, res) => {
     pagina: 'Editar Hotel',
     gerentes: gerentesModificados,
     hotel: hotelMOD,
-    imagenes
+    imagenes,
+    hotel1: req.query.id
   })
 }
 
@@ -286,9 +288,27 @@ const createUploadHotel = async (req, res) => {
   } catch (error) {
     console.log(error)
   }
-  res.redirect('/hoteles')
+  if (req.query.edit) {
+    res.redirect('/hoteles/update?id='+req.query.htl)
+  } else {
+    res.redirect('/hoteles')
+  }
 }
 
+const paginaDeleteHotelesImage = async (req, res) => {
+  try {
+    await ImgHoteles.destroy({
+      where: {
+        id_hotel1: req.query.id,
+        nombre: req.query.nombre
+      }
+    })
+    fs.unlinkSync('./public/uploads/hotels/'+req.query.nombre)
+    res.redirect('/hoteles/update?id='+req.query.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export {
   paginaCreateHoteles,
@@ -299,5 +319,6 @@ export {
   paginaDeleteHoteles,
   paginaCreateHabitacionHotel,
   createHabitacionHotel,
-  createUploadHotel
+  createUploadHotel,
+  paginaDeleteHotelesImage
 }
