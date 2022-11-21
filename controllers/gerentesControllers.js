@@ -1,6 +1,7 @@
 import { Gerentes } from "../models/Gerentes.js"
 import { Hoteles } from '../models/Hoteles.js'
 import { ImgGerentes } from "../models/ImgGerentes.js"
+
 // Renderizar Formulario para crear un Gerente
 const paginaCreateGerentes = (req, res) => {
   res.render('formCGerente', {
@@ -94,9 +95,18 @@ const paginaUpdateGerentes = async (req, res) => {
       aPaterno: gerente1[0].ap_paterno,
       tel: gerente1[0].telefono
     }
+
+    const imagenes = await ImgGerentes.findAll({
+      attributes: ['nombre'],
+      where: {
+        id_gerente1: req.query.id
+      }
+    })
+
     res.render('formUGerente', {
       pagina: 'Editar Gerente',
-      gerente: gerenteMOd
+      gerente: gerenteMOd,
+      imagenes
     })
   } catch (error) {
     console.log(error);
