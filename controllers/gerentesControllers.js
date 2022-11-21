@@ -1,6 +1,7 @@
 import { Gerentes } from "../models/Gerentes.js"
 import { Hoteles } from '../models/Hoteles.js'
 import { ImgGerentes } from "../models/ImgGerentes.js"
+import fs from 'fs'
 
 // Renderizar Formulario para crear un Gerente
 const paginaCreateGerentes = (req, res) => {
@@ -106,7 +107,8 @@ const paginaUpdateGerentes = async (req, res) => {
     res.render('formUGerente', {
       pagina: 'Editar Gerente',
       gerente: gerenteMOd,
-      imagenes
+      imagenes,
+      gerente1: req.query.id
     })
   } catch (error) {
     console.log(error);
@@ -164,7 +166,26 @@ const createUploadGerente = async (req, res) => {
   } catch (error) {
     console.log(error)
   }
-  res.redirect('/gerentes')
+  if (req.query.edit) {
+    res.redirect('/gerentes/update?id='+req.query.grt)
+  } else {
+    res.redirect('/gerentes')
+  }
+}
+
+const paginaDeleteGerentesImage = async (req, res) => {
+  try {
+    await ImgGerentes.destroy({
+      where: {
+        id_gerente1: req.query.id,
+        nombre: req.query.nombre
+      }
+    })
+    fs.unlinkSync('./public/uploads/gerentes/'+req.query.nombre)
+    res.redirect('/gerentes/update?id='+req.query.id)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export {
@@ -174,5 +195,6 @@ export {
   paginaUpdateGerentes,
   updateGerente,
   paginaDeleteGerentes,
-  createUploadGerente
+  createUploadGerente,
+  paginaDeleteGerentesImage
 }
