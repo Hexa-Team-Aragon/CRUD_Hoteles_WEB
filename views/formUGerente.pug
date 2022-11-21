@@ -1,0 +1,77 @@
+extends ./layout/index.pug
+block compartircontenido 
+  .container-fluid.p-4.superposicion
+    .container-fluid
+      h2.fs-4.p-0.text-center.mb-3 Editar de Gerente 
+      .container-fluid.d-flex.justify-content-center.row
+        if(errores)
+          each error in errores 
+            .row.justify-content-center
+              .alert.alert-dismissible.alert-primary.col-5
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong=error.mensaje
+        form.col-5.fondoAzulPastel.p-3.rounded.d-flex.flex-column(action="/gerentes/update?id="+gerente.id method="POST")
+          .form-group.mb-3
+              label(for="nombre") Nombre 
+              input#nombre(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control", value=gerente.name)
+          .form-group.mb-3
+              label(for="ap_materno") Apellido Materno 
+              input#ap_materno(type="text",placeholder="Ingresa el Apellido Materno", name="ap_materno",class="form-control", value=gerente.aMaterno)
+          .form-group.mb-3
+              label(for="ap_paterno") Apellido Paterno 
+              input#ap_paterno(type="text",placeholder="Ingresa el Apellido Paterno", name="ap_paterno",class="form-control", value=gerente.aPaterno)
+          .form-group.mb-3
+              label(for="telefono") Telefono 
+              input#telefono(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control", value=gerente.tel)   
+          input.btn.btn-success.btn-block(type="submit", value='Guardar Datos')
+      .container-fluid.d-flex.justify-content-center.row
+        .d-flex.fondoAzulPastel.col-8.p-3.rounded.mt-3.flex-column
+          .fondoAmarilloPastel.p-2.rounded.col-12
+            p.fs-5.text-center Imagenes Actuales
+            .contenedorImages.d-flex.flex-wrap.justify-content-center
+              each img in imagenes 
+                .d-flex.p-2.col-6
+                  .d-flex.imagenHotel.col-12.align-items-end.rounded(style="background-image: url('/uploads/gerentes/"+img.nombre+"');")
+                    .container.d-flex.justify-content-end.pb-2
+                      a.btn.btn-primary.mx-2.p-1(href=`/gerentes/delete/img?id=${gerente1}&nombre=${img.nombre}`) Eliminar
+          .col-12.d-flex.justify-content-center
+            form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/gerentes/create/upload?grt="+gerente1+"&edit=true" method="POST" enctype="multipart/form-data")
+              .form-group.mb-3
+                #src-file1.file-select
+                  input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos')
+              #archivos.p-2.mb-2.d-flex
+              .d-flex.justify-content-center
+                input.btn.btn-success.btn-block(type="submit", value='Subir Imagenes', id='boton')
+  script.
+    const contenedor = document.querySelector('#archivos')
+    const seleccionArchivos = document.querySelector("#seleccionArchivos")
+    const botonEnviar = document.querySelector("#boton")
+    botonEnviar.disabled = true
+    let imagenes = []
+    const renderImg = (imagen) => {
+      const newImg = document.createElement('img')
+      newImg.setAttribute('src', URL.createObjectURL(imagen))
+      newImg.setAttribute('width', '200')
+      newImg.setAttribute('height', '200')
+      newImg.setAttribute('style', "margin-left: 15px; margin-bottom: 15px;")
+      contenedor.appendChild(newImg)
+    }
+    seleccionArchivos.addEventListener("change", () => {
+      botonEnviar.disabled = true
+      contenedor.innerHTML = ''
+      imagenes = []
+      const archivos = seleccionArchivos.files;
+      if (!archivos || !archivos.length) {
+        botonEnviar.disabled = true
+        return;
+      }
+      boton.disabled = false
+      for (let i = 0; i < archivos.length; i++) {
+        imagenes.push(archivos[i])
+      }
+      for (let i = 0; i < imagenes.length; i++) {
+        renderImg(imagenes[i])
+      }
+      console.log(archivos)
+    })
+ 
