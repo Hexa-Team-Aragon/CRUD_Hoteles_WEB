@@ -1,7 +1,6 @@
 import { Gerentes } from "../models/Gerentes.js"
 import { Hoteles } from '../models/Hoteles.js'
-
-
+import { ImgGerentes } from "../models/ImgGerentes.js"
 // Renderizar Formulario para crear un Gerente
 const paginaCreateGerentes = (req, res) => {
   res.render('formCGerente', {
@@ -13,13 +12,16 @@ const paginaCreateGerentes = (req, res) => {
 const createGerente = async (req, res) => {
   const { nombre, ap_paterno, ap_materno, telefono } = req.body
   try {
-    await Gerentes.create({
+    const gerenteCreado = await Gerentes.create({
       nombre,
       ap_paterno,
       ap_materno,
       telefono
     }, { fields: ['nombre', 'ap_paterno', 'ap_materno', 'telefono'] })
-    res.redirect('/gerentes')
+    res.render('formUIGerente', {
+      pagina: 'Añadir Imagen',
+      gerente: gerenteCreado.dataValues.id 
+    })
   } catch (error) {
     console.log(error)
   }
@@ -135,10 +137,24 @@ const paginaDeleteGerentes = async (req, res) => {
   }
 }
 
-const paginaUploadImagenGerente = async (req, res) => {
-  res.render('formUIGerente', {
-    pagina: 'Adjuntar Imagen',
-  })
+const createUploadGerente = async (req, res) => {
+  const imagenes = req.files
+  const id_gerente1 = req.query.grt
+  try {
+    let images = []
+    imagenes.forEach(img => {
+      let obj = {
+        nombre: img.filename,
+        id_gerente1,
+        img_tipo: img.mimetype,
+      }
+      images.push(obj)
+    })
+    await ImgGerentes.bulkCreate(images, { fields: ['nombre', 'id_gerente1','img_tipo'] })
+  } catch (error) {
+    console.log(error)
+  }
+  res.redirect('/gerentes')
 }
 
 export {
@@ -148,5 +164,5 @@ export {
   paginaUpdateGerentes,
   updateGerente,
   paginaDeleteGerentes,
-  paginaUploadImagenGerente
+  createUploadGerente
 }
