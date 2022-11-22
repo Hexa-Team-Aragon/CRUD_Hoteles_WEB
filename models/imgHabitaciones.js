@@ -1,14 +1,14 @@
 import Sequelize from "sequelize"
 import db from "../config/db.js"
 
-export const Habitaciones = db.define('habitaciones', {
-  id_hotel: {
+export const ImgHabitaciones = db.define('imgHabitaciones', {
+  id_habitacion1: {
     type: Sequelize.INTEGER
   },
-  tipo: {
+  nombre: {
     type: Sequelize.STRING
   },
-  refrigerador: {
-    type: Sequelize.BOOLEAN
+  img_tipo: {
+    type: Sequelize.STRING
   }
 },{ timestamps: false })

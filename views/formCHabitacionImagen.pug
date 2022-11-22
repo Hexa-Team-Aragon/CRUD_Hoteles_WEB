@@ -10,15 +10,12 @@ block compartircontenido
                             .alert.alert-dismissible.alert-primary.col-5
                                 button.btn-close(type='button' data-bs-dismiss='alert')
                                 strong=error.mensaje
-                form.col-5.fondoAzulPastel.p-3.rounded.centrar(action='/gerentes/create' method='POST' enctype="multipart/form-data")
+                form.col-5.fondoAzulPastel.p-3.rounded.centrar(action="/habitacion/create/upload?htl="+habitacion method='POST' enctype="multipart/form-data")
                     .form-group.mb-3
                         #src-file1.file-select
                             input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
                     #archivos.p-2.mb-2
-
-
-                    .w-100.m-4
-                    a.btn.btn-success.btn-block.m-2(href='/gerentes/create/upload') Subir imagenes
+                    input.btn.btn-success.btn-block(type="submit", value='Subir Imagenes', id='boton')
 
         script. 
             const contenedor = document.querySelector('#archivos')
@@ -37,6 +34,7 @@ block compartircontenido
             imagenes = []
             const archivos = seleccionArchivos.files;
             if (!archivos || !archivos.length) {
+                botonEnviar.disabled = true
                 return;
             }
             for (let i = 0; i < archivos.length; i++) {

@@ -9,20 +9,17 @@ block compartircontenido
     table.table.table-hover.fondoBlanco
       thead.border.fondoNaranjaPastel
         tr
-          th(scope='col') Nombre
           th(scope='col') Hotel
-          th(scope='col') Piso
+          th(scope='col') Tipo
           th(scope='col') Refrigerador
           th(scope='col') 
       tbody
         each habitacion in habitaciones
           tr.table-default
               th(scope='row')
-                p.m-0=habitacion.nombre
-              td
                 p.m-0=habitacion.nombreHotel
               td
-                p.m-0=habitacion.piso
+                p.m-0=habitacion.tipo
               td
                 p.m-0=habitacion.refri
               td.d-flex.justify-content-end

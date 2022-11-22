@@ -23,6 +23,7 @@ app.use((req, res, next) => {
 })
 
 // Agregar parserbody para obtener los datos de un formulario.
+app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 // Definiendo carpeta publica
