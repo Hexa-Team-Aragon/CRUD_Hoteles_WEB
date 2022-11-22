@@ -1,6 +1,7 @@
 import { Gerentes } from "../models/Gerentes.js"
 import { Hoteles } from '../models/Hoteles.js'
-
+import { ImgGerentes } from "../models/ImgGerentes.js"
+import fs from 'fs'
 
 // Renderizar Formulario para crear un Gerente
 const paginaCreateGerentes = (req, res) => {
@@ -13,13 +14,16 @@ const paginaCreateGerentes = (req, res) => {
 const createGerente = async (req, res) => {
   const { nombre, ap_paterno, ap_materno, telefono } = req.body
   try {
-    await Gerentes.create({
+    const gerenteCreado = await Gerentes.create({
       nombre,
       ap_paterno,
       ap_materno,
       telefono
     }, { fields: ['nombre', 'ap_paterno', 'ap_materno', 'telefono'] })
-    res.redirect('/gerentes')
+    res.render('formUIGerente', {
+      pagina: 'Añadir Imagen',
+      gerente: gerenteCreado.dataValues.id 
+    })
   } catch (error) {
     console.log(error)
   }
@@ -92,9 +96,19 @@ const paginaUpdateGerentes = async (req, res) => {
       aPaterno: gerente1[0].ap_paterno,
       tel: gerente1[0].telefono
     }
+
+    const imagenes = await ImgGerentes.findAll({
+      attributes: ['nombre'],
+      where: {
+        id_gerente1: req.query.id
+      }
+    })
+
     res.render('formUGerente', {
       pagina: 'Editar Gerente',
-      gerente: gerenteMOd
+      gerente: gerenteMOd,
+      imagenes,
+      gerente1: req.query.id
     })
   } catch (error) {
     console.log(error);
@@ -135,10 +149,43 @@ const paginaDeleteGerentes = async (req, res) => {
   }
 }
 
-const paginaUploadImagenGerente = async (req, res) => {
-  res.render('formUIGerente', {
-    pagina: 'Adjuntar Imagen',
-  })
+const createUploadGerente = async (req, res) => {
+  const imagenes = req.files
+  const id_gerente1 = req.query.grt
+  try {
+    let images = []
+    imagenes.forEach(img => {
+      let obj = {
+        nombre: img.filename,
+        id_gerente1,
+        img_tipo: img.mimetype,
+      }
+      images.push(obj)
+    })
+    await ImgGerentes.bulkCreate(images, { fields: ['nombre', 'id_gerente1','img_tipo'] })
+  } catch (error) {
+    console.log(error)
+  }
+  if (req.query.edit) {
+    res.redirect('/gerentes/update?id='+req.query.grt)
+  } else {
+    res.redirect('/gerentes')
+  }
+}
+
+const paginaDeleteGerentesImage = async (req, res) => {
+  try {
+    await ImgGerentes.destroy({
+      where: {
+        id_gerente1: req.query.id,
+        nombre: req.query.nombre
+      }
+    })
+    fs.unlinkSync('./public/uploads/gerentes/'+req.query.nombre)
+    res.redirect('/gerentes/update?id='+req.query.id)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export {
@@ -148,5 +195,6 @@ export {
   paginaUpdateGerentes,
   updateGerente,
   paginaDeleteGerentes,
-  paginaUploadImagenGerente
+  createUploadGerente,
+  paginaDeleteGerentesImage
 }

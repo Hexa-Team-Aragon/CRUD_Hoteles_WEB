@@ -1,6 +1,8 @@
 import { Hoteles } from '../models/Hoteles.js'
 import { Gerentes } from '../models/Gerentes.js'
 import { Habitaciones } from '../models/Habitaciones.js'
+import { ImgHoteles } from '../models/ImgHoteles.js'
+import fs from 'fs'
 
 // REnderizar formulario para crear hoteles
 const paginaCreateHoteles = async (req, res) => {
@@ -42,14 +44,17 @@ const createHotel = async (req, res) => {
   const { nombre, id_gerente, direccion, telefono, correo } = req.body
   // Almacenar en la base de datos
   try {
-    await Hoteles.create({
+    const hotelCreado = await Hoteles.create({
       id_gerente,
       nombre,
       direccion,
       telefono,
       correo
     }, { fields: ['id_gerente', 'nombre', 'direccion', 'telefono', 'correo'] })
-    res.redirect('/hoteles')
+    res.render('formCUHotel', {
+      pagina: 'Añadir Imagenes',
+      hotel: hotelCreado.dataValues.id
+    })
   } catch (error) {
     console.log(error)
   }
@@ -153,10 +158,19 @@ const paginaUpdateHoteles = async (req, res) => {
     }
     gerentesModificados.push(obj)
   })
+  const imagenes = await ImgHoteles.findAll({
+    attributes: ['nombre'],
+    where: {
+      id_hotel1: req.query.id
+    }
+  })
+
   res.render('formUHoteles', {
     pagina: 'Editar Hotel',
     gerentes: gerentesModificados,
-    hotel: hotelMOD
+    hotel: hotelMOD,
+    imagenes,
+    hotel1: req.query.id
   })
 }
 
@@ -257,12 +271,44 @@ const createHabitacionHotel = async (req, res) => {
 }
 
 //REnderisar pagina para añadir imagenes al crear un hotel
-const createUploadHotel = (req, res) => {
-  res.render('formCUHotel', {
-    pagina: 'Añadir Imagenes',
-  })
+const createUploadHotel = async (req, res) => {
+  const imagenes = req.files
+  const id_hotel1 = req.query.htl
+  try {
+    let images = []
+    imagenes.forEach(img => {
+      let obj = {
+        id_hotel1,
+        nombre: img.filename,
+        img_tipo: img.mimetype,
+      }
+      images.push(obj)
+    })
+    await ImgHoteles.bulkCreate(images, { fields: ['id_hotel1', 'nombre', 'img_tipo'] })
+  } catch (error) {
+    console.log(error)
+  }
+  if (req.query.edit) {
+    res.redirect('/hoteles/update?id='+req.query.htl)
+  } else {
+    res.redirect('/hoteles')
+  }
 }
 
+const paginaDeleteHotelesImage = async (req, res) => {
+  try {
+    await ImgHoteles.destroy({
+      where: {
+        id_hotel1: req.query.id,
+        nombre: req.query.nombre
+      }
+    })
+    fs.unlinkSync('./public/uploads/hotels/'+req.query.nombre)
+    res.redirect('/hoteles/update?id='+req.query.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export {
   paginaCreateHoteles,
@@ -273,5 +319,6 @@ export {
   paginaDeleteHoteles,
   paginaCreateHabitacionHotel,
   createHabitacionHotel,
-  createUploadHotel
+  createUploadHotel,
+  paginaDeleteHotelesImage
 }
