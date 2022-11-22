@@ -84,12 +84,7 @@ rutas.post('/habitaciones/create', createHabitacionValidator, createHabitacion)
 
 rutas.post('/habitaciones/update', updateHabitacionValidator, updateHabitacion)
 
-
-rutas.get('/habitaciones/create/upload', paginaCreateHabitacionImagen)
-
-rutas.post('/habitaciones/create/upload', createUploadHabitacionDB)
-
-rutas.post('/hoteles/create/upload', uploadHabitacionImage, habitacionesIMageValidator, createUploadHabitacionDB)
+rutas.post('/habitacion/create/upload', uploadHabitacionImage, habitacionesIMageValidator, createUploadHabitacionDB)
 
 rutas.get('/hoteles/delete/img', paginaDeleteHabitacionesImage)
 

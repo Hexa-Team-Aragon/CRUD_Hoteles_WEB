@@ -80,11 +80,10 @@ const createHabitacion = async (req, res) => {
       tipo,
       refrigerador
     }, { fields: ['id_hotel', 'tipo', 'refrigerador'] })
-    if(req.body.img){
-      res.json({'referencia': creacion.dataValues.id})
-    }else{
-      res.redirect('/habitaciones')
-    }  
+    res.render('formCHabitacionImagen', {
+      pagina: 'Añadir Imagenes',
+      habitacion: creacion.dataValues.id
+    })
   } catch (error) {
     console.log(error)
   }
@@ -300,7 +299,7 @@ const paginaDeleteHotelHabitacion = async (req, res) => {
 //Sube las imagenes a la db
 const createUploadHabitacionDB = async (req, res) => {
   const imagenes = req.files
-  const id_habitacion1 = req.query.id
+  const id_habitacion1 = req.query.hbt
   try {
     let images = []
     imagenes.forEach(img => {
@@ -308,16 +307,16 @@ const createUploadHabitacionDB = async (req, res) => {
         id_habitacion1,
         nombre: img.filename,
         img_tipo: img.mimetype,
-        imagen: fs.readFileSync('./public/uploads/'+img.filename)
       }
       images.push(obj)
     })
-    await ImgHabitaciones.bulkCreate(images, { fields: ['id_hotel1', 'nombre', 'img_tipo'] })
+    console.log(images);
+    await ImgHabitaciones.bulkCreate(images, { fields: ['id_habitacion1', 'nombre', 'img_tipo'] })
   } catch (error) {
     console.log(error)
   }
   if (req.query.edit) {
-    res.redirect('/habitaciones/update?id='+req.query.htl)
+    res.redirect('/habitaciones/update?id='+req.query.hbt)
   } else {
     res.redirect('/habitaciones')
   }
