@@ -10,30 +10,28 @@ block compartircontenido
               .alert.alert-dismissible.alert-primary.col-5
                 button.btn-close(type='button' data-bs-dismiss='alert')
                 strong=error.mensaje
-        form.col-5.fondoNaranjaPastel.p-3.rounded(action="/habitaciones/create" method="POST")
+        form.col-5.fondoNaranjaPastel.p-3.rounded(action="/habitaciones/create" method="POST" id="formulario")
           .form-group.mb-3
-            label(for="nombre") Nombre 
-            input(type="text" placeholder="Ingresa Nombre" name="nombre" class="form-control", value=nombre)
+            label(for="tipo") Tipo de habitacion
+            select(id="tipo" placeholder="Ingresa el nombre del hotel" name="tipo" class="form-control")
+              option(value=0 selected) Selecciona una habitacion 
+              option(value="SIMPLE") SIMPLE 
+              option(value="MATRIMONIAL") MATRIMONIAL 
+              option(value="PREMIUM") PREMIUM 
           .form-group.mb-3
             label(for="id_hotel") Nombre del Hotel
-            select(placeholder="Ingresa el nombre del hotel" name="id_hotel" class="form-control")
+            select(id="id_hotel" placeholder="Ingresa el nombre del hotel" name="id_hotel" class="form-control")
               option(value=0 selected) Selecciona un Hotel 
               each hotel in hoteles
                 option(value=hotel.id selected=hotel.selected)=hotel.nombre 
             p **No aparece el hotel que buscas?
               a.ms-2(href="/hoteles/create")='Registra uno'
-          .form-group.mb-3
-            label(for="piso") Ingrese el piso 
-            input(type="text" placeholder="Piso" name="piso" class="form-control", value=piso)
           .form-check.mb-3 
-            input#flexCheckChecked.form-check-input(type='checkbox' name='refrigerador', checked=refrigerador)
+            input.form-check-input(id="refrigerador" type='checkbox' name='refrigerador', checked=refrigerador)
             label.form-check-label(for='flexCheckChecked') Refrigerador 
           .d-flex.justify-content-center
-            input.btn.btn-success.btn-block(type="submit" value='Guardar')
-            img#imagenPrevisualizacion
-            a.btn.btn-success.btn-block.ms-5#imagenPrevisualizacion(href='/hoteles/habitaciones/create/imagen') Añadir imagen
-            img#imagenPrevisualizacion
+            input.btn.btn-success.btn-block(type="submit", value='Añadir imagen')
+            
 
-            script(src='script.js')
 
     

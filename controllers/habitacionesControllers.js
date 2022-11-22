@@ -1,5 +1,7 @@
 import { Habitaciones } from '../models/Habitaciones.js'
 import { Hoteles } from '../models/Hoteles.js'
+import { ImgHabitaciones } from '../models/imgHabitaciones.js'
+import fs from 'fs'
 
 // Renderizar Formulario para crear una Habitacion
 const paginaCreateHabitacion = async (req, res) => {
@@ -20,30 +22,69 @@ const paginaCreateHabitacion = async (req, res) => {
     hoteles: hotelesModificados
   })
 }
-
+/*
 
 const paginaCreateHabitacionImagen = async (req, res) => {
-  
-  res.render('formCHabitacionImagen', {
-    pagina: 'Añadir Imagen',
-    
-  })
-}
-// Enviar la nueva habitacion a la Base de Datos
-const createHabitacion = async (req, res) => {
-  const { id_hotel, piso, nombre } = req.body
+  const { id_hotel, tipo } = req.body
   let refrigerador = false
   if (req.body?.refrigerador) {
     refrigerador = true
   }
   try {
-    await Habitaciones.create({
+    const creacion = await Habitaciones.create({
       id_hotel,
-      piso,
-      nombre,
+      tipo,
       refrigerador
-    }, { fields: ['id_hotel', 'piso', 'nombre', 'refrigerador'] })
-    res.redirect('/habitaciones')
+    }, { fields: ['id_hotel', 'tipo' , 'refrigerador'] })
+    if(req.body.img){
+      res.json({'referencia': creacion.dataValues.id})
+    }else{
+      res.redirect('/habitaciones')
+    }   
+  } catch (error) {
+    console.log(error)
+  }
+  res.render('formCHabitacionImagen', {
+    pagina: 'Añadir Imagen',
+    
+  })
+}
+
+*/
+const paginaCreateHabitacionImagen = async (req, res) => {
+  
+  const { id_hotel, tipo } = req.body
+  // Almacenar en la base de datos
+  try {
+    const creacion = await Hoteles.create({
+      id_hotel,
+      tipo
+    }, { fields: ['id_hotel', 'tipo'] })
+    res.redirect('/habitaciones/create/upload?id='+creacion.dataValues.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// Enviar la nueva habitacion a la Base de Datos
+const createHabitacion = async (req, res) => {
+  const { id_hotel, tipo } = req.body
+  let refrigerador = false
+  if (req.body?.refrigerador) {
+    refrigerador = true
+  }
+  console.log(req.body)
+  try {
+    const creacion = await Habitaciones.create({
+      id_hotel,
+      tipo,
+      refrigerador
+    }, { fields: ['id_hotel', 'tipo', 'refrigerador'] })
+    if(req.body.img){
+      res.json({'referencia': creacion.dataValues.id})
+    }else{
+      res.redirect('/habitaciones')
+    }  
   } catch (error) {
     console.log(error)
   }
@@ -65,9 +106,10 @@ const paginaReadHabitaciones = async (req, res) => {
   })
   let habitacionesTotales = []
   const habitaciones = await Habitaciones.findAll({
-    attributes: ['id_hbt', 'id_hotel', 'piso', 'nombre', 'refrigerador']
+    attributes: ['id_hbt', 'id_hotel', 'tipo', 'refrigerador']
   })
   const habitacionesTotales1 = JSON.parse(JSON.stringify(habitaciones))
+  console.log(habitacionesTotales1)
   habitacionesTotales1.map(ht1 => {
     let hotelObj = {}
     hotelesTotales.map(ht => {
@@ -79,8 +121,7 @@ const paginaReadHabitaciones = async (req, res) => {
     let obj = {
       id: ht1.id_hbt,
       nombreHotel: nombreHotel,
-      nombre: ht1.nombre,
-      piso: ht1.piso,
+      tipo: ht1.tipo,
       refri: ht1.refrigerador
     }
     habitacionesTotales.push(obj)
@@ -175,7 +216,7 @@ const paginaDeleteHabitaciones = async (req, res) => {
 
 const paginaUpdateHotelHabitacion = async (req, res) => {
   const habitaciones = await Habitaciones.findAll({
-    attributes: ['id_hbt', 'id_hotel', 'nombre', 'piso', 'refrigerador'],
+    attributes: ['id_hbt', 'id_hotel', 'tipo', 'refrigerador'],
     where: {
       id_hbt: req.query.id
     }
@@ -184,8 +225,7 @@ const paginaUpdateHotelHabitacion = async (req, res) => {
   let habitacionMOD = {
     id: habitacion1[0].id_hbt,
     hotelId: habitacion1[0].id_hotel,
-    nombre: habitacion1[0].nombre,
-    piso: habitacion1[0].piso,
+    tipo: habitacion1[0].tipo,
     refri: habitacion1[0].refrigerador
   }
   res.render('formUHotelHabitacion', {
@@ -257,6 +297,49 @@ const paginaDeleteHotelHabitacion = async (req, res) => {
   }
 }
 
+//Sube las imagenes a la db
+const createUploadHabitacionDB = async (req, res) => {
+  const imagenes = req.files
+  const id_habitacion1 = req.query.id
+  try {
+    let images = []
+    imagenes.forEach(img => {
+      let obj = {
+        id_habitacion1,
+        nombre: img.filename,
+        img_tipo: img.mimetype,
+        imagen: fs.readFileSync('./public/uploads/'+img.filename)
+      }
+      images.push(obj)
+    })
+    await ImgHabitaciones.bulkCreate(images, { fields: ['id_hotel1', 'nombre', 'img_tipo'] })
+  } catch (error) {
+    console.log(error)
+  }
+  if (req.query.edit) {
+    res.redirect('/habitaciones/update?id='+req.query.htl)
+  } else {
+    res.redirect('/habitaciones')
+  }
+}
+
+const paginaDeleteHabitacionesImage = async (req, res) => {
+  try {
+    await ImgHabitaciones.destroy({
+      where: {
+        id_habitacion1: req.query.id,
+        nombre: req.query.nombre
+      }
+    })
+    fs.unlinkSync('./public/uploads/habitacion/'+req.query.nombre)
+    res.redirect('/hoteles/update?id='+req.query.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+
 export {
   paginaCreateHabitacion,
   createHabitacion,
@@ -267,5 +350,8 @@ export {
   paginaUpdateHotelHabitacion,
   updateHotelHabitacion,
   paginaDeleteHotelHabitacion,
-  paginaCreateHabitacionImagen
+  paginaCreateHabitacionImagen,
+  createUploadHabitacionDB,
+  paginaDeleteHabitacionesImage
+  
 }

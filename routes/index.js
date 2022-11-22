@@ -2,10 +2,13 @@ import express from 'express'
 import { paginaInicio, paginaListaHoteles, paginaVistaHotel } from '../controllers/indexControllers.js'
 import { paginaCreateGerentes, createGerente, paginaReadGerentes,paginaUpdateGerentes, updateGerente, paginaDeleteGerentes, createUploadGerente, paginaDeleteGerentesImage } from '../controllers/gerentesControllers.js'
 import { paginaCreateHoteles, createHotel, paginaReadHoteles,paginaUpdateHoteles, updateHotel, paginaDeleteHoteles, paginaCreateHabitacionHotel, createHabitacionHotel, createUploadHotel, paginaDeleteHotelesImage } from '../controllers/hotelesControllers.js'
-import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones, paginaUpdateHotelHabitacion, updateHotelHabitacion, paginaDeleteHotelHabitacion, paginaCreateHabitacionImagen } from '../controllers/habitacionesControllers.js'
+import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones, paginaUpdateHotelHabitacion, updateHotelHabitacion, paginaDeleteHotelHabitacion, paginaCreateHabitacionImagen, createUploadHabitacionDB, paginaDeleteHabitacionesImage } from '../controllers/habitacionesControllers.js'
+import {habitacionesIMageValidator} from '../controllers/habitacionesImageController.js'
 import { createGerenteValidator, updateGerenteValidator } from '../middlewares/gerentesValidator.js'
 import { createHotelValidator } from '../middlewares/hotelValidator.js'
-import { createHabitacionValidator, updateHabitacionValidator } from '../middlewares/habitacionesValidator.js'
+import { createHabitacionValidator} from '../middlewares/habitacionesValidator.js'
+import {updateHabitacionValidator } from '../middlewares/habitacionesUpdateValidator.js'
+import {uploadHabitacionImage } from '../middlewares/habitacionesImageConfig.js'
 import {updateHotelValidator } from '../middlewares/hotelUpdateValidator.js'
 import { uploadHotelImage } from '../middlewares/hotelImageConfig.js'
 import { hotelIMageValidator } from '../controllers/hotelesImageValidator.js'
@@ -81,6 +84,27 @@ rutas.post('/habitaciones/create', createHabitacionValidator, createHabitacion)
 
 rutas.post('/habitaciones/update', updateHabitacionValidator, updateHabitacion)
 
-rutas.get('/hoteles/habitaciones/create/imagen', paginaCreateHabitacionImagen)
+
+rutas.get('/habitaciones/create/upload', paginaCreateHabitacionImagen)
+
+rutas.post('/habitaciones/create/upload', createUploadHabitacionDB)
+
+rutas.post('/hoteles/create/upload', uploadHabitacionImage, habitacionesIMageValidator, createUploadHabitacionDB)
+
+rutas.get('/hoteles/delete/img', paginaDeleteHabitacionesImage)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default rutas
