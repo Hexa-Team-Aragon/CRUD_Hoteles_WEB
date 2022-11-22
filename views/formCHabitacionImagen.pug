@@ -10,7 +10,7 @@ block compartircontenido
                             .alert.alert-dismissible.alert-primary.col-5
                                 button.btn-close(type='button' data-bs-dismiss='alert')
                                 strong=error.mensaje
-                form.col-5.fondoAzulPastel.p-3.rounded.centrar(action="/habitacion/create/upload?htl="+habitacion method='POST' enctype="multipart/form-data")
+                form.col-5.fondoAzulPastel.p-3.rounded.centrar(action="/habitacion/create/upload?hbt="+habitacion method='POST' enctype="multipart/form-data")
                     .form-group.mb-3
                         #src-file1.file-select
                             input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
