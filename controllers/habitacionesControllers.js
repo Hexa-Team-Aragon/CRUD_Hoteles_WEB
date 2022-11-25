@@ -3,6 +3,7 @@ import { Hoteles } from '../models/Hoteles.js'
 import { ImgHabitaciones } from '../models/imgHabitaciones.js'
 import fs from 'fs'
 
+
 // Renderizar Formulario para crear una Habitacion
 const paginaCreateHabitacion = async (req, res) => {
   let hotelesModificados = []
@@ -134,20 +135,32 @@ const paginaReadHabitaciones = async (req, res) => {
 // Renderizar formulario para modificar habitacion
 const paginaUpdateHabitacion = async (req, res) => {
   const habitaciones = await Habitaciones.findAll({
-    attributes: ['id_hbt', 'id_hotel', 'nombre', 'piso', 'refrigerador'],
+    attributes: ['id_hbt', 'id_hotel', 'tipo', 'refrigerador'],
     where: {
       id_hbt: req.query.id
     }
   })
   const habitacion1 = JSON.parse(JSON.stringify(habitaciones))
+  console.log('----------------------------');
+  console.log(habitacion1);
   let habitacionMOD = {
     id: habitacion1[0].id_hbt,
     hotelId: habitacion1[0].id_hotel,
-    nombre: habitacion1[0].nombre,
-    piso: habitacion1[0].piso,
+    piso: habitacion1[0].tipo,
     refri: habitacion1[0].refrigerador
   }
-
+  let sml = false
+  let pre = false
+  let mat = false
+  if (habitacionMOD.piso === 'SIMPLE'){
+    sml = 'selected'
+  }
+  if (habitacionMOD.piso === 'PREMIUM'){
+    pre = 'selected'
+  }
+  if (habitacionMOD.piso === 'MATRIMONIAL'){
+    mat = 'selected'
+  }
   var idPrueba = habitacionMOD.hotelId
 
   let hotelesMOd = []
@@ -167,10 +180,21 @@ const paginaUpdateHabitacion = async (req, res) => {
     }
     hotelesMOd.push(obj)
   })
+  const imagenes = await ImgHabitaciones.findAll({
+    attributes: ['nombre'],
+    where: {
+      id_habitacion1: req.query.id
+    }
+  })
   res.render('formUHabitaciones', {
     pagina: 'Editar Habitacion',
+    sml,
+    pre,
+    mat,
     hoteles: hotelesMOd,
-    habitacion: habitacionMOD
+    habitacion: habitacionMOD,
+    imagenes,
+    habitacion1: req.query.id
   })
 }
 
@@ -201,7 +225,21 @@ const updateHabitacion = async (req, res) => {
 
 // Eliminar Habitaciones
 const paginaDeleteHabitaciones = async (req, res) => {
+  const imagenes = await ImgHabitaciones.findAll({
+    attributes: ['nombre'],
+    where: {
+      id_habitacion1 : req.query.id
+    }
+  })
+  imagenes.forEach(img => {
+    fs.unlinkSync('./public/uploads/habitaciones/'+img.dataValues.nombre)
+  })
   try {
+    await ImgHabitaciones.destroy({
+      where: {
+        id_habitacion1: req.query.id,
+      }
+    })
     await Habitaciones.destroy({
       where: {
         id_hbt: req.query.id
@@ -330,8 +368,8 @@ const paginaDeleteHabitacionesImage = async (req, res) => {
         nombre: req.query.nombre
       }
     })
-    fs.unlinkSync('./public/uploads/habitacion/'+req.query.nombre)
-    res.redirect('/hoteles/update?id='+req.query.id)
+    fs.unlinkSync('./public/uploads/habitaciones/'+req.query.nombre)
+    res.redirect('/habitaciones/update?id='+req.query.id)
   } catch (error) {
     console.log(error)
   }
