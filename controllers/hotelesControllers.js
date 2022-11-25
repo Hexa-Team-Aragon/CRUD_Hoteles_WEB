@@ -2,6 +2,8 @@ import { Hoteles } from '../models/Hoteles.js'
 import { Gerentes } from '../models/Gerentes.js'
 import { Habitaciones } from '../models/Habitaciones.js'
 import { ImgHoteles } from '../models/ImgHoteles.js'
+import { ImgGerentes } from '../models/ImgGerentes.js'
+import { ImgHabitaciones } from '../models/imgHabitaciones.js'
 import fs from 'fs'
 
 // REnderizar formulario para crear hoteles
@@ -195,17 +197,72 @@ const updateHotel = async (req, res) => {
   }
 }
 
-// Eliminar gerente
+// Eliminar Hoteles
 const paginaDeleteHoteles = async (req, res) => {
+  const habit = await Habitaciones.findAll({
+    attributes: ['id_hbt'],
+    where: {
+      id_hotel: req.query.id
+    }
+  })
+  let ids = []
+  habit.forEach(hbt =>{
+    ids.push(hbt.dataValues.id_hbt)
+  })
+  const imagenesHbt = await ImgHabitaciones.findAll({
+    attributes: ['nombre'],
+    where: {
+      id_habitacion1: ids
+    }
+  })
+  imagenesHbt.forEach(img => {
+    fs.unlinkSync('./public/uploads/habitaciones/'+img.dataValues.nombre)
+  })
+
+  const imagenesHtl = await ImgHoteles.findAll({
+    attributes: ['nombre'],
+    where: {
+      id_hotel1: req.query.id
+    }
+  })
+  imagenesHtl.forEach(img => {
+    fs.unlinkSync('./public/uploads/hotels/'+img.dataValues.nombre)
+  })
+
+  const imagenesGrt = await ImgGerentes.findAll({
+    attributes: ['nombre'],
+    where: {
+      id_gerente1 : req.query.idGrt
+    }
+  })
+  imagenesGrt.forEach(img => {
+    fs.unlinkSync('./public/uploads/gerentes/'+img.dataValues.nombre)
+  })
+
   try {
+    await ImgHabitaciones.destroy({
+      where: {
+        id_habitacion1: ids,
+      }
+    })
     await Habitaciones.destroy({
       where: {
         id_hotel: req.query.id
       }
     })
+    await ImgHoteles.destroy({
+      where: {
+        id_hotel1: req.query.id,
+      }
+    })
     await Hoteles.destroy({
       where: {
         id_htl: req.query.id
+      }
+    })
+    await ImgGerentes.destroy({
+      where: {
+        id_gerente1: req.query.idGrt,
       }
     })
     await Gerentes.destroy({

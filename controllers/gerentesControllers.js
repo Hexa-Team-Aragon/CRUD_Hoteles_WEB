@@ -137,7 +137,21 @@ const updateGerente = async (req, res) => {
 
 // Eliminar gerente
 const paginaDeleteGerentes = async (req, res) => {
+  const imagenes = await ImgGerentes.findAll({
+    attributes: ['nombre'],
+    where: {
+      id_gerente1 : req.query.id
+    }
+  })
+  imagenes.forEach(img => {
+    fs.unlinkSync('./public/uploads/gerentes/'+img.dataValues.nombre)
+  })
   try {
+    await ImgGerentes.destroy({
+      where: {
+        id_gerente1: req.query.id,
+      }
+    })
     await Gerentes.destroy({
       where: {
         id_grt: req.query.id

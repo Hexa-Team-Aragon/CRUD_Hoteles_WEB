@@ -12,8 +12,11 @@ block compartircontenido
                 strong=error.mensaje
         form.col-5.fondoNaranjaPastel.p-3.rounded(action="/habitaciones/update?id="+habitacion.id method="POST")
           .form-group.mb-3
-              label(for="nombre") Nombre 
-              input(type="text",placeholder="Ingresa Nombre", name="nombre",class="form-control", value=habitacion.nombre)
+            label(for="tipo") Tipo de habitacion
+            select(id="tipo" placeholder="Ingresa el nombre del hotel" name="tipo" class="form-control")
+              option(value="SIMPLE" selected=sml) SIMPLE 
+              option(value="MATRIMONIAL" selected=mat) MATRIMONIAL 
+              option(value="PREMIUM" selected=pre) PREMIUM 
           .form-group.mb-3
               label(for="id_hotel") Nombre del Hotel
               select(placeholder="Ingresa el nombre del hotel", name="id_hotel",class="form-control")
@@ -21,9 +24,6 @@ block compartircontenido
                   option(value=hotel.id selected=hotel.opcion)=hotel.nombre 
               p **No aparece el hotel que buscas?
                 a.ms-2(href="/hoteles/create")='Registra uno'
-          .form-group.mb-3
-              label(for="piso") Ingrese el piso 
-              input(type="text",placeholder="Piso", name="piso",class="form-control", value=habitacion.piso)
           .form-check.mb-3 
             input#flexCheckChecked.form-check-input(type='checkbox', name='refrigerador', checked=habitacion.refri)
             label.form-check-label(for='flexCheckChecked') Refrigerador 
@@ -41,7 +41,7 @@ block compartircontenido
                     .container.d-flex.justify-content-end.pb-2
                       a.btn.btn-primary.mx-2.p-1(href=`/habitaciones/delete/img?id=${habitacion1}&nombre=${img.nombre}`) Eliminar
           .col-12.d-flex.justify-content-center
-            form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/hoteles/create/upload?htl="+habitacion1+"&edit=true" method="POST" enctype="multipart/form-data")
+            form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/habitacion/create/upload?hbt="+habitacion1+"&edit=true" method="POST" enctype="multipart/form-data")
               .form-group.mb-3
                 #src-file1.file-select
                   input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
