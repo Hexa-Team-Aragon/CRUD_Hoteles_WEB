@@ -11,7 +11,7 @@ import { uploadHotelImage } from '../middlewares/hotelImageConfig.js'
 import { hotelIMageValidator } from '../controllers/hotelesImageValidator.js'
 import { uploadGerenteImage } from '../middlewares/gerenteImageConfig.js'
 import { gerenteImageValidator } from '../controllers/gerentesImageValidator.js'
-
+import { cerrarSesion, credenciales } from '../controllers/indexControllers.js'
 const rutas = express.Router()
 
 rutas.get('/lista/hoteles/hotel', paginaVistaHotel)
@@ -27,6 +27,10 @@ rutas.get('/lista/hoteles/hotel/habitacion/delete', paginaDeleteHotelHabitacion)
 // Gerentes
 
 rutas.get('/', paginaInicio)
+
+rutas.post("/credenciales", credenciales);
+
+rutas.get("/cerrarsesion", cerrarSesion);
 
 rutas.get('/gerentes', paginaReadGerentes)
 
