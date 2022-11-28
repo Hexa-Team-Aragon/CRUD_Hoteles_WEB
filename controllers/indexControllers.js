@@ -23,7 +23,8 @@ const paginaListaHoteles = async (req, res) => {
   })
   res.render('listaHoteles', {
     pagina: 'Lista Hoteles',
-    hoteles: hotelesTotales
+    hoteles: hotelesTotales,
+    usuario: req.session.nombre
   })
 }
 
@@ -82,12 +83,29 @@ const paginaVistaHotel = async (req, res) => {
   res.render('vistaHotel', {
     pagina: 'Hotel ' + hotelMOD.nombre,
     hotel: hotelMOD,
-    habitaciones: habitacionesTotales
+    habitaciones: habitacionesTotales,
+    usuario: req.session.nombre
   })
+}
+
+const credenciales = (req, res) => {
+  const {
+    usuario,
+    clave
+  } = req.body;
+}
+
+const cerrarSesion = (req,res) => {
+  req.session.destroy()
+  res.render("login",{
+    pagina:"Credenciales",
+  });
 }
 
 export {
   paginaInicio,
   paginaListaHoteles,
-  paginaVistaHotel
+  paginaVistaHotel,
+  credenciales,
+  cerrarSesion
 }
