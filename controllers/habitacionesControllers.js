@@ -20,40 +20,12 @@ const paginaCreateHabitacion = async (req, res) => {
   })
   res.render('formCHabitacion', {
     pagina: 'Añadir Habitacion',
-    hoteles: hotelesModificados
-  })
-}
-/*
-
-const paginaCreateHabitacionImagen = async (req, res) => {
-  const { id_hotel, tipo } = req.body
-  let refrigerador = false
-  if (req.body?.refrigerador) {
-    refrigerador = true
-  }
-  try {
-    const creacion = await Habitaciones.create({
-      id_hotel,
-      tipo,
-      refrigerador
-    }, { fields: ['id_hotel', 'tipo' , 'refrigerador'] })
-    if(req.body.img){
-      res.json({'referencia': creacion.dataValues.id})
-    }else{
-      res.redirect('/habitaciones')
-    }   
-  } catch (error) {
-    console.log(error)
-  }
-  res.render('formCHabitacionImagen', {
-    pagina: 'Añadir Imagen',
-    
+    hoteles: hotelesModificados,
+    user: req.session.nombre
   })
 }
 
-*/
 const paginaCreateHabitacionImagen = async (req, res) => {
-  
   const { id_hotel, tipo } = req.body
   // Almacenar en la base de datos
   try {
@@ -83,7 +55,8 @@ const createHabitacion = async (req, res) => {
     }, { fields: ['id_hotel', 'tipo', 'refrigerador'] })
     res.render('formCHabitacionImagen', {
       pagina: 'Añadir Imagenes',
-      habitacion: creacion.dataValues.id
+      habitacion: creacion.dataValues.id,
+      user: req.session.nombre
     })
   } catch (error) {
     console.log(error)
@@ -129,6 +102,7 @@ const paginaReadHabitaciones = async (req, res) => {
   res.render('habitaciones', {
     pagina: 'Habitaciones',
     habitaciones: habitacionesTotales,
+    user: req.session.nombre,
   })
 }
 
@@ -194,7 +168,8 @@ const paginaUpdateHabitacion = async (req, res) => {
     hoteles: hotelesMOd,
     habitacion: habitacionMOD,
     imagenes,
-    habitacion1: req.query.id
+    habitacion1: req.query.id,
+    user: req.session.nombre
   })
 }
 
@@ -267,7 +242,8 @@ const paginaUpdateHotelHabitacion = async (req, res) => {
   }
   res.render('formUHotelHabitacion', {
     pagina: 'Editar Habitacion',
-    habitacion: habitacionMOD
+    habitacion: habitacionMOD,
+    user: req.session.nombre,
   })
 }
 

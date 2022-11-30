@@ -3,8 +3,14 @@ import { Gerentes } from '../models/Gerentes.js'
 import { Habitaciones } from '../models/Habitaciones.js'
 
 const paginaInicio = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   res.render('inicio', {
     pagina: 'Inicio',
+    user: req.session.nombre,
+    admin
   })
 }
 
@@ -44,7 +50,6 @@ const paginaVistaHotel = async (req, res) => {
     telefono: hotel1[0].telefono,
     correo: hotel1[0].correo
   }
-
   const gerente = await Gerentes.findAll({
     attributes: ['nombre', 'ap_paterno', 'ap_materno', 'telefono'],
     where: {
@@ -61,7 +66,6 @@ const paginaVistaHotel = async (req, res) => {
     telefono: hotelMODN.telefono,
     correo: hotelMODN.correo
   }
-
   let habitacionesTotales = []
   const habitaciones = await Habitaciones.findAll({
     attributes: ['id_hbt', 'piso', 'nombre', 'refrigerador'],
@@ -79,7 +83,6 @@ const paginaVistaHotel = async (req, res) => {
     }
     habitacionesTotales.push(obj)
   })
-
   res.render('vistaHotel', {
     pagina: 'Hotel ' + hotelMOD.nombre,
     hotel: hotelMOD,
@@ -92,14 +95,14 @@ const credenciales = (req, res) => {
   const {
     usuario,
     clave
-  } = req.body;
+  } = req.body
 }
 
 const cerrarSesion = (req,res) => {
   req.session.destroy()
   res.render("login",{
     pagina:"Credenciales",
-  });
+  })
 }
 
 export {

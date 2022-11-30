@@ -37,7 +37,8 @@ const paginaCreateHoteles = async (req, res) => {
   })
   res.render('formCHotel', {
     pagina: 'Añadir Hotel',
-    gerentes: gerentesModificados
+    gerentes: gerentesModificados,
+    user: req.session.nombre,
   })
 }
 
@@ -55,7 +56,8 @@ const createHotel = async (req, res) => {
     }, { fields: ['id_gerente', 'nombre', 'direccion', 'telefono', 'correo'] })
     res.render('formCUHotel', {
       pagina: 'Añadir Imagenes',
-      hotel: hotelCreado.dataValues.id
+      hotel: hotelCreado.dataValues.id,
+      user: req.session.nombre,
     })
   } catch (error) {
     console.log(error)
@@ -104,7 +106,8 @@ const paginaReadHoteles = async (req, res) => {
   })
   res.render('hoteles', {
     pagina: 'Hoteles',
-    hoteles: hotelesTotales
+    hoteles: hotelesTotales,
+    user: req.session.nombre,
   })
 }
 
@@ -172,7 +175,8 @@ const paginaUpdateHoteles = async (req, res) => {
     gerentes: gerentesModificados,
     hotel: hotelMOD,
     imagenes,
-    hotel1: req.query.id
+    hotel1: req.query.id,
+    user: req.session.nombre,
   })
 }
 
@@ -280,7 +284,8 @@ const paginaDeleteHoteles = async (req, res) => {
 const paginaCreateHabitacionHotel = (req, res) => {
   res.render('formCHabitacionH', {
     pagina: 'Crear Habitacion',
-    id: req.query.id
+    id: req.query.id,
+    user: req.session.nombre,
   })
 }
 

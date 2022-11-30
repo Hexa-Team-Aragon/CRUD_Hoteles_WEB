@@ -68,8 +68,18 @@ CONSTRAINT pk_imagenesHabitacion PRIMARY KEY(nombre, id_habitacion1),
 CONSTRAINT fk_imagenesHabitacion FOREIGN KEY(id_habitacion1) REFERENCES habitaciones(id_hbt) 
 )DEFAULT CHARACTER SET UTF8MB4;
 
+CREATE TABLE users(
+usuario						VARCHAR(150) NOT NULL,
+contrasenia					VARCHAR(150) NOT NULL,
+rol							VARCHAR(5) NOT NULL,
+CONSTRAINT pk_usuario PRIMARY KEY(usuario)
+)DEFAULT CHARACTER SET UTF8MB4;
+
 DESCRIBE gerentes;
-SELECT * FROM habitaciones;
+SELECT * FROM users;
+
+INSERT INTO users(usuario, contrasenia, rol) VALUES('Daniel', 'asd123', 'USER');
+INSERT INTO users(usuario, contrasenia, rol) VALUES('Julio', '123qwe', 'ADMIN');
 
 INSERT INTO gerentes(nombre, ap_paterno, ap_materno, telefono) VALUES('Axel', 'Neri', 'Lucero', 5545855243);
 INSERT INTO hoteles(id_gerente, nombre, direccion, telefono, correo) VALUES(1, 'x', 'fes aragon', 5554123243, 'raradafa');

@@ -3,6 +3,11 @@ block compartircontenido
   .container-fluid.p-4.superposicion
     .container-fluid.d-flex.row.justify-content-center
       h2.fs-4.p-0.text-center.mb-3 Credenciales
+      if credenciales 
+        .row.justify-content-center
+              .alert.alert-dismissible.alert-primary.col-5
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong Credenciales invalidas
       .container-fluid.d-flex.row.justify-content-center
         form.col-5.fondoNaranjaPastel.p-3.rounded(action='/credenciales' method="POST")
           .form-group.mb-3

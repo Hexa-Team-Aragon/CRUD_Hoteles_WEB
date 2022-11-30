@@ -6,7 +6,8 @@ import fs from 'fs'
 // Renderizar Formulario para crear un Gerente
 const paginaCreateGerentes = (req, res) => {
   res.render('formCGerente', {
-    pagina: 'Añadir Gerente'
+    pagina: 'Añadir Gerente',
+    user: req.session.nombre
   })
 }
 
@@ -22,7 +23,8 @@ const createGerente = async (req, res) => {
     }, { fields: ['nombre', 'ap_paterno', 'ap_materno', 'telefono'] })
     res.render('formUIGerente', {
       pagina: 'Añadir Imagen',
-      gerente: gerenteCreado.dataValues.id 
+      gerente: gerenteCreado.dataValues.id,
+      user: req.session.nombre
     })
   } catch (error) {
     console.log(error)
@@ -75,7 +77,8 @@ const paginaReadGerentes = async (req, res) => {
   })
   res.render('gerentes', {
     pagina: 'Gerentes',
-    gerentes: gerentesModificados
+    gerentes: gerentesModificados,
+    user: req.session.nombre
   })
 }
 
@@ -108,7 +111,8 @@ const paginaUpdateGerentes = async (req, res) => {
       pagina: 'Editar Gerente',
       gerente: gerenteMOd,
       imagenes,
-      gerente1: req.query.id
+      gerente1: req.query.id,
+      user: req.session.nombre
     })
   } catch (error) {
     console.log(error);
