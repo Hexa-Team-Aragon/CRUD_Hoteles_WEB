@@ -5,14 +5,23 @@ import fs from 'fs'
 
 // Renderizar Formulario para crear un Gerente
 const paginaCreateGerentes = (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   res.render('formCGerente', {
     pagina: 'Añadir Gerente',
-    user: req.session.nombre
+    user: req.session.nombre,
+    admin
   })
 }
 
 // Enviar el nuevo gerente a la Base de Datos
 const createGerente = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   const { nombre, ap_paterno, ap_materno, telefono } = req.body
   try {
     const gerenteCreado = await Gerentes.create({
@@ -24,7 +33,8 @@ const createGerente = async (req, res) => {
     res.render('formUIGerente', {
       pagina: 'Añadir Imagen',
       gerente: gerenteCreado.dataValues.id,
-      user: req.session.nombre
+      user: req.session.nombre,
+      admin
     })
   } catch (error) {
     console.log(error)
@@ -33,6 +43,10 @@ const createGerente = async (req, res) => {
 
 // Renderizar pagina de los Gerentes
 const paginaReadGerentes = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   let gerentesConHotel = []
   let gerentesConHotel2 = []
   const hoteles = await Hoteles.findAll({
@@ -78,13 +92,18 @@ const paginaReadGerentes = async (req, res) => {
   res.render('gerentes', {
     pagina: 'Gerentes',
     gerentes: gerentesModificados,
-    user: req.session.nombre
+    user: req.session.nombre,
+    admin
   })
 }
 
 // Renderizar formulario para modificar gerente
 const paginaUpdateGerentes = async (req, res) => {
   try {
+    let admin = false
+    if (req.session.rol === 'ADMIN') {
+      admin = true
+    }
     const gerente = await Gerentes.findAll({
       attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno', 'telefono'],
       where: {
@@ -112,7 +131,8 @@ const paginaUpdateGerentes = async (req, res) => {
       gerente: gerenteMOd,
       imagenes,
       gerente1: req.query.id,
-      user: req.session.nombre
+      user: req.session.nombre,
+      admin
     })
   } catch (error) {
     console.log(error);

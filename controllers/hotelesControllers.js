@@ -8,6 +8,10 @@ import fs from 'fs'
 
 // REnderizar formulario para crear hoteles
 const paginaCreateHoteles = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   let gerentesModificados = []
   let gerentesConHotel = []
   const hoteles = await Hoteles.findAll({
@@ -39,12 +43,17 @@ const paginaCreateHoteles = async (req, res) => {
     pagina: 'Añadir Hotel',
     gerentes: gerentesModificados,
     user: req.session.nombre,
+    admin
   })
 }
 
 // Enviar el nuevo hotel a la Base de Datos
 const createHotel = async (req, res) => {
   const { nombre, id_gerente, direccion, telefono, correo } = req.body
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   // Almacenar en la base de datos
   try {
     const hotelCreado = await Hoteles.create({
@@ -58,6 +67,7 @@ const createHotel = async (req, res) => {
       pagina: 'Añadir Imagenes',
       hotel: hotelCreado.dataValues.id,
       user: req.session.nombre,
+      admin
     })
   } catch (error) {
     console.log(error)
@@ -66,6 +76,10 @@ const createHotel = async (req, res) => {
 
 // Renderizar pagina de los Hoteles
 const paginaReadHoteles = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   let gerentesTotales = []
   const gerentes = await Gerentes.findAll({
     attributes: ['id_grt', 'nombre', 'ap_paterno', 'ap_materno', 'telefono']
@@ -108,11 +122,16 @@ const paginaReadHoteles = async (req, res) => {
     pagina: 'Hoteles',
     hoteles: hotelesTotales,
     user: req.session.nombre,
+    admin
   })
 }
 
 // Renderizar formulario para modificar hotel
 const paginaUpdateHoteles = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   const hotel = await Hoteles.findAll({
     attributes: ['id_htl', 'id_gerente', 'nombre', 'direccion', 'telefono', 'correo'],
     where: {
@@ -177,6 +196,7 @@ const paginaUpdateHoteles = async (req, res) => {
     imagenes,
     hotel1: req.query.id,
     user: req.session.nombre,
+    admin
   })
 }
 
@@ -282,10 +302,15 @@ const paginaDeleteHoteles = async (req, res) => {
 }
 
 const paginaCreateHabitacionHotel = (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   res.render('formCHabitacionH', {
     pagina: 'Crear Habitacion',
     id: req.query.id,
     user: req.session.nombre,
+    admin
   })
 }
 

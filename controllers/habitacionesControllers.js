@@ -6,6 +6,10 @@ import fs from 'fs'
 
 // Renderizar Formulario para crear una Habitacion
 const paginaCreateHabitacion = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   let hotelesModificados = []
   const hoteles = await Hoteles.findAll({
     attributes: ['id_htl', 'nombre']
@@ -21,7 +25,8 @@ const paginaCreateHabitacion = async (req, res) => {
   res.render('formCHabitacion', {
     pagina: 'Añadir Habitacion',
     hoteles: hotelesModificados,
-    user: req.session.nombre
+    user: req.session.nombre,
+    admin
   })
 }
 
@@ -41,6 +46,10 @@ const paginaCreateHabitacionImagen = async (req, res) => {
 
 // Enviar la nueva habitacion a la Base de Datos
 const createHabitacion = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   const { id_hotel, tipo } = req.body
   let refrigerador = false
   if (req.body?.refrigerador) {
@@ -56,7 +65,8 @@ const createHabitacion = async (req, res) => {
     res.render('formCHabitacionImagen', {
       pagina: 'Añadir Imagenes',
       habitacion: creacion.dataValues.id,
-      user: req.session.nombre
+      user: req.session.nombre,
+      admin
     })
   } catch (error) {
     console.log(error)
@@ -65,6 +75,10 @@ const createHabitacion = async (req, res) => {
 
 // Renderizar pagina de los Habitaciones
 const paginaReadHabitaciones = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   let hotelesTotales = []
   const hoteles = await Hoteles.findAll({
     attributes: ['id_htl', 'nombre']
@@ -103,11 +117,16 @@ const paginaReadHabitaciones = async (req, res) => {
     pagina: 'Habitaciones',
     habitaciones: habitacionesTotales,
     user: req.session.nombre,
+    admin
   })
 }
 
 // Renderizar formulario para modificar habitacion
 const paginaUpdateHabitacion = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   const habitaciones = await Habitaciones.findAll({
     attributes: ['id_hbt', 'id_hotel', 'tipo', 'refrigerador'],
     where: {
@@ -169,7 +188,8 @@ const paginaUpdateHabitacion = async (req, res) => {
     habitacion: habitacionMOD,
     imagenes,
     habitacion1: req.query.id,
-    user: req.session.nombre
+    user: req.session.nombre,
+    admin
   })
 }
 
@@ -227,6 +247,10 @@ const paginaDeleteHabitaciones = async (req, res) => {
 }
 
 const paginaUpdateHotelHabitacion = async (req, res) => {
+  let admin = false
+  if (req.session.rol === 'ADMIN') {
+    admin = true
+  }
   const habitaciones = await Habitaciones.findAll({
     attributes: ['id_hbt', 'id_hotel', 'tipo', 'refrigerador'],
     where: {
@@ -244,6 +268,7 @@ const paginaUpdateHotelHabitacion = async (req, res) => {
     pagina: 'Editar Habitacion',
     habitacion: habitacionMOD,
     user: req.session.nombre,
+    admin
   })
 }
 

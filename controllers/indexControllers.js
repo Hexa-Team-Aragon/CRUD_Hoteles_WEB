@@ -29,8 +29,7 @@ const paginaListaHoteles = async (req, res) => {
   })
   res.render('listaHoteles', {
     pagina: 'Lista Hoteles',
-    hoteles: hotelesTotales,
-    usuario: req.session.nombre
+    hoteles: hotelesTotales
   })
 }
 
@@ -86,8 +85,7 @@ const paginaVistaHotel = async (req, res) => {
   res.render('vistaHotel', {
     pagina: 'Hotel ' + hotelMOD.nombre,
     hotel: hotelMOD,
-    habitaciones: habitacionesTotales,
-    usuario: req.session.nombre
+    habitaciones: habitacionesTotales
   })
 }
 
