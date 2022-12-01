@@ -190,19 +190,22 @@ const paginaDeleteGerentes = async (req, res) => {
 const createUploadGerente = async (req, res) => {
   const imagenes = req.files
   const id_gerente1 = req.query.grt
+  let images = []
+  imagenes.forEach(img => {
+    let obj = {
+      nombre: img.filename,
+      id_gerente1,
+      img_tipo: img.mimetype,
+    }
+    images.push(obj)
+  })
   try {
-    let images = []
-    imagenes.forEach(img => {
-      let obj = {
-        nombre: img.filename,
-        id_gerente1,
-        img_tipo: img.mimetype,
-      }
-      images.push(obj)
-    })
     await ImgGerentes.bulkCreate(images, { fields: ['nombre', 'id_gerente1','img_tipo'] })
   } catch (error) {
-    console.log(error)
+    console.log(error.original.errno)
+    if (error.original.errno === 1062) {
+      fs.unlinkSync('./public/uploads/gerentes/'+images[0].nombre)
+    }
   }
   if (req.query.edit) {
     res.redirect('/gerentes/update?id='+req.query.grt)

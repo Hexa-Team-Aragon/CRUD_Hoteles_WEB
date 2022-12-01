@@ -6,9 +6,10 @@ block compartircontenido
       a.btn.btn-warning.fondoAmarilloPastel.d-flex.quitarwidth.align-items-center.mb-3(href='/hoteles/create')
         img(src='/img/hotel2.png', alt="") 
         p.m-0.ps-2.textoNegro Añadir Hotel
-      .alert.alert-dismissible.alert-primary
-        button.btn-close(type='button' data-bs-dismiss='alert')
-        strong CONSIDERA: Al eliminar un hotel tambien estaras eliminando su gerente y habitaciones correspondientes.
+      if admin
+        .alert.alert-dismissible.alert-primary
+          button.btn-close(type='button' data-bs-dismiss='alert')
+          strong CONSIDERA: Al eliminar un hotel tambien estaras eliminando su gerente y habitaciones correspondientes.
     table.table.table-hover.fondoBlanco
       thead.border.fondoAmarilloPastel
         tr
@@ -33,4 +34,5 @@ block compartircontenido
               p.m-0=hotel.correo
             td.d-flex.justify-content-end
               a.btn.btn-secondary.mx-2.p-1(href=`/hoteles/update?id=${hotel.id}`) Editar
-              a.btn.btn-primary.mx-2.p-1(href=`/hoteles/delete?id=${hotel.id}&idGrt=${hotel.idGrt}`) Eliminar
+              if admin
+                a.btn.btn-primary.mx-2.p-1(href=`/hoteles/delete?id=${hotel.id}&idGrt=${hotel.idGrt}`) Eliminar
