@@ -46,17 +46,14 @@ app.use(async (req, res, next) => {
             const pass = await Users.findAll({
                 attributes: ['contrasenia', 'rol'],
                 where: {
-                    usuario
+                    usuario,
+                    contrasenia: clave
                 }
             })
             if (pass.length === 1) {
-                if (clave === pass[0].contrasenia) {
-                    req.session.nombre = usuario
-                    req.session.rol = pass[0].rol
-                    res.redirect('/')
-                } else {
-                    throw 'Credenciales invalidas'
-                }
+                req.session.nombre = usuario
+                req.session.rol = pass[0].rol
+                res.redirect('/')
             } else {
                 throw 'Credenciales invalidas'
             }
