@@ -3,7 +3,7 @@ import multer from 'multer'
 const storage = multer.diskStorage({
   destination: './public/uploads/hotels',
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    cb(null, req.query.htl+"-"+file.originalname);
   }
 })
 

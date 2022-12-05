@@ -7,7 +7,7 @@ block compartircontenido
         .row.justify-content-center
           .alert.alert-dismissible.alert-primary.col-5
             button.btn-close(type='button' data-bs-dismiss='alert')
-            strong="Selecciona al menos una imagen."
+            strong="Selecciona una imagen."
         form.col-5.fondoAzulPastel.p-3.rounded.d-flex.flex-column.align-items-center(action="/gerentes/create/upload?grt="+gerente method="POST" enctype="multipart/form-data")
           .form-group.mb-3
             #src-file1.file-select
@@ -42,8 +42,14 @@ block compartircontenido
         for (let i = 0; i < archivos.length; i++) {
           imagenes.push(archivos[i])
         }
-        for (let i = 0; i < imagenes.length; i++) {
-          renderImg(imagenes[i])
+        if (imagenes[0].size <= 1000000) {
+          for (let i = 0; i < imagenes.length; i++) {
+            renderImg(imagenes[i])
+          }
+        } else {
+          const newTexto = document.createElement('p')
+          newTexto.innerHTML = "Selecciona una imagen de un tamaño inferior a 1mb."
+          contenedor.appendChild(newTexto)
+          botonEnviar.disabled = true
         }
-        console.log(archivos)
       }) 
