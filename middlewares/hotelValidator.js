@@ -60,7 +60,8 @@ const createHotelValidator = async (req, res, next) => {
             direccion,
             telefono,
             correo,
-            gerentes: gerentesModificados
+            gerentes: gerentesModificados,
+            user: req.session.nombre
         })
     }
 }

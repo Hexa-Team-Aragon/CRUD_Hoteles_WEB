@@ -115,6 +115,10 @@ body{
   content: 'Seleccionar Imagen';
 }
 
+#src-file2::before {
+  content: 'Seleccionar Imagenes';
+}
+
 .centrar{
   text-align: center;
 }

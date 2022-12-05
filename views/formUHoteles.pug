@@ -4,13 +4,17 @@ block compartircontenido
     .container-fluid
       h2.fs-4.p-0.text-center.mb-3 Editar Nuevo Hotel
       .container-fluid.d-flex.justify-content-center.row
+        .row.justify-content-center
+          .alert.alert-dismissible.alert-info.col-8
+            button.btn-close(type='button' data-bs-dismiss='alert')
+            strong="Cuando termines presiona el boton 'Guardar datos'."
         if(errores)
           each error in errores 
             .row.justify-content-center
-              .alert.alert-dismissible.alert-primary.col-5
+              .alert.alert-dismissible.alert-primary.col-8
                 button.btn-close(type='button' data-bs-dismiss='alert')
                 strong=error.mensaje
-        form.col-5.fondoAmarilloPastel.p-3.rounded.d-flex.flex-column(action="/hoteles/update?id="+hotel.id method="POST")
+        form.col-8.fondoAmarilloPastel.p-3.rounded.d-flex.flex-column(action="/hoteles/update?id="+hotel.id method="POST")
           .form-group.mb-3
               label(for="nombre") Nombre del Hotel
               input(type="text",placeholder="Ingresa Nombre del Hotel", name="nombre",class="form-control", value=hotel.nombre)
@@ -44,12 +48,14 @@ block compartircontenido
           .col-12.d-flex.justify-content-center
             form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/hoteles/create/upload?htl="+hotel1+"&edit=true" method="POST" enctype="multipart/form-data")
               .form-group.mb-3
-                #src-file1.file-select
+                #src-file2.file-select
                   input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
               #archivos.p-2.mb-2.d-flex
               .d-flex.justify-content-center
                 input.btn.btn-success.btn-block(type="submit", value='Subir Imagenes', id='boton')
   script.
+    const imgs = !{JSON.stringify(imagenes)}
+    const htlt = #{hotel.id}
     const contenedor = document.querySelector('#archivos')
     const seleccionArchivos = document.querySelector("#seleccionArchivos")
     const botonEnviar = document.querySelector("#boton")
@@ -76,8 +82,37 @@ block compartircontenido
       for (let i = 0; i < archivos.length; i++) {
         imagenes.push(archivos[i])
       }
+      let dont = 0
+      let copias = []
       for (let i = 0; i < imagenes.length; i++) {
-        renderImg(imagenes[i])
+        let nombre = htlt + "-" + imagenes[i].name
+        imgs.forEach(x => {
+          if (x.nombre === nombre) {
+            copias.push(imagenes[i].name)
+          }
+        })
+        if (imagenes[i].size >= 1000000) {
+          dont++
+        }
       }
-      console.log(archivos)
+      if (copias.length !== 0) {
+        for (let i = 0; i < copias.length; i++) {
+          const newTexto = document.createElement('p')
+          newTexto.innerHTML = copias[i] + " ya existe seleccione otra."
+          contenedor.appendChild(newTexto)
+        }
+        botonEnviar.disabled = true
+      } else {
+        if (dont === 0) {
+          for (let i = 0; i < imagenes.length; i++) {
+            renderImg(imagenes[i])
+          }
+        } else {
+          const newTexto = document.createElement('p')
+          newTexto.innerHTML = "Selecciona imagenes con un tamaño inferior a 1mb."
+          newTexto.setAttribute('style', "margin-left: 15px; margin-bottom: 15px;")
+          contenedor.appendChild(newTexto)
+          botonEnviar.disabled = true
+        }
+      }
     })

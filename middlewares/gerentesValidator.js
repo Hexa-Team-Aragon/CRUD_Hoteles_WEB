@@ -64,7 +64,8 @@ const updateGerenteValidator = async (req, res, next) => {
         aMaterno: ap_materno,
         tel: telefono
       },
-      imagenes
+      imagenes,
+      user: req.session.nombre
     })
   }
 }

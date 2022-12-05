@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
 
 const uploadHotelImage = multer({
   storage,
-  limits: { fileSize: 10000000 }
+  limits: { fileSize: 1000000 }
 }).any('image');
 
 export { uploadHotelImage }
