@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { Hoteles } from '../models/Hoteles.js'
 import { Gerentes } from '../models/Gerentes.js'
+import { ImgHoteles } from '../models/ImgHoteles.js';
 
 const updateHotelValidator = async (req, res, next) => {
   if (!req.body.id_gerente) {
@@ -75,6 +76,12 @@ const updateHotelValidator = async (req, res, next) => {
       }
       gerentesModificados.push(obj)
     })
+    const imagenes = await ImgHoteles.findAll({
+      attributes: ['nombre'],
+      where: {
+        id_hotel1: req.query.id
+      }
+    })
     let errores = []
     console.log(error.details[0].message)
     errores.push({ mensaje: error.details[0].message })
@@ -83,6 +90,9 @@ const updateHotelValidator = async (req, res, next) => {
       errores,
       hotel: hotelMOD,
       gerentes: gerentesModificados,
+      imagenes,
+      hotel1: req.query.id,
+      user: req.session.nombre
     })
   }
 }

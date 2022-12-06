@@ -12,36 +12,39 @@ block compartircontenido
                                 strong=error.mensaje
                 form.col-5.fondoAzulPastel.p-3.rounded.centrar(action="/habitacion/create/upload?hbt="+habitacion method='POST' enctype="multipart/form-data")
                     .form-group.mb-3
-                        #src-file1.file-select
+                        #src-file2.file-select
                             input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
                     #archivos.p-2.mb-2
                     input.btn.btn-success.btn-block(type="submit", value='Subir Imagenes', id='boton')
-
         script. 
             const contenedor = document.querySelector('#archivos')
             const seleccionArchivos = document.querySelector("#seleccionArchivos")
+            const botonEnviar = document.querySelector("#boton")
+            botonEnviar.disabled = true
             let imagenes = []
             const renderImg = (imagen) => {
-            const newImg = document.createElement('img')
-            newImg.setAttribute('src', URL.createObjectURL(imagen))
-            newImg.setAttribute('width', '200')
-            newImg.setAttribute('height', '200')
-            newImg.setAttribute('style', "margin-left: 15px; margin-bottom: 15px;")
-            contenedor.appendChild(newImg)
+                const newImg = document.createElement('img')
+                newImg.setAttribute('src', URL.createObjectURL(imagen))
+                newImg.setAttribute('width', '200')
+                newImg.setAttribute('height', '200')
+                newImg.setAttribute('style', "margin-left: 15px; margin-bottom: 15px;")
+                contenedor.appendChild(newImg)
             }
             seleccionArchivos.addEventListener("change", () => {
-            contenedor.innerHTML = ''
-            imagenes = []
-            const archivos = seleccionArchivos.files;
-            if (!archivos || !archivos.length) {
                 botonEnviar.disabled = true
-                return;
-            }
-            for (let i = 0; i < archivos.length; i++) {
-                imagenes.push(archivos[i])
-            }
-            for (let i = 0; i < imagenes.length; i++) {
-                renderImg(imagenes[i])
-            }
-            console.log(archivos)
+                contenedor.innerHTML = ''
+                imagenes = []
+                const archivos = seleccionArchivos.files;
+                if (!archivos || !archivos.length) {
+                    botonEnviar.disabled = true
+                    return;
+                }
+                boton.disabled = false
+                for (let i = 0; i < archivos.length; i++) {
+                    imagenes.push(archivos[i])
+                }
+                for (let i = 0; i < imagenes.length; i++) {
+                    renderImg(imagenes[i])
+                }
+                console.log(archivos)
             }) 

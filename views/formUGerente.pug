@@ -4,6 +4,10 @@ block compartircontenido
     .container-fluid
       h2.fs-4.p-0.text-center.mb-3 Editar de Gerente 
       .container-fluid.d-flex.justify-content-center.row
+        .row.justify-content-center
+              .alert.alert-dismissible.alert-info.col-5
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong="Cuando termines presiona el boton guardar datos."
         if(errores)
           each error in errores 
             .row.justify-content-center
@@ -25,9 +29,9 @@ block compartircontenido
               input#telefono(type="text",placeholder="Ingresa el Telefono", name="telefono",class="form-control", value=gerente.tel)   
           input.btn.btn-success.btn-block(type="submit", value='Guardar Datos')
       .container-fluid.d-flex.justify-content-center.row
-        .d-flex.fondoAzulPastel.col-8.p-3.rounded.mt-3.flex-column
+        .d-flex.fondoAzulPastel.col-5.p-3.rounded.mt-3.flex-column
           .fondoAmarilloPastel.p-2.rounded.col-12
-            p.fs-5.text-center Imagenes Actuales
+            p.fs-5.text-center Imagen Actual
             .contenedorImages.d-flex.flex-wrap.justify-content-center
               each img in imagenes 
                 .d-flex.p-2.col-6
@@ -35,43 +39,51 @@ block compartircontenido
                     .container.d-flex.justify-content-end.pb-2
                       a.btn.btn-primary.mx-2.p-1(href=`/gerentes/delete/img?id=${gerente1}&nombre=${img.nombre}`) Eliminar
           .col-12.d-flex.justify-content-center
-            form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/gerentes/create/upload?grt="+gerente1+"&edit=true" method="POST" enctype="multipart/form-data")
-              .form-group.mb-3
-                #src-file1.file-select
-                  input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos')
-              #archivos.p-2.mb-2.d-flex
-              .d-flex.justify-content-center
-                input.btn.btn-success.btn-block(type="submit", value='Subir Imagenes', id='boton')
-  script.
-    const contenedor = document.querySelector('#archivos')
-    const seleccionArchivos = document.querySelector("#seleccionArchivos")
-    const botonEnviar = document.querySelector("#boton")
-    botonEnviar.disabled = true
-    let imagenes = []
-    const renderImg = (imagen) => {
-      const newImg = document.createElement('img')
-      newImg.setAttribute('src', URL.createObjectURL(imagen))
-      newImg.setAttribute('width', '200')
-      newImg.setAttribute('height', '200')
-      newImg.setAttribute('style', "margin-left: 15px; margin-bottom: 15px;")
-      contenedor.appendChild(newImg)
-    }
-    seleccionArchivos.addEventListener("change", () => {
+            if imagenes.length === 0
+              form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/gerentes/create/upload?grt="+gerente1+"&edit=true" method="POST" enctype="multipart/form-data")
+                .form-group.mb-3
+                  #src-file1.file-select
+                    input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos')
+                #archivos.p-2.mb-2.d-flex
+                .d-flex.justify-content-center
+                  input.btn.btn-success.btn-block(type="submit", value='Subir Imagen', id='boton')
+  if imagenes.length === 0
+    script.
+      const contenedor = document.querySelector('#archivos')
+      const seleccionArchivos = document.querySelector("#seleccionArchivos")
+      const botonEnviar = document.querySelector("#boton")
       botonEnviar.disabled = true
-      contenedor.innerHTML = ''
-      imagenes = []
-      const archivos = seleccionArchivos.files;
-      if (!archivos || !archivos.length) {
+      let imagenes = []
+      const renderImg = (imagen) => {
+        const newImg = document.createElement('img')
+        newImg.setAttribute('src', URL.createObjectURL(imagen))
+        newImg.setAttribute('width', '200')
+        newImg.setAttribute('height', '200')
+        newImg.setAttribute('style', "margin-left: 15px; margin-bottom: 15px;")
+        contenedor.appendChild(newImg)
+      }
+      seleccionArchivos.addEventListener("change", () => {
         botonEnviar.disabled = true
-        return;
-      }
-      boton.disabled = false
-      for (let i = 0; i < archivos.length; i++) {
-        imagenes.push(archivos[i])
-      }
-      for (let i = 0; i < imagenes.length; i++) {
-        renderImg(imagenes[i])
-      }
-      console.log(archivos)
-    })
+        contenedor.innerHTML = ''
+        imagenes = []
+        const archivos = seleccionArchivos.files;
+        if (!archivos || !archivos.length) {
+          botonEnviar.disabled = true
+          return;
+        }
+        boton.disabled = false
+        for (let i = 0; i < archivos.length; i++) {
+          imagenes.push(archivos[i])
+        }
+        if (imagenes[0].size <= 1000000) {
+          for (let i = 0; i < imagenes.length; i++) {
+            renderImg(imagenes[i])
+          }
+        } else {
+          const newTexto = document.createElement('p')
+          newTexto.innerHTML = "Selecciona una imagen de un tamaño inferior a 1mb."
+          contenedor.appendChild(newTexto)
+          botonEnviar.disabled = true
+        }
+      })
  

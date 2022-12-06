@@ -10,7 +10,7 @@ block compartircontenido
             strong="Selecciona al menos una imagen."
         form.col-5.fondoAmarilloPastel.p-3.rounded.d-flex.flex-column.align-items-center(action="/hoteles/create/upload?htl="+hotel method="POST" enctype="multipart/form-data")
           .form-group.mb-3
-              #src-file1.file-select
+              #src-file2.file-select
                 input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
           #archivos.p-2.mb-2
           .d-flex.justify-content-center
@@ -42,10 +42,22 @@ block compartircontenido
       for (let i = 0; i < archivos.length; i++) {
         imagenes.push(archivos[i])
       }
+      let dont = 0
       for (let i = 0; i < imagenes.length; i++) {
-        renderImg(imagenes[i])
+        if (imagenes[i].size >= 1000000) {
+          dont++
+        }
       }
-      console.log(archivos)
+      if (dont === 0) {
+        for (let i = 0; i < imagenes.length; i++) {
+          renderImg(imagenes[i])
+        }
+      } else {
+        const newTexto = document.createElement('p')
+        newTexto.innerHTML = "Selecciona imagenes con un tamaño inferior a 1mb."
+        contenedor.appendChild(newTexto)
+        botonEnviar.disabled = true
+      }
     })
 
 

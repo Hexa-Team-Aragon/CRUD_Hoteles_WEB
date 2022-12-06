@@ -1,0 +1,28 @@
+extends ./layout/index.pug
+block compartircontenido 
+  .container-fluid.p-4.superposicion
+    .container-fluid
+      h2.fs-4.p-0.text-center.mb-3 Añadir Nueva Habitacion
+      .container-fluid.d-flex.justify-content-center.row
+        if(errores)
+          each error in errores 
+            .row.justify-content-center
+              .alert.alert-dismissible.alert-primary.col-5
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong=error.mensaje
+        form.col-5.fondoNaranjaPastel.p-3.rounded(action="/habitaciones/createf?hotel="+id_hotel method="POST" id="formulario")
+          .form-group.mb-3
+            label(for="tipo") Tipo de habitacion
+            select(id="tipo" placeholder="Ingresa el nombre del hotel" name="tipo" class="form-control")
+              option(value=0 selected) Selecciona una habitacion
+              each tp in tipos
+                option(value=tp)=tp
+          .form-check.mb-3 
+            input.form-check-input(id="refrigerador" type='checkbox' name='refrigerador', checked=refrigerador)
+            label.form-check-label(for='flexCheckChecked') Refrigerador 
+          .d-flex.justify-content-center
+            input.btn.btn-success.btn-block(type="submit", value='Añadir imagenes')
+            
+
+
+    

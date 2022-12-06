@@ -14,11 +14,26 @@ const paginaCreateHabitacion = async (req, res) => {
   const hoteles = await Hoteles.findAll({
     attributes: ['id_htl', 'nombre']
   })
+  const habitaciones = await Habitaciones.findAll({
+    attributes: ['id_hotel', 'tipo']
+  })
+  const habitacionesModificados = JSON.parse(JSON.stringify(habitaciones))
   const hotelesModificados1 = JSON.parse(JSON.stringify(hoteles))
   hotelesModificados1.map(hm1 => {
+    let hab = false
+    let cont = 0
+    habitacionesModificados.forEach(hab => {
+      if (hab.id_hotel === hm1.id_htl) {
+        cont++
+      }
+    })
+    if (cont === 3) {
+      hab = true
+    }
     let obj = {
       id: hm1.id_htl,
-      nombre: hm1.nombre
+      nombre: hm1.nombre,
+      abilitado: hab
     }
     hotelesModificados.push(obj)
   })
@@ -45,12 +60,13 @@ const paginaCreateHabitacionImagen = async (req, res) => {
 }
 
 // Enviar la nueva habitacion a la Base de Datos
-const createHabitacion = async (req, res) => {
+const createHabitacion1 = async (req, res) => {
   let admin = false
   if (req.session.rol === 'ADMIN') {
     admin = true
   }
-  const { id_hotel, tipo } = req.body
+  const { tipo } = req.body
+  const id_hotel = req.query.hotel
   let refrigerador = false
   if (req.body?.refrigerador) {
     refrigerador = true
@@ -70,6 +86,54 @@ const createHabitacion = async (req, res) => {
     })
   } catch (error) {
     console.log(error)
+  }
+}
+
+const createHabitacion = async (req, res) => {
+  const { id_hotel } = req.body
+  let tipos = []
+  const total = ['SIMPLE', 'MATRIMONIAL', 'PREMIUM']
+  const hoteles = await Habitaciones.findAll({
+    attributes: ['tipo'],
+    where: {
+      id_hotel
+    }
+  })
+  const tiposH = JSON.parse(JSON.stringify(hoteles))
+  let existentes = tiposH.map(tip => {
+    return tip.tipo
+  })
+  total.forEach(tp => {
+    if (!existentes.includes(tp)) {
+      tipos.push(tp)
+    }
+  })
+  if (tipos.length === 0) {
+    let hotelesModificados = []
+    const hoteles = await Hoteles.findAll({
+      attributes: ['id_htl', 'nombre']
+    })
+    const hotelesModificados1 = JSON.parse(JSON.stringify(hoteles))
+    hotelesModificados1.map(hm1 => {
+      let obj = {
+        id: hm1.id_htl,
+        nombre: hm1.nombre
+      }
+      hotelesModificados.push(obj)
+    })
+    res.render('formCHabitacion', {
+      pagina: 'Añadir Habitacion',
+      hoteles: hotelesModificados,
+      user: req.session.nombre,
+      errores: [{ mensaje: 'El hotel que seleccionaste ya cuenta con todos los tipos de habitaciones posibles.' }]
+    })
+  } else {
+    res.render('formCHabitacion1', {
+      pagina: 'Añadir Habitación',
+      tipos,
+      id_hotel,
+      user: req.session.nombre
+    })
   }
 }
 
@@ -390,6 +454,6 @@ export {
   paginaDeleteHotelHabitacion,
   paginaCreateHabitacionImagen,
   createUploadHabitacionDB,
-  paginaDeleteHabitacionesImage
-  
+  paginaDeleteHabitacionesImage,
+  createHabitacion1
 }
