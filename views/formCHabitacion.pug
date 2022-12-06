@@ -4,6 +4,10 @@ block compartircontenido
     .container-fluid
       h2.fs-4.p-0.text-center.mb-3 Añadir Nueva Habitacion
       .container-fluid.d-flex.justify-content-center.row
+        .row.justify-content-center
+              .alert.alert-dismissible.alert-info.col-5
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong="Si no puedes seleccionar un hotel, es posible que este ya cuente con todos los tipos de habitaciones posibles."
         if(errores)
           each error in errores 
             .row.justify-content-center
@@ -12,25 +16,15 @@ block compartircontenido
                 strong=error.mensaje
         form.col-5.fondoNaranjaPastel.p-3.rounded(action="/habitaciones/create" method="POST" id="formulario")
           .form-group.mb-3
-            label(for="tipo") Tipo de habitacion
-            select(id="tipo" placeholder="Ingresa el nombre del hotel" name="tipo" class="form-control")
-              option(value=0 selected) Selecciona una habitacion 
-              option(value="SIMPLE") SIMPLE 
-              option(value="MATRIMONIAL") MATRIMONIAL 
-              option(value="PREMIUM") PREMIUM 
-          .form-group.mb-3
             label(for="id_hotel") Nombre del Hotel
             select(id="id_hotel" placeholder="Ingresa el nombre del hotel" name="id_hotel" class="form-control")
               option(value=0 selected) Selecciona un Hotel 
               each hotel in hoteles
-                option(value=hotel.id selected=hotel.selected)=hotel.nombre 
+                option(value=hotel.id selected=hotel.selected disabled=hotel.abilitado)=hotel.nombre 
             p **No aparece el hotel que buscas?
               a.ms-2(href="/hoteles/create")='Registra uno'
-          .form-check.mb-3 
-            input.form-check-input(id="refrigerador" type='checkbox' name='refrigerador', checked=refrigerador)
-            label.form-check-label(for='flexCheckChecked') Refrigerador 
           .d-flex.justify-content-center
-            input.btn.btn-success.btn-block(type="submit", value='Añadir imagen')
+            input.btn.btn-success.btn-block(type="submit", value='Siguiente')
             
 
 

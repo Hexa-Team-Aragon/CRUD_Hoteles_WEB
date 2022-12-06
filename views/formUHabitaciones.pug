@@ -4,26 +4,29 @@ block compartircontenido
     .container-fluid
       h2.fs-4.p-0.text-center.mb-3 Editar Habitacion
       .container-fluid.d-flex.justify-content-center.row
+        .row.justify-content-center
+              .alert.alert-dismissible.alert-info.col-8
+                button.btn-close(type='button' data-bs-dismiss='alert')
+                strong="Cuando termines presiona el boton 'Guardar datos'."
         if(errores)
           each error in errores 
             .row.justify-content-center
               .alert.alert-dismissible.alert-primary.col-5
                 button.btn-close(type='button' data-bs-dismiss='alert')
                 strong=error.mensaje
-        form.col-5.fondoNaranjaPastel.p-3.rounded(action="/habitaciones/update?id="+habitacion.id method="POST")
+        form.col-8.fondoNaranjaPastel.p-3.rounded.d-flex.flex-column(action="/habitaciones/update?id="+habitacion.id method="POST")
+          .form-group.mb-3
+              label(for="id_hotel") Nombre del Hotel
+              select(placeholder="Ingresa el nombre del hotel", name="id_hotel",class="form-control" disabled)
+                each hotel in hoteles
+                  option(value=hotel.id selected=hotel.opcion)=hotel.nombre 
           .form-group.mb-3
             label(for="tipo") Tipo de habitacion
-            select(id="tipo" placeholder="Ingresa el nombre del hotel" name="tipo" class="form-control")
+            select(id="tipo" placeholder="Ingresa el nombre del hotel" name="tipo" class="form-control" disabled)
               option(value="SIMPLE" selected=sml) SIMPLE 
               option(value="MATRIMONIAL" selected=mat) MATRIMONIAL 
               option(value="PREMIUM" selected=pre) PREMIUM 
-          .form-group.mb-3
-              label(for="id_hotel") Nombre del Hotel
-              select(placeholder="Ingresa el nombre del hotel", name="id_hotel",class="form-control")
-                each hotel in hoteles
-                  option(value=hotel.id selected=hotel.opcion)=hotel.nombre 
-              p **No aparece el hotel que buscas?
-                a.ms-2(href="/hoteles/create")='Registra uno'
+          
           .form-check.mb-3 
             input#flexCheckChecked.form-check-input(type='checkbox', name='refrigerador', checked=habitacion.refri)
             label.form-check-label(for='flexCheckChecked') Refrigerador 
@@ -31,7 +34,7 @@ block compartircontenido
 
 
         .container-fluid.d-flex.justify-content-center.row
-        .d-flex.fondoAmarilloPastel.col-8.p-3.rounded.mt-3.flex-column
+        .d-flex.fondoNaranjaPastel.col-8.p-3.rounded.mt-3.flex-column
           .fondoAzulPastel.p-2.rounded.col-12
             p.fs-5.text-center Imagenes Actuales
             .contenedorImages.d-flex.flex-wrap
@@ -43,12 +46,14 @@ block compartircontenido
           .col-12.d-flex.justify-content-center
             form.col-5.p-3.rounded.d-flex.flex-column.align-items-center(action="/habitacion/create/upload?hbt="+habitacion1+"&edit=true" method="POST" enctype="multipart/form-data")
               .form-group.mb-3
-                #src-file1.file-select
+                #src-file2.file-select
                   input(type='file' name='imagen' aria-label='Imagen' id='seleccionArchivos' multiple)
               #archivos.p-2.mb-2.d-flex
               .d-flex.justify-content-center
                 input.btn.btn-success.btn-block(type="submit", value='Subir Imagenes', id='boton')
   script.
+    const imgs = !{JSON.stringify(imagenes)}
+    const hbtt = #{habitacion.id}
     const contenedor = document.querySelector('#archivos')
     const seleccionArchivos = document.querySelector("#seleccionArchivos")
     const botonEnviar = document.querySelector("#boton")
@@ -75,8 +80,37 @@ block compartircontenido
       for (let i = 0; i < archivos.length; i++) {
         imagenes.push(archivos[i])
       }
+      let dont = 0
+      let copias = []
       for (let i = 0; i < imagenes.length; i++) {
-        renderImg(imagenes[i])
+        let nombre = hbtt + "-" + imagenes[i].name
+        imgs.forEach(x => {
+          if (x.nombre === nombre) {
+            copias.push(imagenes[i].name)
+          }
+        })
+        if (imagenes[i].size >= 1000000) {
+          dont++
+        }
       }
-      console.log(archivos)
+      if (copias.length !== 0) {
+        for (let i = 0; i < copias.length; i++) {
+          const newTexto = document.createElement('p')
+          newTexto.innerHTML = copias[i] + " ya existe seleccione otra."
+          contenedor.appendChild(newTexto)
+        }
+        botonEnviar.disabled = true
+      } else {
+        if (dont === 0) {
+          for (let i = 0; i < imagenes.length; i++) {
+            renderImg(imagenes[i])
+          }
+        } else {
+          const newTexto = document.createElement('p')
+          newTexto.innerHTML = "Selecciona imagenes con un tamaño inferior a 1mb."
+          newTexto.setAttribute('style', "margin-left: 15px; margin-bottom: 15px;")
+          contenedor.appendChild(newTexto)
+          botonEnviar.disabled = true
+        }
+      }
     })
