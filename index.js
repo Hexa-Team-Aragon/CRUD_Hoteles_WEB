@@ -38,6 +38,9 @@ app.use(async (req, res, next) => {
     res.locals.tiempo = ' ' + ano.getFullYear()
     console.log(req.url)
     try {
+        if ((req.url === '/inicio') || (req.url === '/lista/hoteles') || (req.url.slice(0,21) === '/lista/hoteles/hotelP')) {
+            return next()
+        }
         if (req.url === '/credenciales') {
             const {
                 usuario,

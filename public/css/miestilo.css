@@ -6,6 +6,7 @@ body{
 
 .imagen {
   width: 160px;
+  border-radius: 10px;
 }
 
 .textoNegro {
@@ -42,6 +43,22 @@ body{
   width: 100%;
   height: 100%;
   
+}
+
+.imagenFondo1 {
+  background: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)), url('/img/zacatlan.png');
+  background-color: #FFFEB6;
+  
+  background-size: cover;
+  opacity: 0.6;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  
+}
+
+.imagenChose {
+  border: none;
 }
 
 .superposicion {
@@ -129,4 +146,116 @@ body{
   background-color: #6FCD8A;
   background-position: center;
   height: 250px;
+}
+
+.imagenHotel1{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 250px;
+}
+
+.imagenHotel2{
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+  height: 250px;
+}
+
+.stars {
+  overflow: hidden;
+  height: 100%;
+}
+
+.stars li {
+  position: fixed;
+  list-style: none;
+  animation: animate 25s linear infinite;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.stars li:nth-child(1) {
+  left: 9%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 12s;
+}
+
+.stars li:nth-child(2) {
+  left: 18%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 10s;
+}
+
+.stars li:nth-child(3) {
+  left: 27%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 6s;
+}
+
+.stars li:nth-child(4) {
+  left: 36%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 10s;
+}
+
+.stars li:nth-child(5) {
+  left: 45%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 8s;
+}
+
+.stars li:nth-child(6) {
+  left: 54%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 12s;
+}
+
+.stars li:nth-child(7) {
+  left: 63%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 4s;
+}
+
+.stars li:nth-child(8) {
+  left: 72%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 10s;
+}
+
+.stars li:nth-child(9) {
+  left: 81%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 12s;
+}
+
+.stars li:nth-child(10) {
+  left: 90%;
+  width: 64px; height: 64px;
+  animation-delay: 0s;
+  animation-duration: 5s;
+}
+
+@keyframes animate {
+  0% {
+      transform: translateY(-1000px) rotate(720deg);
+      opacity: 0.3;
+      background-image: url(/img/manzana.png);
+      background-repeat: no-repeat;
+  }
+  100% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.3;
+      background-image: url(/img/manzana.png);
+      background-repeat: no-repeat;
+  }
 }

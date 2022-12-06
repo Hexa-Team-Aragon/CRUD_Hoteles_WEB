@@ -1,15 +1,22 @@
-extends ./layout/index.pug
-block compartircontenido 
+extends ./layout/index1.pug
+block compartircontenido1 
     .container-fluid.m-0.p-5.d-flex.row.justify-content-center.superposicion 
         h1.fs-2.text-center Lista de todos los Hoteles
-        .container-fluid.m-0.p-0.d-flex.flex-wrap.align-items-evenly 
-            each hotel in hoteles
-                .container-fluid.m-0.p-2.col-3.d-flex
-                    a.container-fluid.d-flex.m-0.p-2.justify-content-between.rounded.bg-info.align-items-center.quitar-decoration(href='/lista/hoteles/hotel?id='+hotel.id )
-                        p.m-0.col-8.colorBlanco=hotel.nombre 
-                        img(src='/img/hotel-icon.png', alt="")
+            main.container.mt-5 
+                .row 
+                    each hotel in hoteles2
+                        .col-4.mv-4 
+                            .card.border-info.mb-3.fondoAzulPastel(style='max-width: 20rem;')
+                                .card-header 
+                                    h2.fs-2.p-0.text-center=hotel.nombre 
+                                .card 
+                                    .d-flex.imagenHotel1.col-12.align-items-end.rounded.fondoAmarilloPastel(style="background-image: url('/uploads/hotels/"+hotel.nombreI+"');")
+                                .card-body                                       
+                                    p.fs-4 Tipos de Habitación: 
+                                    if hotel.tipos.length === 0
+                                        span.badge.rounded-pill.bg-secondary.fs-6 SIN TIPO
+                                    each tp in hotel.tipos
+                                        span.badge.rounded-pill.bg-secondary.fs-6=tp.tipo
+                                a(href='/lista/hoteles/hotelP?id='+hotel.id, class='btn btn-light btn-clock') Mas información 
 
-            
-            
-                
 

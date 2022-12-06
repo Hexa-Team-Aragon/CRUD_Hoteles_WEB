@@ -1,0 +1,66 @@
+extends ./layout/index1.pug
+block compartircontenido1 
+    .container-fluid.d-flex.row.justify-content-center.p-5.m-0.superposicion
+        h2.fs-2.p-0.text-center=hotel.nombre 
+        .container-fluid.d-flex.justify-content-start.fondoAzulPastel.rounded.col-7.flex-wrap.p-2
+            .col-6.fs-5.d-flex
+                strong='Direccion: '
+                p.ps-2=hotel.direccion
+            .col-6.fs-5.d-flex
+                strong='Telefono: '
+                p.ps-2=hotel.telefono
+            .col-12.fs-5.d-flex     
+                strong='Correo: '
+                p.ps-2=hotel.correo   
+            hr.col-12
+            .col-5.fs-5.d-flex 
+                strong='Gerente: '
+                p.ps-2=hotel.gerente
+            .col-5.fs-5.d-flex 
+                strong='Tel-gerente: '
+                p.ps-2=hotel.telefonoGerente
+            .col-2.fs-5.d-flex 
+                img(src="/uploads/gerentes/"+gerenteImg1, height=80)
+        h2.fs-2.p-0.text-center.mt-3 Conoce el Hotel        
+        .container-fluid.d-flex.justify-content-start.fondoAzulPastel.rounded.col-7.p-2.row.mt-4.text-center
+            if imagenes1.length === 0
+                p.fs-5="*Sin imagenes"
+            else
+                .carousel.slide(data-bs-ride='carousel' id="carouselExampleControls")
+                    .carousel-inner
+                        .carousel-item.active(data-bs-interval=10)
+                            .d-flex.imagenHotel2.col-12.align-items-end.rounded(style="background-image: url('/img/galeria.png');")
+                        each img1 in imagenes1
+                            .carousel-item(data-bs-interval=3500)
+                                .d-flex.imagenHotel2.col-12.align-items-end.rounded(style="background-image: url('/uploads/hotels/"+img1.nombre+"');")
+                    button.carousel-control-prev(type='button' data-bs-target='#carouselExampleControls' data-bs-slide='prev')
+                        span.carousel-control-prev-icon(aria-hidden='true')
+                        span.visually-hidden Previous
+                    button.carousel-control-next(type='button' data-bs-target='#carouselExampleControls' data-bs-slide='next')
+                        span.carousel-control-next-icon(aria-hidden='true')
+                    span.visually-hidden Next
+        h2.fs-2.p-0.text-center.mt-3 Habitaciones
+        if habitaciones.length === 0
+            .container-fluid.d-flex.justify-content-start.fondoAzulPastel.rounded.col-7.p-2.row.mt-4.text-center
+                p.fs-5="*Sin tipos de habitaciones conocidas"
+        each habitacion in habitaciones
+            .container-fluid.d-flex.justify-content-start.fondoAzulPastel.rounded.col-7.p-2.row.mt-4.text-center
+                h2.fs-4=habitacion.tipo
+                .contengo.carousel.slide(data-bs-ride='carousel' id="carouselExampleControls"+habitacion.tipo)
+                    .carousel-inner
+                        .carousel-item.active(data-bs-interval=10)
+                            .d-flex.imagenHotel2.col-12.align-items-end.rounded(style="background-image: url('/img/galeria.png');")
+                        each img2 in imagenes2
+                            if img2.id_habitacion1 === habitacion.id
+                                .carousel-item(data-bs-interval=3500)
+                                    .d-flex.imagenHotel2.col-12.align-items-end.rounded(style="background-image: url('/uploads/habitaciones/"+img2.nombre+"');")
+                    button.carousel-control-prev(type='button' data-bs-target='#carouselExampleControls'+habitacion.tipo data-bs-slide='prev')
+                        span.carousel-control-prev-icon(aria-hidden='true')
+                        span.visually-hidden Previous
+                    button.carousel-control-next(type='button' data-bs-target='#carouselExampleControls'+habitacion.tipo data-bs-slide='next')
+                        span.carousel-control-next-icon(aria-hidden='true')
+                        span.visually-hidden Next
+                if habitacion.refri
+                    p.fs-5.text-start="*Con refrigerador"
+                if !habitacion.refri
+                    p.fs-5.text-start="*Sin refrigerador"             

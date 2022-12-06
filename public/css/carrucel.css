@@ -12,15 +12,30 @@
 
 #item-carrousel3{
     min-height: 300px;
-    background-image: url('/img/hotel-3.jpg');
+    background-image: url('/img/zacatlan1.jpg');
     background-size: cover;
     background-position: center;
 }
 
 #item-carrousel4{
     min-height: 300px;
-    background-image: url('/img/ver-mas.png');
+    background-image: url('/img/zacatlan2.jpg');
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
+}
+
+.tamanioImagen {
+    height: 350px;
+    width: 570px;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.tamanioDiv {
+    height: 350px;
+    width: 595px;
+    background-size: cover;
     background-position: center;
 }

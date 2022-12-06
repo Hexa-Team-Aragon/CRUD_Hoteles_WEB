@@ -1,0 +1,43 @@
+extends ./layout/index1.pug
+block compartircontenido1 
+  .container-fluid.d-flex.row.justify-content-center.pt-5.px-0.m-0.superposicion
+    img.imagenInicio(src='/img/que_hacer_semana_santa_zacatlan_puebla.jpg')
+    .container-fluid.px-5.pt-5.fs-4 
+      p.text-center.textoNegro.px-5.mx-5 Siempre acompañado de neblina, Zacatlán vive al borde de la hermosa Barranca de Los Jilgueros. Aquí se tiene la costumbre de hornear pan todos los días, de fabricar monumentales relojes y cultivar las frutas que la tierra regala. Son las manzanas las que más abundan, así que se deshidratan o se convierten en licores y  mermeladas. Su existencia se agradece cada año durante la Feria de la Manzana con bailes y desfiles de carros alegóricos.
+  .container-fluid.d-flex.row.justify-content-center.pt-4.superposicion
+    h2.fs-2.p-2.text-center Conoce Zacatlán
+    .container-fluid.d-flex.justify-content-center
+      #carouselExampleFade.carousel.slide.carousel-fade(data-bs-ride='carousel')
+        .carousel-inner
+          .container-fluid.d-flex.align-content-center.bg-primary.rounded.tamanioDiv
+            .carousel-item.active
+              img.d-block.tamanioImagen(src='/img/zacatlan1.jpg' alt='First slide')
+            .carousel-item 
+              img.d-block.tamanioImagen(src='/img/zacatlan2.jpg' alt='Second slide')
+            .carousel-item
+              img.d-block.tamanioImagen(src='/img/zacatlan3.jpg' alt='Third slide')
+            .carousel-item
+              img.d-block.tamanioImagen(src='/img/zacatlan4.jpg' alt='cuarta slide')  
+            .carousel-item
+              img.d-block.tamanioImagen(src='/img/zacatlan5.jpg' alt='quinta slide')  
+        a.carousel-control-prev(type='button' data-bs-target='#carouselExampleFade' data-bs-slide='prev')
+          span.carousel-control-prev-icon(aria-hidden='true')
+          span.sr-only Previous
+        a.carousel-control-next(type='button' data-bs-target='#carouselExampleFade' data-bs-slide='next')
+          span.carousel-control-next-icon(aria-hidden='true')
+          span.sr-only Next
+
+  .container-fluid.d-flex.row.justify-content-center.pt-5.px-5.superposicion
+    h2.fs-2.p-2.text-center Arma tu escapada a Zacatlán de las Manzanas
+    .container-fluid.p-6.w-50
+      table.table.text-center
+        thead.border.bg-primary
+          tr
+            th(scope='col') Hoteles
+        tbody
+          tr
+            td.imagenChose
+              .container-fluid.row.px-5.justify-content-center
+                a.w-100(href='/lista/hoteles')
+                  img.imagen(src='/img/hotel3.png' alt='')
+

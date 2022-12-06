@@ -6,6 +6,84 @@ import { ImgGerentes } from '../models/ImgGerentes.js'
 import { ImgHabitaciones } from '../models/imgHabitaciones.js'
 import fs from 'fs'
 
+const paginaReadHotelesTarjeta = async (req, res) => {
+  let imagenesHTotales = []
+  const imagenes = await ImgHoteles.findAll({
+    attributes: ['id_hotel1','nombre','img_tipo']
+  })
+  const imagenesHTotales1 = JSON.parse(JSON.stringify(imagenes))
+  imagenesHTotales1.map(htli => {
+    let obj = {
+      idHotel: htli.id_hotel1,
+      nameH: htli.nombre,
+      type: htli.img_tipo,
+    }
+    imagenesHTotales.push(obj)
+  })
+  let hotelesTotales = []
+  const hoteles = await Hoteles.findAll({
+    attributes: ['id_htl', 'id_gerente', 'nombre', 'direccion', 'telefono', 'correo']
+  })
+  const hotelesTotales1 = await JSON.parse(JSON.stringify(hoteles))
+  hotelesTotales1.map(htls => {
+    let imagenObj = {}
+    imagenesHTotales.map(imgh => {
+      if (imgh.idHotel === htls.id_htl) {
+        imagenObj = imgh
+      }
+    })
+    let obj = {
+      id: htls.id_htl,
+      nombre: htls.nombre,
+      direccion: htls.direccion,
+      telefono: htls.telefono,
+      correo: htls.correo,
+      idImg: imagenObj.idHotel,
+      nombreI: imagenObj.nameH
+    }
+    hotelesTotales.push(obj)
+    
+  })
+
+  let habitacionesTotales = []
+  const habitaciones = await Habitaciones.findAll({
+    attributes: ['id_hbt', 'id_hotel', 'tipo', 'refrigerador']
+  })
+  const habitacionesTotales1 = JSON.parse(JSON.stringify(habitaciones))
+  habitacionesTotales1.map(ht1 => {
+    let obj = {
+      idH: ht1.id_hotel,
+      idHabi: ht1.id_hbt,
+      tipo: ht1.tipo
+    }
+    habitacionesTotales.push(obj)
+  })
+  let hotelesTotales2 = []
+  hotelesTotales.forEach(ht => {
+    let objt = []
+    habitacionesTotales.forEach(hbtt => {
+      if (ht.id === hbtt.idH) {
+        objt.push(hbtt)
+      }
+    })
+    hotelesTotales2.push({
+      id: ht.id,
+      nombre: ht.nombre,
+      direccion: ht.direccion,
+      telefono: ht.telefono,
+      correo: ht.correo,
+      idImg: ht.idImg,
+      nombreI: ht.nombreI,
+      tipos: objt
+    })
+  })
+  console.log(hotelesTotales2[0])
+  res.render('listaHoteles', {
+    pagina: 'Lista Hoteles',
+    hoteles2: hotelesTotales2
+  })
+}
+
 // REnderizar formulario para crear hoteles
 const paginaCreateHoteles = async (req, res) => {
   let admin = false
@@ -407,5 +485,6 @@ export {
   paginaCreateHabitacionHotel,
   createHabitacionHotel,
   createUploadHotel,
-  paginaDeleteHotelesImage
+  paginaDeleteHotelesImage,
+  paginaReadHotelesTarjeta
 }

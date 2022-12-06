@@ -1,7 +1,7 @@
 import express from 'express'
-import { paginaInicio, paginaListaHoteles, paginaVistaHotel } from '../controllers/indexControllers.js'
+import { paginaInicio, paginaInicioP, paginaListaHoteles, paginaVistaHotel, paginaVistaHotel1 } from '../controllers/indexControllers.js'
 import { paginaCreateGerentes, createGerente, paginaReadGerentes,paginaUpdateGerentes, updateGerente, paginaDeleteGerentes, createUploadGerente, paginaDeleteGerentesImage } from '../controllers/gerentesControllers.js'
-import { paginaCreateHoteles, createHotel, paginaReadHoteles,paginaUpdateHoteles, updateHotel, paginaDeleteHoteles, paginaCreateHabitacionHotel, createHabitacionHotel, createUploadHotel, paginaDeleteHotelesImage } from '../controllers/hotelesControllers.js'
+import { paginaCreateHoteles, createHotel, paginaReadHoteles,paginaUpdateHoteles, updateHotel, paginaDeleteHoteles, paginaCreateHabitacionHotel, createHabitacionHotel, createUploadHotel, paginaDeleteHotelesImage, paginaReadHotelesTarjeta } from '../controllers/hotelesControllers.js'
 import { paginaCreateHabitacion, createHabitacion, paginaReadHabitaciones,paginaUpdateHabitacion, updateHabitacion, paginaDeleteHabitaciones, paginaUpdateHotelHabitacion, updateHotelHabitacion, paginaDeleteHotelHabitacion, paginaCreateHabitacionImagen, createUploadHabitacionDB, paginaDeleteHabitacionesImage, createHabitacion1 } from '../controllers/habitacionesControllers.js'
 import {habitacionesIMageValidator} from '../controllers/habitacionesImageController.js'
 import { createGerenteValidator, updateGerenteValidator } from '../middlewares/gerentesValidator.js'
@@ -17,15 +17,13 @@ import { gerenteImageValidator } from '../controllers/gerentesImageValidator.js'
 import { cerrarSesion, credenciales } from '../controllers/indexControllers.js'
 const rutas = express.Router()
 
-rutas.get('/lista/hoteles/hotel', paginaVistaHotel)
+//Publicidad
 
-rutas.get('/lista/hoteles', paginaListaHoteles)
+rutas.get('/inicio', paginaInicioP)
 
-rutas.get('/lista/hoteles/hotel/habitacion/update', paginaUpdateHotelHabitacion)
+rutas.get('/lista/hoteles', paginaReadHotelesTarjeta)
 
-rutas.post('/lista/hoteles/hotel/habitacion/update' ,updateHotelHabitacion)
-
-rutas.get('/lista/hoteles/hotel/habitacion/delete', paginaDeleteHotelHabitacion)
+rutas.get('/lista/hoteles/hotelP', paginaVistaHotel1)
 
 // Gerentes
 
