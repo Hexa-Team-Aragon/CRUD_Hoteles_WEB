@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { Hoteles } from '../models/Hoteles.js'
 import { Gerentes } from '../models/Gerentes.js'
+import { readFile } from 'fs/promises';
 
 
 const createHotelValidator = async (req, res, next) => {
@@ -9,8 +10,7 @@ const createHotelValidator = async (req, res, next) => {
         id_gerente: Joi.number().positive().required(),
         direccion: Joi.string().required(),
         telefono: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
-        correo: Joi.string().email().required(),
-
+        correo: Joi.string().email().required()
     });
     try {
         await createHotelV.validateAsync(req.body);
@@ -51,7 +51,9 @@ const createHotelValidator = async (req, res, next) => {
         })
         let errores = []
         console.log(error.details[0].message)
-        errores.push({ mensaje: error.details[0].message })
+        const a = await readFile('./helpers/joiTraductor.json')
+        const b = JSON.parse(a)
+        errores.push({ mensaje: error.details[0].context.label === 'id_gerente' ? b[error.details[0].type] : "El campo '" + error.details[0].context.label + "' " + b[error.details[0].type] })
         res.render('formCHotel', {
             pagina: 'Añadir Hotel',
             errores,

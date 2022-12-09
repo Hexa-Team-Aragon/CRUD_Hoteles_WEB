@@ -1,0 +1,9 @@
+{
+  "number.greater": "Selecciona un hotel.",
+  "string.empty": "no debe estar vacio.",
+  "string.pattern.base": "debe ser un numero telefonico.",
+  "any.only": "Selecciona un tipo de habitacion.",
+  "string.length": "debe ser un numero telefonico de 10 digitos.",
+  "number.positive": "Selecciona un gerente.",
+  "string.email": "debe ser un email válido."
+}

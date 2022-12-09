@@ -1,5 +1,6 @@
 import Joi from 'joi';
-import { ImgGerentes } from '../models/ImgGerentes.js';
+import { ImgGerentes } from '../models/ImgGerentes.js'
+import { readFile } from 'fs/promises'
 
 const createGerenteValidator = async (req, res, next) => {
   let admin = false
@@ -18,7 +19,9 @@ const createGerenteValidator = async (req, res, next) => {
   } catch (error) {
     let errores = []
     const { nombre, ap_paterno, ap_materno, telefono } = req.body
-    errores.push({ mensaje: error.details[0].message })
+    const a = await readFile('./helpers/joiTraductor.json')
+    const b = JSON.parse(a)
+    errores.push({ mensaje: "El campo '" + error.details[0].context.label + "' " + b[error.details[0].type]})
     res.render('formCGerente', {
       pagina: 'Añadir Gerente',
       errores,
@@ -47,7 +50,10 @@ const updateGerenteValidator = async (req, res, next) => {
   } catch (error) {
     let errores = []
     const { nombre, ap_paterno, ap_materno, telefono } = req.body
-    errores.push({ mensaje: error.details[0].message })
+    const a = await readFile('./helpers/joiTraductor.json')
+    const b = JSON.parse(a)
+    console.log(error.details[0])
+    errores.push({ mensaje: "El campo '" + error.details[0].context.label + "' " + b[error.details[0].type]})
     const imagenes = await ImgGerentes.findAll({
       attributes: ['nombre'],
       where: {

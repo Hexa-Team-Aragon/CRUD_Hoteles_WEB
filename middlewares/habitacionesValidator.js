@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { Hoteles } from '../models/Hoteles.js'
 import { Habitaciones } from '../models/Habitaciones.js';
+import { readFile } from 'fs/promises';
 
 
 const createHabitacionValidator = async (req, res, next) => {
@@ -46,8 +47,9 @@ const createHabitacionValidator = async (req, res, next) => {
       hotelesModificados.push(obj)
     })
     //
-    console.log(error.details[0].message)
-    errores.push({ mensaje: error.details[0].message })
+    const a = await readFile('./helpers/joiTraductor.json')
+    const b = JSON.parse(a)
+    errores.push({ mensaje: b[error.details[0].type] })
     res.render('formCHabitacion', {
       pagina: 'Añadir Habitacion',
       errores,
@@ -92,8 +94,10 @@ const createHabitacionValidator1 = async (req, res, next) => {
         tipos.push(tp)
       }
     })
-
-    errores.push({ mensaje: error.details[0].message })
+    const a = await readFile('./helpers/joiTraductor.json')
+    const b = JSON.parse(a)
+    console.log(error.details[0])
+    errores.push({ mensaje: b[error.details[0].type] })
     res.render('formCHabitacion1', {
       pagina: 'Añadir Habitacion',
       errores,

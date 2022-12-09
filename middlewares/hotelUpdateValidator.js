@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { Hoteles } from '../models/Hoteles.js'
 import { Gerentes } from '../models/Gerentes.js'
 import { ImgHoteles } from '../models/ImgHoteles.js';
+import { readFile } from 'fs/promises';
 
 const updateHotelValidator = async (req, res, next) => {
   if (!req.body.id_gerente) {
@@ -84,7 +85,9 @@ const updateHotelValidator = async (req, res, next) => {
     })
     let errores = []
     console.log(error.details[0].message)
-    errores.push({ mensaje: error.details[0].message })
+    const a = await readFile('./helpers/joiTraductor.json')
+    const b = JSON.parse(a)
+    errores.push({ mensaje: "El campo '" + error.details[0].context.label + "' " + b[error.details[0].type] })
     res.render('formUHoteles', {
       pagina: 'Editar Hotel',
       errores,
