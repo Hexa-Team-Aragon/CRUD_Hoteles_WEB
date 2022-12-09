@@ -81,7 +81,7 @@ app.use(async (req, res, next) => {
 app.use('/', rutas)
 
 app.listen(port, () => {
-    console.log('Servidor iniciado en el puerto ' + port)
+    console.log('Servidor exitosamente iniciado en el puerto ' + port)
 });
 
 export { app };

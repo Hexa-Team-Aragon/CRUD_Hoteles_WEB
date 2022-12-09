@@ -1,23 +1,19 @@
 import { Sequelize } from 'sequelize'
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const db =  new Sequelize(process.env.SCHEMA_DB, process.env.USER_DB, process.env.PASSWORD_DB, {
-    dialect: process.env.DIALECT_DB,
-    dialectOPtions: {
-        host: process.env.HOST_DB,
-        port: process.env.PORT_DB,
+const db=new Sequelize('beu3mmnp1ands5wm7ixi', 'uap1ykiy0t5fippt', 'VasDTF767HknwgcFibpt',{
+    dialect: 'mariadb',
+    dialectOptions:{
+        host:'beu3mmnp1ands5wm7ixi-mysql.services.clever-cloud.com',
+        port:'3306',
         timestamps: false,
         underscore: false,
-        pool: {
-            max: 5,
-            min: 0,
-            acquire: 30000,
-            idle: 10000
+        pool:{
+            max:5,
+            min:0,
+            acquire:30000,
+            idle:10000
         },
         operatorAlies: false
     }
 })
-
 export default db
